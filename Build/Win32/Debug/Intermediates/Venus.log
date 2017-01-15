@@ -1,0 +1,59 @@
+﻿Build started 1/15/2017 11:19:54 PM.
+     1>Project "Z:\Projects\Venus\Venus\Venus.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IZ:\Projects\Venus\Venus\include /IZ:\Projects\Venus\Venus\Core /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D GLEW_STATIC /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\\" /Fd"Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Core\Systems\Graphics\BatchRenderer2D.cpp Core\Systems\Graphics\Buffers\Buffer.cpp Core\Systems\Window.cpp Core\Utilities\File.cpp Core\Systems\Graphics\Graphics.cpp Core\Systems\Graphics\Buffers\IndexBuffer.cpp Main.cpp Core\Utilities\VException.cpp Core\Systems\Graphics\Shader.cpp Core\Utilities\Maths\Vector4.cpp Core\Utilities\Maths\Vector3.cpp Core\Utilities\Maths\Vector2.cpp Core\Utilities\Maths\Maths.cpp Core\Utilities\Maths\Matrix4.cpp Core\Systems\Graphics\Buffers\VertexArray.cpp Core\Systems\Graphics\SimpleRenderer2D.cpp Core\Systems\Graphics\Sprite.cpp Core\Systems\Graphics\StaticSprite.cpp Core\Utilities\Timer.cpp
+         Timer.cpp
+         StaticSprite.cpp
+         Sprite.cpp
+         SimpleRenderer2D.cpp
+         VertexArray.cpp
+         Matrix4.cpp
+         Maths.cpp
+     1>z:\projects\venus\venus\core\utilities\maths\maths.cpp(7): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+         Vector2.cpp
+         Vector3.cpp
+         Vector4.cpp
+         Shader.cpp
+         VException.cpp
+         Main.cpp
+     1>c:\program files (x86)\windows kits\8.1\include\shared\minwindef.h(130): warning C4005: 'APIENTRY': macro redefinition
+         z:\projects\venus\venus\include\glfw\glfw3.h(98): note: see previous definition of 'APIENTRY'
+     1>z:\projects\venus\venus\main.cpp(48): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+     1>z:\projects\venus\venus\main.cpp(82): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+         IndexBuffer.cpp
+         Graphics.cpp
+         File.cpp
+     1>z:\projects\venus\venus\core\utilities\file.cpp(111): warning C4244: 'initializing': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
+         Window.cpp
+         Buffer.cpp
+         BatchRenderer2D.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Z:\Projects\Venus\Venus\Build\Win32\Debug\Venus.exe" /INCREMENTAL /NOLOGO /LIBPATH:Z:\Projects\Venus\Venus\lib\x86 glfw\glfw3.lib glew\glew32s.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"Z:\Projects\Venus\Venus\Build\Win32\Debug\Venus.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Z:\Projects\Venus\Venus\Build\Win32\Debug\Venus.lib" /MACHINE:X86 Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\BatchRenderer2D.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\Buffer.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\Window.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\File.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\Graphics.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\IndexBuffer.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\Main.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\VException.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\Shader.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\Vector4.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\Vector3.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\Vector2.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\Maths.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\Matrix4.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\VertexArray.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\SimpleRenderer2D.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\Sprite.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\StaticSprite.obj
+         Z:\Projects\Venus\Venus\Build\Win32\Debug\Intermediates\Timer.obj
+     1>LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+     1>LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+     1>glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'Z:\Projects\Venus\Venus\Build\Win32\Debug\vc120.pdb'; linking object as if no debug info
+         Venus.vcxproj -> Z:\Projects\Venus\Venus\Build\Win32\Debug\Venus.exe
+     1>Done Building Project "Z:\Projects\Venus\Venus\Venus.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:12.71
