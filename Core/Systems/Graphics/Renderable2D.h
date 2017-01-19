@@ -12,7 +12,8 @@ namespace Venus { namespace Graphics {
 
 struct VertexData {
 	Maths::Vector3 vertex;
-	Maths::Vector4 color;
+	//Maths::Vector4 color;
+	unsigned int color;
 };
 
 class Renderable2D {

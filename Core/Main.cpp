@@ -32,7 +32,7 @@ int main( char* argv[], int argc )
 
 #define ROWS 9
 #define COLS 16
-#define SIZE 0.1f
+#define SIZE 0.05f
 
 	float _i = 0.0f;
 	float _j = 0.0f;
@@ -45,7 +45,8 @@ int main( char* argv[], int argc )
 	{
 		for (double j = 0; j < COLS; j += SIZE, _j += SIZE)
 		{
-			sprites.push_back( new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), rgba(142, 68, 173, 255)) );
+
+			sprites.push_back( new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), Vector4(142, 68, 173, 255)) );
 		}
 
 		_j = 0.0f;

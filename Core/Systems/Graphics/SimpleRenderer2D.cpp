@@ -11,10 +11,10 @@ void SimpleRenderer2D::flush()
 		sprite->getVAO()->Bind();
 		sprite->getIBO()->Bind();
 
-		//renderable->getShader().enable();
-		//renderable->getShader().setUniformMat4("ml_matrix", Maths::Matrix4::Translation( renderable->getPosition() ));
+		//sprite->getShader().enable();
+		//sprite->getShader().setUniformMat4("ml_matrix", Maths::Matrix4::Translation( renderable->getPosition() ));
 		glDrawElements(GL_TRIANGLES, sprite->getIBO()->getCount(), GL_UNSIGNED_SHORT, nullptr);
-		//renderable->getShader().disable();
+		//sprite->getShader().disable();
 
 		sprite->getIBO()->Unbind();
 		sprite->getVAO()->Unbind();

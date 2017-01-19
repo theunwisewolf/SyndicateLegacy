@@ -21,6 +21,8 @@ Matrix4 Matrix4::Identity()
 
 Matrix4& Matrix4::Multiply(const Matrix4& mat4)
 {
+	float data[4 * 4];
+
 	for (int j = 0; j < 4; ++j)
 	{
 		for (int i = 0; i < 4; ++i)
@@ -31,9 +33,11 @@ Matrix4& Matrix4::Multiply(const Matrix4& mat4)
 				sum += this->elements[i + e * 4] * mat4.elements[e + j * 4];
 			}
 
-			this->elements[i + j * 4] = sum;
+			data[i + j * 4] = sum;
 		}
 	}
+
+	memcpy(this->elements, data, 16 * sizeof(float));
 
 	return *this;
 }

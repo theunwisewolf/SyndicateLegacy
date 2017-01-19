@@ -14,20 +14,28 @@ void BatchRenderer2D::submit(const Renderable2D* renderable)
 	const Maths::Vector3& position = renderable->getPosition();
 	const Maths::Vector4& color = renderable->getColor();
 
+	// We are not going to use normalized colors
+	int r = color.x;
+	int g = color.y;
+	int b = color.z;
+	int a = color.w;
+
+	unsigned int c = a << 24 | b << 16 | g << 8 | r;
+
 	this->m_Buffer->vertex = position;
-	this->m_Buffer->color  = color;
+	this->m_Buffer->color  = c;
 	this->m_Buffer++;
 
 	this->m_Buffer->vertex = Maths::Vector3(position.x, position.y + size.y, 0);
-	this->m_Buffer->color = color;
+	this->m_Buffer->color = c;
 	this->m_Buffer++;
 
 	this->m_Buffer->vertex = Maths::Vector3(position.x + size.x, position.y + size.y, 0);
-	this->m_Buffer->color = color;
+	this->m_Buffer->color = c;
 	this->m_Buffer++;
 
 	this->m_Buffer->vertex = Maths::Vector3(position.x + size.x, position.y, 0);
-	this->m_Buffer->color = color;
+	this->m_Buffer->color = c;
 	this->m_Buffer++;
 
 	this->m_IndexCount += 6;
@@ -44,7 +52,7 @@ void BatchRenderer2D::flush()
 	glBindVertexArray(this->m_VAO);
 	this->m_IBO->Bind();
 
-	glDrawElements(GL_TRIANGLES, this->m_IndexCount, GL_UNSIGNED_SHORT, nullptr);
+	glDrawElements(GL_TRIANGLES, this->m_IndexCount, GL_UNSIGNED_INT, nullptr);
 
 	this->m_IBO->Unbind();
 	glBindVertexArray(0);
@@ -65,11 +73,11 @@ BatchRenderer2D::BatchRenderer2D()
 	glEnableVertexAttribArray(SHADER_VERTEX_COLOR_LOCATION);
 
 	glVertexAttribPointer(SHADER_VERTEX_POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, RENDERER2D_VERTEX_SIZE, (const GLvoid*)0);
-	glVertexAttribPointer(SHADER_VERTEX_COLOR_LOCATION, 4, GL_FLOAT, GL_FALSE, RENDERER2D_VERTEX_SIZE, (const GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(SHADER_VERTEX_COLOR_LOCATION, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER2D_VERTEX_SIZE, (const GLvoid*)offsetof(VertexData, VertexData::color));
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	GLushort indices[RENDERER2D_INDICES_SIZE];
+	GLuint *indices = new GLuint[RENDERER2D_INDICES_SIZE];
 
 	int offset = 0;
 	for (int i = 0; i < RENDERER2D_INDICES_SIZE; i += 6)
