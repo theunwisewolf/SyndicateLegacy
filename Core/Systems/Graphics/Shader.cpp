@@ -9,6 +9,7 @@ Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) :
 	m_vertexShaderPath{vertexShaderPath},
 	m_fragmentShaderPath{fragmentShaderPath}
 {
+	this->m_ShaderEnabled = false;
 	this->m_ShaderID = this->load();
 }
 
@@ -102,18 +103,26 @@ GLuint Shader::load()
 	return shaderProgram;
 }
 
-void Shader::enable() const 
+void Shader::enable() 
 {
+	this->m_ShaderEnabled = true;
 	glUseProgram(this->m_ShaderID);
 }
 
-void Shader::disable() const
+void Shader::disable()
 {
+	this->m_ShaderEnabled = false;
 	glUseProgram(0);
 }
 
 GLint Shader::getUniformLocation(const GLchar* name)
 {
+	if (this->m_ShaderEnabled == false)
+	{
+		this->enable();
+		SHADER_ERROR("Shader was not enabled while setting value: " + std::string(name));
+	}
+
 	return glGetUniformLocation(this->m_ShaderID, name);
 }
 

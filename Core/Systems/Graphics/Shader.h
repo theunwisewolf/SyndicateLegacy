@@ -1,6 +1,9 @@
 #ifndef SHADER_H
 #define SHADER_H
 
+#define VENUS_DEBUG 1
+#define SHADER_ERROR(x) std::cout << "Shader Error: " << x << std::endl
+
 #include <vector>
 #include <string>
 #include <iostream>
@@ -16,6 +19,7 @@ class Shader
 {
 private:
 	GLuint m_ShaderID = -1;
+	bool m_ShaderEnabled = false;
 
 	std::string m_vertexShaderPath;
 	std::string m_fragmentShaderPath;
@@ -25,8 +29,8 @@ public:
 	Shader(std::string vertexShaderPath, std::string fragmentShaderPath);
 	~Shader();
 
-	void enable() const;
-	void disable() const;
+	void enable();
+	void disable();
 
 	GLint getUniformLocation(const GLchar* name);
 	GLint getAttributeLocation(const GLchar* name);

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <Systems/Window.h>
 
-int main( char* [], int );
+int main( int, char* [] );
 
 
 #endif

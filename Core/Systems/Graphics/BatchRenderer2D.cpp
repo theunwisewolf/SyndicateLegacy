@@ -4,12 +4,20 @@ namespace Venus { namespace Graphics {
 
 void BatchRenderer2D::start()
 {
+	this->m_RendererStarted = true;
+
 	glBindBuffer(GL_ARRAY_BUFFER, this->m_VBO);
 	this->m_Buffer = (VertexData*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 }
 
 void BatchRenderer2D::submit(const Renderable2D* renderable)
 {
+	if (this->m_RendererStarted == false)
+	{
+		RENDERER2D_ERROR("Renderer2D was not started using the start() method. Starting internally.");
+		this->start();
+	}
+
 	const Maths::Vector2& size = renderable->getSize();
 	const Maths::Vector3& position = renderable->getPosition();
 	const Maths::Vector4& color = renderable->getColor();
@@ -43,12 +51,20 @@ void BatchRenderer2D::submit(const Renderable2D* renderable)
 
 void BatchRenderer2D::end()
 {
+	this->m_RendererStarted = false;
+
 	glUnmapBuffer(GL_ARRAY_BUFFER);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void BatchRenderer2D::flush()
 {
+	if (this->m_RendererStarted == true)
+	{
+		RENDERER2D_ERROR("Renderer2D was not ended using the end() method. Ending internally.");
+		this->end();
+	}
+
 	glBindVertexArray(this->m_VAO);
 	this->m_IBO->Bind();
 
@@ -62,6 +78,8 @@ void BatchRenderer2D::flush()
 
 BatchRenderer2D::BatchRenderer2D()
 {
+	this->m_RendererStarted = false;
+
 	glGenVertexArrays(1, &this->m_VAO);
 	glGenBuffers(1, &this->m_VBO);
 	

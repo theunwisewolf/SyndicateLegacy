@@ -35,7 +35,7 @@ private:
 
 	bool Init();
 public:
-	Window( std::string, int, int );
+	Window( std::string, int, int, int r = 0, int g = 0, int b = 0, int a = 255 );
 	~Window();
 
 	bool Closed() const;

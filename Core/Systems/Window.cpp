@@ -1,6 +1,6 @@
 #include "Window.h"
 
-Window::Window(std::string title, int width, int height):
+Window::Window(std::string title, int width, int height, int r, int g, int b, int a) :
 	m_Title{title},
 	m_Width{width},
 	m_Height{height}
@@ -11,6 +11,8 @@ Window::Window(std::string title, int width, int height):
 	{
 		glfwTerminate();
 	}
+
+	this->setColor(r, g, b, a);
 }
 
 bool Window::Init()

@@ -24,12 +24,16 @@ private:
 	GLsizei m_IndexCount;
 	IndexBuffer* m_IBO;
 
+	bool m_RendererStarted;
+
 public:
 	BatchRenderer2D();
-	void start();
-	void submit(const Renderable2D* renderable);
-	void end();
-	void flush();
+
+	void start() override;
+	void submit(const Renderable2D* renderable) override;
+	void end() override;
+	void flush() override;
+
 	~BatchRenderer2D();
 };
 
