@@ -2,8 +2,8 @@
 #define SIMPLE_RENDERER2D_H_
 
 #include <deque>
-#include <Systems/Graphics/StaticSprite.h>
-#include <Systems/Graphics/Renderer2D.h>
+#include <Systems/Graphics/Sprites/StaticSprite.h>
+#include <Systems/Graphics/Renderers/Renderer2D.h>
 #include <Utilities/Maths/Maths.h>
 
 namespace Venus { namespace Graphics {

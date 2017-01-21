@@ -30,19 +30,19 @@ void BatchRenderer2D::submit(const Renderable2D* renderable)
 
 	unsigned int c = a << 24 | b << 16 | g << 8 | r;
 
-	this->m_Buffer->vertex = position;
+	this->m_Buffer->vertex = *this->m_TransformationBack * position;
 	this->m_Buffer->color  = c;
 	this->m_Buffer++;
 
-	this->m_Buffer->vertex = Maths::Vector3(position.x, position.y + size.y, 0);
+	this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(position.x, position.y + size.y, 0);
 	this->m_Buffer->color = c;
 	this->m_Buffer++;
 
-	this->m_Buffer->vertex = Maths::Vector3(position.x + size.x, position.y + size.y, 0);
+	this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(position.x + size.x, position.y + size.y, 0);
 	this->m_Buffer->color = c;
 	this->m_Buffer++;
 
-	this->m_Buffer->vertex = Maths::Vector3(position.x + size.x, position.y, 0);
+	this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(position.x + size.x, position.y, 0);
 	this->m_Buffer->color = c;
 	this->m_Buffer++;
 

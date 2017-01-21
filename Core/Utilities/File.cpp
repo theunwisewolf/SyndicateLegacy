@@ -26,6 +26,12 @@ File& File::Read(int mode)
 
 	std::ifstream file(this->filePath, mode);
 
+	if (file.fail())
+	{
+		throw VException( "Failed to open file: " + this->filePath );
+		return *this;
+	}
+  
 	if (file.is_open())
 	{
 		// Calculate the amount to be read (for binary files)

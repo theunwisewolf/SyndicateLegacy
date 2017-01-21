@@ -2,7 +2,7 @@
 #define TILE_LAYER_H_
 
 #include <Systems/Graphics/Layers/Layer.h>
-#include <Systems/Graphics/BatchRenderer2D.h>
+#include <Systems/Graphics/Renderers/BatchRenderer2D.h>
 
 namespace Venus { namespace Graphics {
 

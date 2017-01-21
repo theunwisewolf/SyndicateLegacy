@@ -4,8 +4,8 @@
 #include <vector>
 
 #include <Utilities/Maths/Matrix4.h>
-#include <Systems/Graphics/Renderer2D.h>
-#include <Systems/Graphics/Renderable2D.h>
+#include <Systems/Graphics/Renderers/Renderer2D.h>
+#include <Systems/Graphics/Sprites/Renderable2D.h>
 
 namespace Venus { namespace Graphics {
 

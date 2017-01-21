@@ -31,6 +31,12 @@ public:
 	friend Matrix4 operator*(Matrix4 a, const Matrix4& b);
 	friend std::ostream& operator<<(std::ostream& stream, const Matrix4& mat4);
 
+	Vector3& Multiply(const Vector3& vec3) const;
+	Vector4& Multiply(const Vector4& vec4) const;
+
+	friend Vector3 operator*(const Matrix4& a, const Vector3& b);
+	friend Vector4 operator*(const Matrix4& a, const Vector4& b);
+
 	~Matrix4();
 };
 

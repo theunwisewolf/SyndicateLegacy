@@ -1,7 +1,7 @@
 #ifndef SPRITE_H_
 #define SPRITE_H_
 
-#include <Systems/Graphics/Renderable2D.h>
+#include <Systems/Graphics/Sprites/Renderable2D.h>
 
 namespace Venus { namespace Graphics {
 

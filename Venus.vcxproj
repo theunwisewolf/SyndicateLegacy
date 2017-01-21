@@ -169,10 +169,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Systems\Graphics\BatchRenderer2D.h" />
+    <ClInclude Include="Core\Systems\Graphics\Renderers\BatchRenderer2D.h" />
     <ClInclude Include="Core\Systems\Graphics\Buffers\Buffer.h" />
-    <ClInclude Include="Core\Systems\Graphics\Renderable2D.h" />
-    <ClInclude Include="Core\Systems\Graphics\SimpleRenderer2D.h" />
+    <ClInclude Include="Core\Systems\Graphics\Sprites\Renderable2D.h" />
+    <ClInclude Include="Core\Systems\Graphics\Renderers\SimpleRenderer2D.h" />
     <ClInclude Include="Core\Systems\Window.h" />
     <ClInclude Include="Core\Utilities\File.h" />
     <ClInclude Include="Core\Systems\Graphics\Graphics.h" />
@@ -191,15 +191,15 @@
     <ClInclude Include="Core\Utilities\Maths\Maths.h" />
     <ClInclude Include="Core\Utilities\Maths\Matrix4.h" />
     <ClInclude Include="Core\Systems\Graphics\Buffers\VertexArray.h" />
-    <ClInclude Include="Core\Systems\Graphics\Renderer2D.h" />
-    <ClInclude Include="Core\Systems\Graphics\Sprite.h" />
-    <ClInclude Include="Core\Systems\Graphics\StaticSprite.h" />
+    <ClInclude Include="Core\Systems\Graphics\Renderers\Renderer2D.h" />
+    <ClInclude Include="Core\Systems\Graphics\Sprites\Sprite.h" />
+    <ClInclude Include="Core\Systems\Graphics\Sprites\StaticSprite.h" />
     <ClInclude Include="Core\Utilities\Timer.h" />
     <ClInclude Include="Core\Systems\Graphics\Layers\Layer.h" />
     <ClInclude Include="Core\Systems\Graphics\Layers\TileLayer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\Systems\Graphics\BatchRenderer2D.cpp" />
+    <ClCompile Include="Core\Systems\Graphics\Renderers\BatchRenderer2D.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Buffers\Buffer.cpp" />
     <ClCompile Include="Core\Systems\Window.cpp" />
     <ClCompile Include="Core\Utilities\File.cpp" />
@@ -214,9 +214,9 @@
     <ClCompile Include="Core\Utilities\Maths\Maths.cpp" />
     <ClCompile Include="Core\Utilities\Maths\Matrix4.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Buffers\VertexArray.cpp" />
-    <ClCompile Include="Core\Systems\Graphics\SimpleRenderer2D.cpp" />
-    <ClCompile Include="Core\Systems\Graphics\Sprite.cpp" />
-    <ClCompile Include="Core\Systems\Graphics\StaticSprite.cpp" />
+    <ClCompile Include="Core\Systems\Graphics\Renderers\SimpleRenderer2D.cpp" />
+    <ClCompile Include="Core\Systems\Graphics\Sprites\Sprite.cpp" />
+    <ClCompile Include="Core\Systems\Graphics\Sprites\StaticSprite.cpp" />
     <ClCompile Include="Core\Utilities\Timer.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Layers\Layer.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Layers\TileLayer.cpp" />

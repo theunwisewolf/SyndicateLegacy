@@ -52,6 +52,35 @@ Matrix4 operator*(Matrix4 a, const Matrix4& b)
 	return a.Multiply(b);
 }
 
+Vector3& Matrix4::Multiply(const Vector3& vec3) const
+{
+	return Vector3(
+		this->columns[0].x * vec3.x + this->columns[1].x * vec3.y + this->columns[2].x * vec3.z + this->columns[3].x,
+		this->columns[0].y * vec3.x + this->columns[1].y * vec3.y + this->columns[2].y * vec3.z + this->columns[3].y,
+		this->columns[0].z * vec3.x + this->columns[1].z * vec3.y + this->columns[2].z * vec3.z + this->columns[3].z
+	);
+}
+
+Vector4& Matrix4::Multiply(const Vector4& vec4) const
+{
+	return Vector4(
+		this->columns[0].x * vec4.x + this->columns[1].x * vec4.y + this->columns[2].x * vec4.z + this->columns[3].x * vec4.w,
+		this->columns[0].y * vec4.x + this->columns[1].y * vec4.y + this->columns[2].y * vec4.z + this->columns[3].y * vec4.w,
+		this->columns[0].z * vec4.x + this->columns[1].z * vec4.y + this->columns[2].z * vec4.z + this->columns[3].z * vec4.w,
+		this->columns[0].w * vec4.x + this->columns[1].w * vec4.y + this->columns[2].w * vec4.z + this->columns[3].w * vec4.w
+	);
+}
+
+Vector3 operator*(const Matrix4& a, const Vector3& b)
+{
+	return a.Multiply(b);
+}
+
+Vector4 operator*(const Matrix4& a, const Vector4& b)
+{
+	return a.Multiply(b);
+}
+
 std::ostream& operator<<(std::ostream& stream, const Matrix4& mat4)
 {
 	stream << "Matrix4(" << std::endl;

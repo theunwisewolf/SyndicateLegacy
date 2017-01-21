@@ -1,7 +1,7 @@
 #ifndef STATIC_SPRITE_H_
 #define STATIC_SPRITE_H_
 
-#include <Systems/Graphics/Renderable2D.h>
+#include <Systems/Graphics/Sprites/Renderable2D.h>
 #include <Utilities/Maths/Maths.h>
 
 namespace Venus { namespace Graphics {
