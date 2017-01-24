@@ -6,8 +6,10 @@
 #include <Systems/Graphics/Buffers/VertexArray.h>
 #include <Systems/Graphics/Shader.h>
 
-#include <Utilities/Maths/Maths.h>
+#include <Systems/Graphics/Renderers/Renderer2D.h>
 
+#include <Utilities/Maths/Maths.h>
+ 
 namespace Venus { namespace Graphics { 
 
 struct VertexData {
@@ -22,6 +24,9 @@ private:
 	Maths::Vector3 m_Position;
 	Maths::Vector4 m_Color;
 
+protected:
+	Renderable2D() {}
+
 public:
 	Renderable2D(Maths::Vector3 position, Maths::Vector2 size, Maths::Vector4 color) :
 		m_Position{position},
@@ -32,8 +37,11 @@ public:
 	}
 
 	virtual ~Renderable2D() {}
+	virtual void Submit(Renderer2D* renderer) const
+	{
+		renderer->submit(this);
+	}
 
-public:
 	inline const Maths::Vector2& getSize() const { return this->m_Size; }
 	inline const Maths::Vector3& getPosition() const { return this->m_Position; }
 	inline const Maths::Vector4& getColor() const { return this->m_Color; }

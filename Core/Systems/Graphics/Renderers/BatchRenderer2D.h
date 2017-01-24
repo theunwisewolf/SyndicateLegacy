@@ -2,6 +2,7 @@
 #define BATCH_RENDERER2D_H
 
 #include <Systems/Graphics/Renderers/Renderer2D.h>
+#include <Systems/Graphics/Sprites/Renderable2D.h>
 #include <GL/glew.h>
 
 #define SHADER_VERTEX_POSITION_LOCATION 0

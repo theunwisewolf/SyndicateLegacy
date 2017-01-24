@@ -1,4 +1,5 @@
 #include "SimpleRenderer2D.h"
+#include <Systems/Graphics/Sprites/Renderable2D.h>
 
 namespace Venus { namespace Graphics {
 

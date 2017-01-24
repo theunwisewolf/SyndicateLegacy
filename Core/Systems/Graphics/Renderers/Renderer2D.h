@@ -1,10 +1,14 @@
 #ifndef RENDERER2D_H_
 #define RENDERER2D_H_
 
+#include <vector>
+#include <Utilities/Maths/Maths.h>
+
 #define RENDERER2D_ERROR(x) std::cout << "Renderer2D Error: " << x << std::endl
-#include <Systems/Graphics/Sprites/Renderable2D.h>
 
 namespace Venus { namespace Graphics { 
+
+class Renderable2D;
 
 class Renderer2D
 {
@@ -32,6 +36,8 @@ public:
 	void pop()
 	{
 		if (this->m_TransformationStack.size() > 1) this->m_TransformationStack.pop_back();
+
+		this->m_TransformationBack = &this->m_TransformationStack.back();
 	}
 
 	virtual void start() {}

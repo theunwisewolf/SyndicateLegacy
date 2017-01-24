@@ -24,7 +24,7 @@ void Layer::Render()
 
 	for (const Renderable2D* renderable : this->m_Renderables)
 	{
-		this->m_Renderer->submit(renderable);
+		renderable->Submit(m_Renderer);
 	}
 
 	this->m_Renderer->end();
