@@ -161,4 +161,14 @@ void Shader::setUniformMat4(const GLchar* name, const Maths::Matrix4& matrix)
 	glUniformMatrix4fv(this->getUniformLocation(name), 1, GL_FALSE, matrix.elements);
 }
 
+void Shader::setUniform1fv(const GLchar* name, float* value, int count)
+{
+	glUniform1fv(this->getUniformLocation(name), count, value);
+}
+
+void Shader::setUniform1iv(const GLchar* name, int* value, int count)
+{
+	glUniform1iv(this->getUniformLocation(name), count, value);
+}
+
 }}

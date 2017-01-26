@@ -8,6 +8,7 @@
 #define SHADER_VERTEX_POSITION_LOCATION 0
 #define SHADER_VERTEX_COLOR_LOCATION    1
 #define SHADER_VERTEX_UV_LOCATION		2
+#define SHADER_VERTEX_TID_LOCATION		3
 
 #define RENDERER2D_MAX_SPRITES		60000
 #define RENDERER2D_VERTEX_SIZE		sizeof(VertexData)
@@ -27,6 +28,8 @@ private:
 	IndexBuffer* m_IBO;
 
 	bool m_RendererStarted;
+
+	std::vector<GLuint> m_TextureSlots;
 
 public:
 	BatchRenderer2D();

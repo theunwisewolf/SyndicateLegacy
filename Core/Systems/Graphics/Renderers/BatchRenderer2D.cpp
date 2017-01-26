@@ -22,33 +22,69 @@ void BatchRenderer2D::submit(const Renderable2D* renderable)
 	const Maths::Vector3& position = renderable->getPosition();
 	const Maths::Vector4& color = renderable->getColor();
 	const std::vector<Maths::Vector2>& uv = renderable->getUVs();
+	const GLuint textureID = renderable->getTextureID();
+	unsigned int c = 0;
+	
+	float ts = 0.0f;
+	if (textureID)
+	{
+		bool found = false;
+		for (int i = 0; i < this->m_TextureSlots.size(); ++i)
+		{
+			if (this->m_TextureSlots[i] == textureID)
+			{
+				found = true;
+				ts = (float)(i+1);
+				break;
+			}
+		}
 
-	// We are not going to use normalized colors
-	int r = color.x;
-	int g = color.y;
-	int b = color.z;
-	int a = color.w;
+		if (!found)
+		{
+			if (this->m_TextureSlots.size() >= 32)
+			{
+				this->end();
+				this->flush();
+				this->start();
+			}
 
-	unsigned int c = a << 24 | b << 16 | g << 8 | r;
+			this->m_TextureSlots.push_back(textureID);
+			ts = (float)this->m_TextureSlots.size();
+		}
+	}
+	else
+	{
+		// We are not going to use normalized colors
+		int r = (int)color.x;
+		int g = (int)color.y;
+		int b = (int)color.z;
+		int a = (int)color.w;
+
+		c = a << 24 | b << 16 | g << 8 | r;
+	}
 
 	this->m_Buffer->vertex = *this->m_TransformationBack * position;
 	this->m_Buffer->color  = c;
 	this->m_Buffer->uv = uv[0];
+	this->m_Buffer->tid = ts;
 	this->m_Buffer++;
 
 	this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(position.x, position.y + size.y, 0);
 	this->m_Buffer->color = c;
 	this->m_Buffer->uv = uv[1];
+	this->m_Buffer->tid = ts;
 	this->m_Buffer++;
 
 	this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(position.x + size.x, position.y + size.y, 0);
 	this->m_Buffer->color = c;
 	this->m_Buffer->uv = uv[2];
+	this->m_Buffer->tid = ts;
 	this->m_Buffer++;
 
 	this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(position.x + size.x, position.y, 0);
 	this->m_Buffer->color = c;
 	this->m_Buffer->uv = uv[3];
+	this->m_Buffer->tid = ts;
 	this->m_Buffer++;
 
 	this->m_IndexCount += 6;
@@ -68,6 +104,12 @@ void BatchRenderer2D::flush()
 	{
 		RENDERER2D_ERROR("Renderer2D was not ended using the end() method. Ending internally.");
 		this->end();
+	}
+
+	for (int i = 0; i < this->m_TextureSlots.size(); ++i)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, this->m_TextureSlots[i]);
 	}
 
 	glBindVertexArray(this->m_VAO);
@@ -95,10 +137,12 @@ BatchRenderer2D::BatchRenderer2D()
 	glEnableVertexAttribArray(SHADER_VERTEX_POSITION_LOCATION);
 	glEnableVertexAttribArray(SHADER_VERTEX_COLOR_LOCATION);
 	glEnableVertexAttribArray(SHADER_VERTEX_UV_LOCATION);
+	glEnableVertexAttribArray(SHADER_VERTEX_TID_LOCATION);
 
 	glVertexAttribPointer(SHADER_VERTEX_POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, RENDERER2D_VERTEX_SIZE, (const GLvoid*)0);
 	glVertexAttribPointer(SHADER_VERTEX_COLOR_LOCATION, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER2D_VERTEX_SIZE, (const GLvoid*)offsetof(VertexData, VertexData::color));
 	glVertexAttribPointer(SHADER_VERTEX_UV_LOCATION, 2, GL_FLOAT, GL_FALSE, RENDERER2D_VERTEX_SIZE, (const GLvoid*)offsetof(VertexData, VertexData::uv));
+	glVertexAttribPointer(SHADER_VERTEX_TID_LOCATION, 1, GL_FLOAT, GL_FALSE, RENDERER2D_VERTEX_SIZE, (const GLvoid*)offsetof(VertexData, VertexData::tid));
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 

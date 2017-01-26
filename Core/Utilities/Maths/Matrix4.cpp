@@ -169,17 +169,17 @@ Matrix4 Matrix4::Rotation(float angle, const Vector3& axis)
 	float y = axis.y;
 	float z = axis.z;
 
-	result.elements[0 + 0 * 4] = x * lc + c;
+	result.elements[0 + 0 * 4] = x * x + c;
 	result.elements[1 + 0 * 4] = y * x * lc + z * s;
 	result.elements[2 + 0 * 4] = x * z * lc - y * s;
 
 	result.elements[0 + 1 * 4] = x * y * lc - z * s;
-	result.elements[1 + 1 * 4] = y * lc + c;
+	result.elements[1 + 1 * 4] = y * y + c;
 	result.elements[2 + 1 * 4] = y * z * lc + x * s;
 
 	result.elements[0 + 2 * 4] = x * z * lc + y * s;
 	result.elements[1 + 2 * 4] = y * z * lc - x * s;
-	result.elements[2 + 2 * 4] = z * lc + c;
+	result.elements[2 + 2 * 4] = z * z + c;
 
 	return result;
 }

@@ -93,8 +93,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
@@ -111,8 +111,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
@@ -131,8 +131,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -153,8 +153,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -179,6 +179,20 @@
     <ClInclude Include="Core\Utilities\File.h" />
     <ClInclude Include="Core\Systems\Graphics\Graphics.h" />
     <ClInclude Include="Core\Utilities\Image.h" />
+    <ClInclude Include="Dependencies\FreeTypeGL\include\freetype-gl.h" />
+    <ClInclude Include="Dependencies\FreeTypeGL\include\opengl.h" />
+    <ClInclude Include="Dependencies\FreeTypeGL\include\platform.h" />
+    <ClInclude Include="Dependencies\FreeTypeGL\include\texture-atlas.h" />
+    <ClInclude Include="Dependencies\FreeTypeGL\include\texture-font.h" />
+    <ClInclude Include="Dependencies\FreeTypeGL\include\utf8-utils.h" />
+    <ClInclude Include="Dependencies\FreeTypeGL\include\vec234.h" />
+    <ClInclude Include="Dependencies\FreeTypeGL\include\vector.h" />
+    <ClInclude Include="Dependencies\FreeType\include\config\ftconfig.h" />
+    <ClInclude Include="Dependencies\FreeType\include\config\ftheader.h" />
+    <ClInclude Include="Dependencies\FreeType\include\config\ftmodule.h" />
+    <ClInclude Include="Dependencies\FreeType\include\config\ftoption.h" />
+    <ClInclude Include="Dependencies\FreeType\include\config\ftstdlib.h" />
+    <ClInclude Include="Dependencies\FreeType\include\ft2build.h" />
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GL\eglew.h" />
     <ClInclude Include="include\GL\glew.h" />
@@ -225,6 +239,50 @@
     <ClCompile Include="Core\Utilities\Timer.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Layers\Layer.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Layers\TileLayer.cpp" />
+    <ClCompile Include="Dependencies\FreeTypeGL\src\platform.c" />
+    <ClCompile Include="Dependencies\FreeTypeGL\src\texture-atlas.c" />
+    <ClCompile Include="Dependencies\FreeTypeGL\src\texture-font.c" />
+    <ClCompile Include="Dependencies\FreeTypeGL\src\utf8-utils.c" />
+    <ClCompile Include="Dependencies\FreeTypeGL\src\vector.c" />
+    <ClCompile Include="Dependencies\FreeType\src\autofit\autofit.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftbase.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftbbox.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftbitmap.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftdebug.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftfstype.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftgasp.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftglyph.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftgxval.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftinit.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftlcdfil.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftmm.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftotval.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftpatent.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftpfr.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftstroke.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftsynth.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftsystem.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\fttype1.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftwinfnt.c" />
+    <ClCompile Include="Dependencies\FreeType\src\base\ftxf86.c" />
+    <ClCompile Include="Dependencies\FreeType\src\bdf\bdf.c" />
+    <ClCompile Include="Dependencies\FreeType\src\cache\ftcache.c" />
+    <ClCompile Include="Dependencies\FreeType\src\cff\cff.c" />
+    <ClCompile Include="Dependencies\FreeType\src\cid\type1cid.c" />
+    <ClCompile Include="Dependencies\FreeType\src\gzip\ftgzip.c" />
+    <ClCompile Include="Dependencies\FreeType\src\lzw\ftlzw.c" />
+    <ClCompile Include="Dependencies\FreeType\src\pcf\pcf.c" />
+    <ClCompile Include="Dependencies\FreeType\src\pfr\pfr.c" />
+    <ClCompile Include="Dependencies\FreeType\src\psaux\psaux.c" />
+    <ClCompile Include="Dependencies\FreeType\src\pshinter\pshinter.c" />
+    <ClCompile Include="Dependencies\FreeType\src\psnames\psmodule.c" />
+    <ClCompile Include="Dependencies\FreeType\src\raster\raster.c" />
+    <ClCompile Include="Dependencies\FreeType\src\sfnt\sfnt.c" />
+    <ClCompile Include="Dependencies\FreeType\src\smooth\smooth.c" />
+    <ClCompile Include="Dependencies\FreeType\src\truetype\truetype.c" />
+    <ClCompile Include="Dependencies\FreeType\src\type1\type1.c" />
+    <ClCompile Include="Dependencies\FreeType\src\type42\type42.c" />
+    <ClCompile Include="Dependencies\FreeType\src\winfonts\winfnt.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\FragmentShader.frag" />

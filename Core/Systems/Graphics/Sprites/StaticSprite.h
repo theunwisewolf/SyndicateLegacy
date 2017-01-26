@@ -2,6 +2,7 @@
 #define STATIC_SPRITE_H_
 
 #include <Systems/Graphics/Sprites/Renderable2D.h>
+#include <Systems/Graphics/Texture.h>
 #include <Utilities/Maths/Maths.h>
 
 namespace Venus { namespace Graphics {
@@ -15,6 +16,7 @@ private:
 
 public:
 	StaticSprite(Maths::Vector3 position, Maths::Vector2 size, Maths::Vector4 color, Shader shader);
+	StaticSprite(Maths::Vector3 position, Maths::Vector2 size, Texture* texture, Shader shader);
 	~StaticSprite();
 
 	inline Shader& getShader() const { return this->m_Shader; }

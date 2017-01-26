@@ -17,6 +17,7 @@ struct VertexData {
 	Maths::Vector3 vertex;
 	unsigned int color;
 	Maths::Vector2 uv;
+	float tid;
 };
 
 class Renderable2D {
@@ -25,6 +26,8 @@ private:
 	Maths::Vector3 m_Position;
 	Maths::Vector4 m_Color;
 	std::vector<Maths::Vector2> m_UV;
+
+protected:
 	Texture* m_Texture;
 
 protected:

@@ -14,6 +14,8 @@ void SimpleRenderer2D::flush()
 
 		//sprite->getShader().enable();
 		//sprite->getShader().setUniformMat4("ml_matrix", Maths::Matrix4::Translation( renderable->getPosition() ));
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, sprite->getTextureID());
 		glDrawElements(GL_TRIANGLES, sprite->getIBO()->getCount(), GL_UNSIGNED_SHORT, nullptr);
 		//sprite->getShader().disable();
 
