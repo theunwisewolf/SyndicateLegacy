@@ -7,6 +7,7 @@
 #include <Systems/Graphics/Shader.h>
 
 #include <Systems/Graphics/Renderers/Renderer2D.h>
+#include <Systems/Graphics/Texture.h>
 
 #include <Utilities/Maths/Maths.h>
  
@@ -14,8 +15,8 @@ namespace Venus { namespace Graphics {
 
 struct VertexData {
 	Maths::Vector3 vertex;
-	//Maths::Vector4 color;
 	unsigned int color;
+	Maths::Vector2 uv;
 };
 
 class Renderable2D {
@@ -23,9 +24,11 @@ private:
 	Maths::Vector2 m_Size;
 	Maths::Vector3 m_Position;
 	Maths::Vector4 m_Color;
+	std::vector<Maths::Vector2> m_UV;
+	Texture* m_Texture;
 
 protected:
-	Renderable2D() {}
+	Renderable2D() { setDefaultUVs(); }
 
 public:
 	Renderable2D(Maths::Vector3 position, Maths::Vector2 size, Maths::Vector4 color) :
@@ -33,7 +36,7 @@ public:
 		m_Color{color},
 		m_Size{size}
 	{
-		
+		setDefaultUVs();
 	}
 
 	virtual ~Renderable2D() {}
@@ -42,10 +45,23 @@ public:
 		renderer->submit(this);
 	}
 
-	inline const Maths::Vector2& getSize() const { return this->m_Size; }
-	inline const Maths::Vector3& getPosition() const { return this->m_Position; }
-	inline const Maths::Vector4& getColor() const { return this->m_Color; }
+	inline const Maths::Vector2& getSize() const					{ return this->m_Size; }
+	inline const Maths::Vector3& getPosition() const				{ return this->m_Position; }
+	inline const Maths::Vector4& getColor() const					{ return this->m_Color; }
+	inline const std::vector<Maths::Vector2>& getUVs() const		{ return this->m_UV; }
+
+	inline const GLuint getTextureID() const						{ return this->m_Texture == nullptr ? 0 : this->m_Texture->getTextureID(); }
+
+private:
+	void setDefaultUVs()
+	{
+		this->m_UV.push_back(Maths::Vector2(0, 0));
+		this->m_UV.push_back(Maths::Vector2(0, 1));
+		this->m_UV.push_back(Maths::Vector2(1, 1));
+		this->m_UV.push_back(Maths::Vector2(1, 0));
+	}
 };
+
 
 } }
 

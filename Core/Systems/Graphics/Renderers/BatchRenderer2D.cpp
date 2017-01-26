@@ -21,6 +21,7 @@ void BatchRenderer2D::submit(const Renderable2D* renderable)
 	const Maths::Vector2& size = renderable->getSize();
 	const Maths::Vector3& position = renderable->getPosition();
 	const Maths::Vector4& color = renderable->getColor();
+	const std::vector<Maths::Vector2>& uv = renderable->getUVs();
 
 	// We are not going to use normalized colors
 	int r = color.x;
@@ -32,18 +33,22 @@ void BatchRenderer2D::submit(const Renderable2D* renderable)
 
 	this->m_Buffer->vertex = *this->m_TransformationBack * position;
 	this->m_Buffer->color  = c;
+	this->m_Buffer->uv = uv[0];
 	this->m_Buffer++;
 
 	this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(position.x, position.y + size.y, 0);
 	this->m_Buffer->color = c;
+	this->m_Buffer->uv = uv[1];
 	this->m_Buffer++;
 
 	this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(position.x + size.x, position.y + size.y, 0);
 	this->m_Buffer->color = c;
+	this->m_Buffer->uv = uv[2];
 	this->m_Buffer++;
 
 	this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(position.x + size.x, position.y, 0);
 	this->m_Buffer->color = c;
+	this->m_Buffer->uv = uv[3];
 	this->m_Buffer++;
 
 	this->m_IndexCount += 6;
@@ -89,9 +94,11 @@ BatchRenderer2D::BatchRenderer2D()
 
 	glEnableVertexAttribArray(SHADER_VERTEX_POSITION_LOCATION);
 	glEnableVertexAttribArray(SHADER_VERTEX_COLOR_LOCATION);
+	glEnableVertexAttribArray(SHADER_VERTEX_UV_LOCATION);
 
 	glVertexAttribPointer(SHADER_VERTEX_POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, RENDERER2D_VERTEX_SIZE, (const GLvoid*)0);
 	glVertexAttribPointer(SHADER_VERTEX_COLOR_LOCATION, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER2D_VERTEX_SIZE, (const GLvoid*)offsetof(VertexData, VertexData::color));
+	glVertexAttribPointer(SHADER_VERTEX_UV_LOCATION, 2, GL_FLOAT, GL_FALSE, RENDERER2D_VERTEX_SIZE, (const GLvoid*)offsetof(VertexData, VertexData::uv));
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
