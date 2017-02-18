@@ -19,10 +19,10 @@ out DATA
 
 void main()
 {
-	vs_out.position = ml_matrix * vec4(position, 1.0);
+	vs_out.position = ml_matrix * vec4(position, 1.0f);
 	vs_out.color = color;
 	vs_out.uv = uv;
 	vs_out.tid = tid;
 
-	gl_Position = pr_matrix * vw_matrix * ml_matrix * vec4(position.x, position.y, position.z, 1.0);
+	gl_Position = pr_matrix * vw_matrix * ml_matrix * vec4(position, 1.0f);
 }

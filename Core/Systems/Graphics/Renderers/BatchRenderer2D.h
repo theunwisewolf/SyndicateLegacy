@@ -21,11 +21,12 @@ namespace Venus { namespace Graphics {
 class BatchRenderer2D : public Renderer2D
 {
 private:
-	VertexData* m_Buffer;
 	GLuint  m_VAO;
 	GLuint  m_VBO;
 	GLsizei m_IndexCount;
+
 	IndexBuffer* m_IBO;
+	VertexData* m_Buffer;
 
 	bool m_RendererStarted;
 

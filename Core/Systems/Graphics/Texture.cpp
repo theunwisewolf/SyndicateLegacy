@@ -34,7 +34,7 @@ void Texture::unbind() const
 
 Texture::~Texture()
 {
-	glDeleteTextures(1, &this->m_TextureID);
+	//glDeleteTextures(1, &this->m_TextureID);
 }
 
 }}

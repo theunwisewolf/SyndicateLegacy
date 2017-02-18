@@ -55,10 +55,10 @@ void BatchRenderer2D::submit(const Renderable2D* renderable)
 	else
 	{
 		// We are not going to use normalized colors
-		int r = (int)color.x;
-		int g = (int)color.y;
-		int b = (int)color.z;
-		int a = (int)color.w;
+		int r = color.x;
+		int g = color.y;
+		int b = color.z;
+		int a = color.w;
 
 		c = a << 24 | b << 16 | g << 8 | r;
 	}
