@@ -13,6 +13,8 @@ private:
 
 public:
 	Buffer(GLfloat* data, GLsizei count, GLuint componentCount);
+	Buffer(GLfloat* data, GLsizei count, GLuint componentCount, GLenum usage);
+
 	~Buffer();
 
 	inline void Bind()   const { glBindBuffer(GL_ARRAY_BUFFER, this->m_BufferID); };

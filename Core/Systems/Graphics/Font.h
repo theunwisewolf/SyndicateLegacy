@@ -1,7 +1,8 @@
 #ifndef FONT_H_
 #define FONT_H_
 
-#include <Core/Utilities/Maths.h>
+#include <string>
+#include <Utilities/Maths/Maths.h>
 
 namespace Venus { namespace Graphics { 
 

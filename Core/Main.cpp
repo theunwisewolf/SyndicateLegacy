@@ -37,18 +37,18 @@ int main( int argc, char* argv[] )
 	shader->setUniformMat4("pr_matrix", Matrix4::Orthographic(-16.0f, 16.0f, 9.0f, -9.0f, 1.0f, -1.0f));
 	shader->setUniform1iv("textures", textureSlots, 10);
 
-	//Texture* texturea = new Texture("Image.png");
-	//Texture* textureb = new Texture("b.png");
+	Texture* texturea = new Texture("Image.png");
+	Texture* textureb = new Texture("b.png");
 
 	TileLayer layer(shader);
-#if 0
+#if 1
 
 #define ROWS 9
 #define COLS 16
 #define SIZE 1.0f
 
-	StaticSprite sprite(Vector3(0,0,0), Vector2(4,4), texturea, *shader);
-	SimpleRenderer2D renderer;
+	//StaticSprite sprite(Vector3(0,0,0), Vector2(4,4), texturea, *shader);
+	//SimpleRenderer2D renderer;
 
 	//std::vector<Renderable2D*> sprites;
 	srand(time(NULL));
@@ -61,25 +61,24 @@ int main( int argc, char* argv[] )
 			if (num == 0)
 			{
 				std::cout << "Texture a" << std::endl;
-				layer2.Add(new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), texturea));
+				layer.Add(new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), textureb));
 			}
 			else if (num == 1)
 			{
 				std::cout << "Texture b" << std::endl;
-				layer2.Add(new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), textureb));
+				layer.Add(new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), texturea));
 			}
 			else
 			{
 				std::cout << "Color" << std::endl;
-				layer2.Add(new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), Vector4(142, 68, 173, 255)));
+				layer.Add(new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), Vector4(142, 68, 173, 255)));
 			}
 		}
 	}
 
-#endif
-
+#else
 	Group *group = new Group(Matrix4::Translation(Vector3( -2.0f, -1.0f, 0.0f )));
-	group->Add(new Sprite(Vector3(0, 0, 0), Vector2(4, 4), Vector4(34, 49, 63, 255)));
+	group->Add(new Sprite(Vector3(0, 0, 0), Vector2(4, 4), texturea));
 	group->Add(new Sprite(Vector3(0.5f, 0.5f, 0), Vector2(2, 2), Vector4(150, 40, 27, 255)));
 
 	Group *button2 = new Group(Maths::Matrix4::Translation(Vector3(0, 0, 0)));
@@ -95,6 +94,7 @@ int main( int argc, char* argv[] )
 
 	BatchRenderer2D renderer;
 	Sprite *sprite = new Sprite(Vector3(1, 1.0f, 1.0f), Vector2(5, 5), Vector4(255.0f, 255.0f, 255.0f, 255.0f));
+#endif
 
 	Utilities::Timer timer;
 	int frames = 0;
@@ -107,14 +107,16 @@ int main( int argc, char* argv[] )
 
 		window.Clear();
 
-		layer.Render();
-
 		shader->enable();
 		shader->setUniform2f("light_pos", Vector2(x * 32.0f / window.getWidth() - 16.0f, 9.0f - y * 18.0f / (window.getHeight())));
-		renderer.start();
+		layer.Render();
+
+		
+		/*renderer.start();
 		renderer.submit(sprite);
 		renderer.end();
 		renderer.flush();
+		*/
 		window.Update();
 		frames++;
 
@@ -127,8 +129,8 @@ int main( int argc, char* argv[] )
 		}
 	}
 
-	delete sprite;
-	//delete textureb;
+	//delete sprite;
+	delete texturea, textureb;
 
 	window.Close();
 

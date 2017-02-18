@@ -52,7 +52,7 @@ Matrix4 operator*(Matrix4 a, const Matrix4& b)
 	return a.Multiply(b);
 }
 
-Vector3& Matrix4::Multiply(const Vector3& vec3) const
+Vector3 Matrix4::Multiply(const Vector3& vec3) const
 {
 	return Vector3(
 		this->columns[0].x * vec3.x + this->columns[1].x * vec3.y + this->columns[2].x * vec3.z + this->columns[3].x,
@@ -61,7 +61,7 @@ Vector3& Matrix4::Multiply(const Vector3& vec3) const
 	);
 }
 
-Vector4& Matrix4::Multiply(const Vector4& vec4) const
+Vector4 Matrix4::Multiply(const Vector4& vec4) const
 {
 	return Vector4(
 		this->columns[0].x * vec4.x + this->columns[1].x * vec4.y + this->columns[2].x * vec4.z + this->columns[3].x * vec4.w,

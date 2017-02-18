@@ -15,7 +15,7 @@ namespace Venus { namespace Graphics {
 
 struct VertexData {
 	Maths::Vector3 vertex;
-	unsigned int color;
+	GLuint color;
 	Maths::Vector2 uv;
 	float tid;
 };
