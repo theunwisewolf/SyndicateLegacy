@@ -1,23 +1,33 @@
 #include "Texture.h"
-
+#include <iostream>
 namespace Venus { namespace Graphics { 
 
 Texture::Texture(const std::string& filename)
 	: m_Filename(filename)
 {
-	FIBITMAP* dataInBits = Utilities::loadImage(filename.c_str(), &this->m_Width, &this->m_Height);
-	BYTE* pixels = FreeImage_GetBits( dataInBits );
+}
 
+void Texture::loadTexture()
+{
+	FIBITMAP* dataInBits = Utilities::loadImage(this->m_Filename.c_str(), &this->m_Width, &this->m_Height);
+	BYTE* pixels = FreeImage_GetBits(dataInBits);
+	
+	// Generate 1 texture
 	glGenTextures(1, &this->m_TextureID);
+
+	// Bind it
 	glBindTexture(GL_TEXTURE_2D, this->m_TextureID);
 
+	// Setup our texture parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
+	// Upload to GPU
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, this->m_Width, this->m_Height, 0, GL_BGR, GL_UNSIGNED_BYTE, pixels);
 
+	// Unbind the texture
 	glBindTexture(GL_TEXTURE_2D, 0);
-	
+
 	// Unload the image since we have loaded in OpenGL
 	FreeImage_Unload(dataInBits);
 }

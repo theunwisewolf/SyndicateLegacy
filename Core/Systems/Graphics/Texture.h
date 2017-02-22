@@ -2,6 +2,7 @@
 #define TEXTURE_H_
 
 #include <string>
+
 #include <GL/glew.h>
 #include <Utilities/Image.h>
 
@@ -14,12 +15,14 @@ private:
 	GLsizei m_Height;
 
 	std::string m_Filename;
+	
 public:
 	Texture(const std::string& filename);
 	~Texture();
 
 	void bind() const;
 	void unbind() const;
+	void loadTexture();
 
 	inline const GLsizei getWidth() const { return this->m_Width; }
 	inline const GLsizei getHeight() const { return this->m_Height; }

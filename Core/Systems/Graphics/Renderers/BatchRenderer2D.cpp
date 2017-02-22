@@ -29,7 +29,7 @@ void BatchRenderer2D::submit(const Renderable2D* renderable)
 	if (textureID)
 	{
 		bool found = false;
-		for (int i = 0; i < this->m_TextureSlots.size(); ++i)
+		for (unsigned int i = 0; i < this->m_TextureSlots.size(); ++i)
 		{
 			if (this->m_TextureSlots[i] == textureID)
 			{
@@ -134,11 +134,13 @@ BatchRenderer2D::BatchRenderer2D()
 	glBindBuffer(GL_ARRAY_BUFFER, this->m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, RENDERER2D_BUFFER_SIZE, NULL, GL_DYNAMIC_DRAW);
 
+	// Enable our vertex attribute arrays
 	glEnableVertexAttribArray(SHADER_VERTEX_POSITION_LOCATION);
 	glEnableVertexAttribArray(SHADER_VERTEX_COLOR_LOCATION);
 	glEnableVertexAttribArray(SHADER_VERTEX_UV_LOCATION);
 	glEnableVertexAttribArray(SHADER_VERTEX_TID_LOCATION);
 
+	// Set all the values for the vertices
 	glVertexAttribPointer(SHADER_VERTEX_POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, RENDERER2D_VERTEX_SIZE, (const GLvoid*)0);
 	glVertexAttribPointer(SHADER_VERTEX_COLOR_LOCATION, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER2D_VERTEX_SIZE, (const GLvoid*)offsetof(VertexData, VertexData::color));
 	glVertexAttribPointer(SHADER_VERTEX_UV_LOCATION, 2, GL_FLOAT, GL_FALSE, RENDERER2D_VERTEX_SIZE, (const GLvoid*)offsetof(VertexData, VertexData::uv));

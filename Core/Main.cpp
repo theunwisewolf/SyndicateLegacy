@@ -37,9 +37,6 @@ int main( int argc, char* argv[] )
 	shader->setUniformMat4("pr_matrix", Matrix4::Orthographic(-16.0f, 16.0f, 9.0f, -9.0f, 1.0f, -1.0f));
 	shader->setUniform1iv("textures", textureSlots, 10);
 
-	Texture* texturea = new Texture("Image.png");
-	Texture* textureb = new Texture("b.png");
-
 	TileLayer layer(shader);
 #if 1
 
@@ -60,17 +57,17 @@ int main( int argc, char* argv[] )
 
 			if (num == 0)
 			{
-				std::cout << "Texture a" << std::endl;
-				layer.Add(new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), textureb));
+				//std::cout << "Texture a" << std::endl;
+				layer.Add(new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), "b.png"));
 			}
 			else if (num == 1)
 			{
-				std::cout << "Texture b" << std::endl;
-				layer.Add(new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), texturea));
+				//std::cout << "Texture b" << std::endl;
+				layer.Add(new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), "Image.png"));
 			}
 			else
 			{
-				std::cout << "Color" << std::endl;
+				//std::cout << "Color" << std::endl;
 				layer.Add(new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), Vector4(142, 68, 173, 255)));
 			}
 		}
@@ -99,6 +96,8 @@ int main( int argc, char* argv[] )
 	Utilities::Timer timer;
 	int frames = 0;
 	double lastTime = timer.getElapsedTime();
+
+	std::cout << "Textures loaded: " << ResourceManager::i()->getTextureCount();
 
 	while (!window.Closed())
 	{
@@ -129,8 +128,6 @@ int main( int argc, char* argv[] )
 		}
 	}
 
-	//delete sprite;
-	delete texturea, textureb;
 
 	window.Close();
 

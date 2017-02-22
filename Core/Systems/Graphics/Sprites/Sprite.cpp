@@ -8,10 +8,10 @@ Sprite::Sprite(Maths::Vector3 position, Maths::Vector2 size, Maths::Vector4 colo
 	this->m_Texture = nullptr;
 }
 
-Sprite::Sprite(Maths::Vector3 position, Maths::Vector2 size, Texture* texture)
+Sprite::Sprite(Maths::Vector3 position, Maths::Vector2 size, const std::string& texturePath)
 	: Renderable2D(position, size, Maths::Vector4(1,0,0,1))
 {
-	this->m_Texture = texture;
+	this->m_Texture = ResourceManager::i()->getTexture(texturePath);
 }
 
 Sprite::~Sprite()
