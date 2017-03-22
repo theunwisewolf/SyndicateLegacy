@@ -53,7 +53,7 @@ public:
 	inline const Maths::Vector4& getColor() const					{ return this->m_Color; }
 	inline const std::vector<Maths::Vector2>& getUVs() const		{ return this->m_UV; }
 
-	inline const GLuint getTextureID() const						{ return this->m_Texture == nullptr ? 0 : this->m_Texture->getTextureID(); }
+	inline const GLuint& getTextureID() const						{ return this->m_Texture == nullptr ? 0 : this->m_Texture->getTextureID(); }
 
 private:
 	void setDefaultUVs()

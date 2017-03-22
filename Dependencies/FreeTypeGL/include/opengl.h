@@ -19,7 +19,7 @@
 #   endif
 #elif defined(_WIN32) || defined(_WIN64)
 #  include <GL/glew.h>
-#  include <GL/wglew.h>
+//#  include <GL/wglew.h>
 #else
 #  include <GL/glew.h>
 #  include <GL/gl.h>

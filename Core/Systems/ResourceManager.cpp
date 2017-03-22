@@ -32,12 +32,18 @@ Texture* ResourceManager::getTexture(const std::string& filename)
 
 ResourceManager::~ResourceManager()
 {
-	for (auto texture : ResourceManager::textureCache)
+	//for (auto texture : ResourceManager::textureCache)
+	for(auto it = ResourceManager::textureCache.begin(); it != ResourceManager::textureCache.end();)
 	{
-		if (texture.second)
+		if (it->second)
 		{
-			delete texture.second;
-			ResourceManager::textureCache.erase(texture.first);
+			delete it->second;
+			ResourceManager::textureCache.erase(it->first);
+			it = ResourceManager::textureCache.begin();
+		}
+		else
+		{
+			++it;
 		}
 	}
 }

@@ -80,6 +80,7 @@ void Window::Update()
 	if (( error = glGetError() ) != GL_NO_ERROR)
 	{
 		std::cout << "OpenGL error[" << error << "]: " << this->errors[error] << std::endl;
+		system("PAUSE");
 	}
 
 	glfwSwapBuffers(this->m_Window);

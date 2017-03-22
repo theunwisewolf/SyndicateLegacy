@@ -13,11 +13,14 @@
 #include <Systems/Graphics/Sprites/Sprite.h>
 
 #include <Systems/Graphics/Layers/Group.h>
+#include <Systems/Graphics/Layers/Label.h>
 #include <Systems/Graphics/Layers/TileLayer.h>
 
 #include <Systems/Graphics/Texture.h>
 
 #include <time.h>
+
+#include <freetype-gl.h>
 
 using namespace Venus;
 using namespace Maths;
@@ -28,6 +31,7 @@ int main( int argc, char* argv[] )
 {
 	//MessageBox(NULL, "This is weird!", "Error", MB_OK);
 	Window window("Venus", 960, 540);
+	window.setColor(0, 255, 0);
 
 	Shader *shader = new Shader("Shaders/VertexShader.vert", "Shaders/FragmentShader.frag");
 	
@@ -35,10 +39,11 @@ int main( int argc, char* argv[] )
 	shader->enable();
 	shader->setUniform2f("light_pos", Vector2(0.0, 0.0));
 	shader->setUniformMat4("pr_matrix", Matrix4::Orthographic(-16.0f, 16.0f, 9.0f, -9.0f, 1.0f, -1.0f));
+	//shader->setUniformMat4("pr_matrix", Matrix4::Orthographic(0, 960, 540, 0, 1.0f, -1.0f));
 	shader->setUniform1iv("textures", textureSlots, 10);
 
 	TileLayer layer(shader);
-#if 1
+#if 0
 
 #define ROWS 9
 #define COLS 16
@@ -74,8 +79,8 @@ int main( int argc, char* argv[] )
 	}
 
 #else
-	Group *group = new Group(Matrix4::Translation(Vector3( -2.0f, -1.0f, 0.0f )));
-	group->Add(new Sprite(Vector3(0, 0, 0), Vector2(4, 4), texturea));
+	/*Group *group = new Group(Matrix4::Translation(Vector3( -2.0f, -1.0f, 0.0f )));
+	group->Add(new Sprite(Vector3(0, 0, 0), Vector2(4, 4), "Image.png"));
 	group->Add(new Sprite(Vector3(0.5f, 0.5f, 0), Vector2(2, 2), Vector4(150, 40, 27, 255)));
 
 	Group *button2 = new Group(Maths::Matrix4::Translation(Vector3(0, 0, 0)));
@@ -86,11 +91,8 @@ int main( int argc, char* argv[] )
 	button->Add(button2);
 
 	group->Add(button);
-
-	layer.Add(group);
-
-	BatchRenderer2D renderer;
-	Sprite *sprite = new Sprite(Vector3(1, 1.0f, 1.0f), Vector2(5, 5), Vector4(255.0f, 255.0f, 255.0f, 255.0f));
+	layer.Add(group);*/
+	//layer.Add(new Label("Hi How are you", Vector2(0,0)));
 #endif
 
 	Utilities::Timer timer;
@@ -108,14 +110,9 @@ int main( int argc, char* argv[] )
 
 		shader->enable();
 		shader->setUniform2f("light_pos", Vector2(x * 32.0f / window.getWidth() - 16.0f, 9.0f - y * 18.0f / (window.getHeight())));
+
 		layer.Render();
 
-		
-		/*renderer.start();
-		renderer.submit(sprite);
-		renderer.end();
-		renderer.flush();
-		*/
 		window.Update();
 		frames++;
 
@@ -127,7 +124,6 @@ int main( int argc, char* argv[] )
 			lastTime = timer.getElapsedTime();
 		}
 	}
-
 
 	window.Close();
 

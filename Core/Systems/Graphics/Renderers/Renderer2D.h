@@ -2,7 +2,9 @@
 #define RENDERER2D_H_
 
 #include <vector>
+#include <string>
 #include <Utilities/Maths/Maths.h>
+#include <freetype-gl.h>
 
 #define RENDERER2D_ERROR(x) std::cout << "Renderer2D Error: " << x << std::endl
 
@@ -42,6 +44,7 @@ public:
 
 	virtual void start() {}
 	virtual void submit(const Renderable2D* renderable) = 0;
+	virtual void drawString(const std::string& text, Maths::Vector2 position, texture_atlas_t* atlas, texture_font_t* font) = 0;
 	virtual void end() {}
 	virtual void flush() = 0;
 };

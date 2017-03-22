@@ -9,7 +9,7 @@ Vector2::Vector2()
 	this->y = 0.0f;
 }
 
-Vector2::Vector2(Vector2& vec)
+Vector2::Vector2(const Vector2& vec)
 {
 	this->x = vec.x;
 	this->y = vec.y;

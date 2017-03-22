@@ -80,7 +80,7 @@ void BatchRenderer2D::submit(const Renderable2D* renderable)
 	this->m_Buffer->uv = uv[2];
 	this->m_Buffer->tid = ts;
 	this->m_Buffer++;
-
+	
 	this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(position.x + size.x, position.y, 0);
 	this->m_Buffer->color = c;
 	this->m_Buffer->uv = uv[3];
@@ -88,6 +88,126 @@ void BatchRenderer2D::submit(const Renderable2D* renderable)
 	this->m_Buffer++;
 
 	this->m_IndexCount += 6;
+}
+
+void BatchRenderer2D::drawString(const std::string& text, Maths::Vector2 position, texture_atlas_t* atlas, texture_font_t* font)
+{
+	if (this->m_RendererStarted == false)
+	{
+		RENDERER2D_ERROR("Renderer2D was not started using the start() method. Starting internally.");
+		this->start();
+	}
+
+	const Maths::Vector4& color = Maths::Vector4(255,255,255,255);
+	unsigned int c = 0;
+
+	if (!atlas)
+	{	
+		atlas = texture_atlas_new(512, 512, 3);
+		font = texture_font_new_from_file(atlas, 200, "res/Fonts/Roboto-Regular.ttf");
+		glGenTextures(1, &atlas->id);
+	}
+
+	// Generate the OpenGL Texture
+	glBindTexture(GL_TEXTURE_2D, atlas->id);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	float ts = 0.0f;
+
+	bool found = false;
+	for (unsigned int i = 0; i < this->m_TextureSlots.size(); ++i)
+	{
+		if (this->m_TextureSlots[i] == atlas->id)
+		{
+			found = true;
+			ts = (float)(i + 1);
+			break;
+		}
+	}
+
+	if (!found)
+	{
+		if (this->m_TextureSlots.size() >= 32)
+		{
+			this->end();
+			this->flush();
+			this->start();
+		}
+
+		this->m_TextureSlots.push_back(atlas->id);
+		ts = (float)this->m_TextureSlots.size();
+	}
+
+	// We are not going to use normalized colors
+	int r = color.x;
+	int g = color.y;
+	int b = color.z;
+	int a = color.w;
+
+	c = a << 24 | b << 16 | g << 8 | r;
+	
+	float scaleX = 960.0f / 16.0f;
+	float scaleY = 540.0f / 9.0f;
+
+	for (int i = 0; i < text.length(); ++i)
+	{
+		texture_glyph_t* glyph = texture_font_get_glyph(font, &text[i]);
+
+		if (glyph)
+		{
+			float kerning = 0.0f;
+
+			if (i > 0)
+			{
+				kerning = texture_glyph_get_kerning(glyph, &text[i-1]);
+			}
+
+			position.x += kerning;
+			float x0 = position.x + glyph->offset_x / scaleX;
+			float y0 = position.y + glyph->offset_y / scaleY;
+			float x1 = x0 + glyph->width / scaleX;
+			float y1 = y0 - glyph->height / scaleY;
+
+			this->m_Buffer->vertex = Maths::Vector3(x0, y0, 0);
+			this->m_Buffer->color = c;
+			this->m_Buffer->uv = Maths::Vector2(glyph->s0, glyph->t0);
+			this->m_Buffer->tid = ts;
+			this->m_Buffer++;
+
+			this->m_Buffer->vertex = Maths::Vector3(x0, y1, 0);
+			this->m_Buffer->color = c;
+			this->m_Buffer->uv = Maths::Vector2(glyph->s0, glyph->t1);
+			this->m_Buffer->tid = ts;
+			this->m_Buffer++;
+
+			this->m_Buffer->vertex = Maths::Vector3(x1, y1, 0);
+			this->m_Buffer->color = c;
+			this->m_Buffer->uv = Maths::Vector2(glyph->s1, glyph->t1);
+			this->m_Buffer->tid = ts;
+			this->m_Buffer++;
+
+			this->m_Buffer->vertex = Maths::Vector3(x1, y0, 0);
+			this->m_Buffer->color = c;
+			this->m_Buffer->uv = Maths::Vector2(glyph->s1, glyph->t0);
+			this->m_Buffer->tid = ts;
+			this->m_Buffer++;
+
+			this->m_IndexCount += 6;
+			
+			position.x += glyph->advance_x / scaleX;
+		}
+	}
+
+
+	// We will set the data later
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_FontAtlas->width, m_FontAtlas->height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, atlas->width, atlas->height, 0, GL_RGB, GL_UNSIGNED_BYTE, atlas->data);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void BatchRenderer2D::end()

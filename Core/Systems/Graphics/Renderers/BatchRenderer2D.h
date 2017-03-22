@@ -4,6 +4,7 @@
 #include <Systems/Graphics/Renderers/Renderer2D.h>
 #include <Systems/Graphics/Sprites/Renderable2D.h>
 #include <GL/glew.h>
+#include <freetype-gl.h>
 
 #define SHADER_VERTEX_POSITION_LOCATION 0
 #define SHADER_VERTEX_COLOR_LOCATION    1
@@ -32,11 +33,15 @@ private:
 
 	std::vector<GLuint> m_TextureSlots;
 
+	texture_atlas_t* atlas;
+	texture_font_t* font;
+
 public:
 	BatchRenderer2D();
 
 	void start() override;
 	void submit(const Renderable2D* renderable) override;
+	void drawString(const std::string& text, Maths::Vector2 position, texture_atlas_t* atlas, texture_font_t* font) override;
 	void end() override;
 	void flush() override;
 
