@@ -31,7 +31,7 @@ int main( int argc, char* argv[] )
 {
 	//MessageBox(NULL, "This is weird!", "Error", MB_OK);
 	Window window("Venus", 960, 540);
-	window.setColor(0, 255, 0);
+	//window.setColor(0, 255, 0);
 
 	Shader *shader = new Shader("Shaders/VertexShader.vert", "Shaders/FragmentShader.frag");
 	
@@ -79,20 +79,22 @@ int main( int argc, char* argv[] )
 	}
 
 #else
-	/*Group *group = new Group(Matrix4::Translation(Vector3( -2.0f, -1.0f, 0.0f )));
-	group->Add(new Sprite(Vector3(0, 0, 0), Vector2(4, 4), "Image.png"));
-	group->Add(new Sprite(Vector3(0.5f, 0.5f, 0), Vector2(2, 2), Vector4(150, 40, 27, 255)));
 
-	Group *button2 = new Group(Maths::Matrix4::Translation(Vector3(0, 0, 0)));
+	Label* label = new Label("", Vector2(0.7f, 0.3f));
+	Group *group = new Group(Matrix4::Translation(Vector3(-16.0f, 7.0f, 0.0f )));
+	group->Add(new Sprite(Vector3(0, 0, 0), Vector2(5, 2), "Image.png"));
+	//group->Add(new Sprite(Vector3(0.5f, 0.5f, 0), Vector2(2, 2), Vector4(150, 40, 27, 255)));
+	group->Add(label);
+
+	/*Group *button2 = new Group(Maths::Matrix4::Translation(Vector3(0, 0, 0)));
 	button2->Add(new Sprite(Vector3(0, 0, 0), Vector2(1, 1), Vector4(0, 0, 255, 255)));
 	Group *button = new Group(Maths::Matrix4::Translation(Vector3( 0,0,0 )));
 
 	button->Add( new Sprite( Vector3(0,0,0), Vector2(2,2), Vector4(255,255,255,255) ) );
-	button->Add(button2);
+	button->Add(button2);*/
 
-	group->Add(button);
-	layer.Add(group);*/
-	//layer.Add(new Label("Hi How are you", Vector2(0,0)));
+	//group->Add(button);
+	layer.Add(group);
 #endif
 
 	Utilities::Timer timer;
@@ -120,6 +122,7 @@ int main( int argc, char* argv[] )
 		if (timer.getElapsedTime() - lastTime >= 1.0f)
 		{	
 			window.setTitle( window.getTitle() + " (" + std::to_string(frames) + " fps)" );
+			label->setText(std::to_string(frames));
 			frames = 0;
 			lastTime = timer.getElapsedTime();
 		}

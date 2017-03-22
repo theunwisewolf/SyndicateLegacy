@@ -22,8 +22,16 @@ void main()
 	if( fs_in.tid > 0.0f )
 	{
 		int tid = int(fs_in.tid - 0.5f);
-		texColor = texture(textures[tid], fs_in.uv);
+
+		if(texColor.x == 0 && texColor.y == 0 && texColor.z == 0 && texColor.w == 0) 
+		{
+			texColor = texture2D(textures[tid], fs_in.uv);
+		} 
+		else 
+		{
+			texColor = vec4(texColor.xyz, texture2D(textures[tid], fs_in.uv).x * texColor.w);
+		}
 	}	
 
-	color = texColor;//vec4(0,1,0,1);//texColor * intensity; // texture(textures[int(fs_in.tid)], fs_in.uv) * intensity;
+	color =  texColor * intensity; // texture(textures[int(fs_in.tid)], fs_in.uv) * intensity;
 } 

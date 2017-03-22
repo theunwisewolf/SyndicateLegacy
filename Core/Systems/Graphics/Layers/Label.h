@@ -23,6 +23,7 @@ public:
     Label(std::string text, Maths::Vector2 position);
 	~Label();
 	void Submit(Renderer2D* renderer) const override;
+	void setText(const std::string& text) { this->m_Text = text; }
 };
 
 }}

@@ -4,6 +4,8 @@
 #include <Systems/Graphics/Renderers/Renderer2D.h>
 #include <Systems/Graphics/Sprites/Renderable2D.h>
 #include <GL/glew.h>
+#include <map>
+#include <string>
 #include <freetype-gl.h>
 
 #define SHADER_VERTEX_POSITION_LOCATION 0
@@ -32,16 +34,14 @@ private:
 	bool m_RendererStarted;
 
 	std::vector<GLuint> m_TextureSlots;
-
-	texture_atlas_t* atlas;
-	texture_font_t* font;
+	std::map<unsigned int, std::string> m_TextureAtlasCache;
 
 public:
 	BatchRenderer2D();
 
 	void start() override;
 	void submit(const Renderable2D* renderable) override;
-	void drawString(const std::string& text, Maths::Vector2 position, texture_atlas_t* atlas, texture_font_t* font) override;
+	void DrawString(const std::string& text, Maths::Vector2 position, texture_atlas_t* atlas, texture_font_t* font) override;
 	void end() override;
 	void flush() override;
 
