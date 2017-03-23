@@ -80,8 +80,10 @@ int main( int argc, char* argv[] )
 
 #else
 	FontManager::loadFont("Roboto-Regular", "res/Fonts/Roboto-Regular.ttf");
+	//FontManager::loadFont("Roboto-Bold", "res/Fonts/Roboto-Bold.ttf");
 
-	Label* label = new Label("", Vector2(0.7f, 0.3f), Font("Roboto-Regular", 100, 1));
+	Label* label = new Label("Hi this is a great texture", Vector2(0.7f, 0.3f), Font("Roboto-Regular", 100, 1));
+	Label* label2 = new Label("Hii", Vector2(0.7f, 0.3f), Font("Roboto-Regular", 100, 1));
 	Group *group = new Group(Matrix4::Translation(Vector3(-16.0f, 7.0f, 0.0f )));
 	group->Add(new Sprite(Vector3(0, 0, 0), Vector2(5, 2), "Image.png"));
 	//group->Add(new Sprite(Vector3(0.5f, 0.5f, 0), Vector2(2, 2), Vector4(150, 40, 27, 255)));
@@ -96,8 +98,10 @@ int main( int argc, char* argv[] )
 
 	//group->Add(button);
 	layer.Add(group);
+	layer.Add(label2);
+	layer.Add(new Label("This is another layer of text",Maths::Vector2(0.0f, 0), Font("Roboto-Regular", 100, 1)));
 
-	layer.Add(new Label("Hi How are you?", Maths::Vector2(-4.0f,0), Font("Roboto-Regular", 100, 1)) );
+	layer.Add(new Label("Hi", Maths::Vector2(0.0f,0), Font("Roboto-Regular", 100, 1)) );
 #endif
 
 	Utilities::Timer timer;

@@ -27,8 +27,6 @@ void Layer::Render()
 		renderable->Submit(m_Renderer);
 	}
 
-	//this->m_Renderer->drawString("Hello World!", Maths::Vector2(-10.0f,0), nullptr, nullptr);
-
 	this->m_Renderer->end();
 	this->m_Renderer->flush();
 

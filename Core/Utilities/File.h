@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <vector>
 #include <Utilities\VException.h>
 
 namespace Venus {

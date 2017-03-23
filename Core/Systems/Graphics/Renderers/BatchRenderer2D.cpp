@@ -101,7 +101,6 @@ void BatchRenderer2D::DrawString(const std::string& text, Maths::Vector2 positio
 	const Maths::Vector4& color = Maths::Vector4(255,255,255,255);
 	unsigned int c = 0;
 
-
 	float ts = 0.0f;
 
 	bool found = false;

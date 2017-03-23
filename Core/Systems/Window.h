@@ -12,6 +12,8 @@
 #include <tuple>
 #include <map>
 
+#include <Systems/Graphics/FontManager.h>
+
 class Window
 {
 private: 

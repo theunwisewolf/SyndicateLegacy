@@ -17,16 +17,11 @@ private:
 
 	texture_font_t* m_Font;
 	texture_atlas_t* m_Atlas;
-
-	void createFontAtlas(int width = 512, int height = 512, int depth = 1);
 	 
 public: 
-	Font() {}
-	Font(const std::string& fontName, const float& size, const unsigned int& color, bool create = true);
+	Font(const std::string& fontName, const float& size, const unsigned int& color);
 	~Font();
 
-	void Init();
-		
 	void setColor(unsigned int color) {	m_Color = color; }
 	void setSize(float size) { m_FontSize = size; }
 	void setFont(std::string fontName) { m_FontName = fontName; }

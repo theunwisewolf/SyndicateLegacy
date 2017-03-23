@@ -129,11 +129,19 @@ std::string File::_Read(std::ifstream& file)
 
 	if (this->fileType == FILETYPE::BINARY)
 	{
-		char* memblock = new char[this->readSize];
-		file.read(memblock, this->readSize);
+		file.seekg(0, std::ios::beg);
 
-		data = memblock;
-		delete[] memblock;
+		if (!file)
+		{
+			std::cout << "Failed to read from file!" << std::endl;
+		}
+
+		std::vector<char> buffer;
+		buffer.resize(this->readSize);
+
+		file.read(&buffer[0], this->readSize);
+
+		data = std::string(buffer.begin(), buffer.end());
 	}
 	else
 	{

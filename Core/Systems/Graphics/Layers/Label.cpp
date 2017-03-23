@@ -32,8 +32,18 @@ void Label::Submit(Renderer2D* renderer) const
 
 Label::~Label()
 {
-	texture_font_delete(m_Font);
-	texture_atlas_delete(m_FontAtlas);
+	/*if (m_Font)
+	{
+		texture_font_delete(m_Font);
+		m_Font = nullptr;
+	}
+
+	if (m_FontAtlas)
+	{
+		texture_atlas_delete(m_FontAtlas);
+		m_FontAtlas = nullptr;
+	}*/
+
 }
 
 } }

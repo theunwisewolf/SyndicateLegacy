@@ -7,6 +7,10 @@
 #include <freetype-gl.h>
 #include <Utilities/File.h>
 
+#define ATLAS_WIDTH		512
+#define ATLAS_HEIGHT	512
+#define ATLAS_BIT_DEPTH 1
+
 namespace Venus { namespace Graphics {
 
 class FontManager
@@ -17,10 +21,9 @@ class FontManager
 
 public:
 	static void loadFont(const std::string& fontName, const std::string& fontPath);
-	static texture_font_t* getFont(std::string fontName, texture_atlas_t* atlas, float size);
+	static texture_font_t* getFont(std::string fontName, float size);
 	static void deleteFont(std::string fontName);
-	FontManager();
-	~FontManager();
+	static void Clear();
 };
 
 }}
