@@ -196,6 +196,7 @@
     <ClInclude Include="Dependencies\FreeType\include\config\ftoption.h" />
     <ClInclude Include="Dependencies\FreeType\include\config\ftstdlib.h" />
     <ClInclude Include="Dependencies\FreeType\include\ft2build.h" />
+    <ClInclude Include="Core\Systems\Graphics\FontManager.h" />
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GL\eglew.h" />
     <ClInclude Include="include\GL\glew.h" />
@@ -289,6 +290,7 @@
     <ClCompile Include="Dependencies\FreeType\src\type1\type1.c" />
     <ClCompile Include="Dependencies\FreeType\src\type42\type42.c" />
     <ClCompile Include="Dependencies\FreeType\src\winfonts\winfnt.c" />
+    <ClCompile Include="Core\Systems\Graphics\FontManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\FragmentShader.frag" />

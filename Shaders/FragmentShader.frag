@@ -33,5 +33,5 @@ void main()
 		}
 	}	
 
-	color =  texColor * intensity; // texture(textures[int(fs_in.tid)], fs_in.uv) * intensity;
+	color =  texColor; //* intensity; // texture(textures[int(fs_in.tid)], fs_in.uv) * intensity;
 } 

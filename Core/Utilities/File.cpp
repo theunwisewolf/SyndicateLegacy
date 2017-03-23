@@ -24,6 +24,11 @@ File& File::Read(int mode)
 		return *this;
 	}
 
+	if (this->fileType == FILETYPE::BINARY)
+	{
+		mode |= std::ios::binary;
+	}
+
 	std::ifstream file(this->filePath, mode);
 
 	if (file.fail())
@@ -62,6 +67,11 @@ File& File::Read(std::streampos startPos, int mode)
 		return *this;
 	}
 
+	if (this->fileType == FILETYPE::BINARY)
+	{
+		mode |= std::ios::binary;
+	}
+
 	std::ifstream file(this->filePath, mode);
 
 	if (file.is_open())
@@ -91,6 +101,11 @@ File& File::Read(std::streampos startPos, std::streampos endPos, int mode)
 	{
 		throw VException("File path is empty.");
 		return *this;
+	}
+
+	if (this->fileType == FILETYPE::BINARY)
+	{
+		mode |= std::ios::binary;
 	}
 
 	std::ifstream file(this->filePath, mode);

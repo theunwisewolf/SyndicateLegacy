@@ -2,13 +2,16 @@
 
 namespace Venus { namespace Graphics { 
 
-Label::Label(std::string text, Maths::Vector2 position) :
+Label::Label(std::string text, Maths::Vector2 position, Font font) :
 	m_Text(text),
 	m_Position(position)
 {
 	// Create an atlas
-	m_FontAtlas = texture_atlas_new(512, 512, 1);
-	m_Font = texture_font_new_from_file(m_FontAtlas, 100, "res/Fonts/Roboto-Regular.ttf");
+	//m_FontAtlas = texture_atlas_new(512, 512, 1);
+	//m_Font = texture_font_new_from_file(m_FontAtlas, 100, "res/Fonts/Roboto-Regular.ttf");
+
+	m_FontAtlas = font.getAtlas();
+	m_Font = font.getFont();
 
 	// Generate the OpenGL Texture
 	glGenTextures(1, &m_FontAtlas->id);

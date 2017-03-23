@@ -6,6 +6,8 @@
 #include <Systems/Graphics/Sprites/Renderable2D.h>
 #include <Utilities/Maths/Maths.h>
 #include <freetype-gl.h>
+#include <Systems/Graphics/Font.h>
+#include <Systems/Graphics/FontManager.h>
 
 namespace Venus { namespace Graphics { 
 
@@ -20,7 +22,7 @@ private:
 	texture_font_t* m_Font;
 
 public:
-    Label(std::string text, Maths::Vector2 position);
+    Label(std::string text, Maths::Vector2 position, Font font);
 	~Label();
 	void Submit(Renderer2D* renderer) const override;
 	void setText(const std::string& text) { this->m_Text = text; }
