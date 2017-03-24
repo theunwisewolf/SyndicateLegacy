@@ -18,6 +18,7 @@ class FontManager
 	// Name => Texture Font
 	static std::map<std::string, texture_font_t*> m_FontCache;
 	static std::map<std::string, std::string> m_FontDataCache;
+	static std::map<std::string, std::string> m_FontPathCache;
 
 public:
 	static void loadFont(const std::string& fontName, const std::string& fontPath);

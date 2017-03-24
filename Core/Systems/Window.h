@@ -16,6 +16,13 @@
 
 class Window
 {
+public:
+	static Window* i() {
+		return instance;
+	}
+private:
+	static Window* instance;
+
 private: 
 	std::map<GLenum, std::string> errors{
 		{ GL_INVALID_ENUM, "[GL_INVALID_ENUM] An unacceptable value is specified for an enumerated argument." },

@@ -1,5 +1,7 @@
 #include "Window.h"
 
+Window* Window::instance = nullptr;
+
 Window::Window(std::string title, int width, int height, int r, int g, int b, int a) :
 	m_Title{title},
 	m_Width{width},
@@ -28,6 +30,7 @@ bool Window::Init()
 
 	// Create the OpenGL Window
 	this->m_Window = glfwCreateWindow( this->m_Width, this->m_Height, this->m_Title.c_str(), nullptr, nullptr );
+	Window::instance = this;
 
 	if (!this->m_Window)
 	{
@@ -38,7 +41,7 @@ bool Window::Init()
 	// Callbacks
 	glfwSetKeyCallback(this->m_Window, &Window::glfwKeyCallback);
 	glfwSetCursorPosCallback(this->m_Window, &Window::glfwCursorPositionCallBack);
-	glfwSetWindowSizeCallback(this->m_Window, &Window::glfwWindowSizeCallback);
+	glfwSetFramebufferSizeCallback(this->m_Window, &Window::glfwWindowSizeCallback);
 	glfwSetMouseButtonCallback(this->m_Window, &Window::glfwMouseButtonCallback);
 
 	// Pass our "Window" class object to the glfw for callbacks to use

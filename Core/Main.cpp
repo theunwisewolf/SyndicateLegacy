@@ -79,15 +79,23 @@ int main( int argc, char* argv[] )
 	}
 
 #else
-	FontManager::loadFont("Roboto-Regular", "res/Fonts/Roboto-Regular.ttf");
+	Font::setScale(Window::i()->getWidth() / 16.0f, Window::i()->getHeight() / 9.0f);
+
+	FontManager::loadFont("Raleway", "res/Fonts/Raleway/Raleway-Regular.ttf");
 	//FontManager::loadFont("Roboto-Bold", "res/Fonts/Roboto-Bold.ttf");
 
-	Label* label = new Label("Hi this is a great texture", Vector2(0.7f, 0.3f), Font("Roboto-Regular", 100, 1));
-	Label* label2 = new Label("Hii", Vector2(0.7f, 0.3f), Font("Roboto-Regular", 100, 1));
+	Label* fps = new Label("0 fps", Vector2(0.5f, 0.35f), Font("Raleway", 60, Maths::Vector4(255,255,255,255)));
 	Group *group = new Group(Matrix4::Translation(Vector3(-16.0f, 7.0f, 0.0f )));
-	group->Add(new Sprite(Vector3(0, 0, 0), Vector2(5, 2), "Image.png"));
+	//group->Add(new Sprite(Vector3(0, 0, 0), Vector2(5, 1.2f), "Image.png"));
+
+	group->Add(new Sprite(Vector3(0, 0, 0), Vector2(5, 1.2f), Maths::Vector4(192, 57, 43, 255)));
+
+	group->Add(fps);
+	layer.Add(group);
+	layer.Add(new Label("VENUS, A Game Engine", Label::Position::CENTER, Font("Raleway", 100, Maths::Vector4(52, 152, 219, 255))));
+
+	//Label* label2 = new Label("Hii", Vector2(0.7f, 0.3f), Font("Roboto-Regular", 100, 1));
 	//group->Add(new Sprite(Vector3(0.5f, 0.5f, 0), Vector2(2, 2), Vector4(150, 40, 27, 255)));
-	group->Add(label);
 
 	/*Group *button2 = new Group(Maths::Matrix4::Translation(Vector3(0, 0, 0)));
 	button2->Add(new Sprite(Vector3(0, 0, 0), Vector2(1, 1), Vector4(0, 0, 255, 255)));
@@ -97,11 +105,9 @@ int main( int argc, char* argv[] )
 	button->Add(button2);*/
 
 	//group->Add(button);
-	layer.Add(group);
-	layer.Add(label2);
-	layer.Add(new Label("This is another layer of text",Maths::Vector2(0.0f, 0), Font("Roboto-Regular", 100, 1)));
+	//layer.Add(label2);
 
-	layer.Add(new Label("Hi", Maths::Vector2(0.0f,0), Font("Roboto-Regular", 100, 1)) );
+	//layer.Add(new Label("Hi", Maths::Vector2(0.0f,0), Font("Roboto-Regular", 100, 1)) );
 #endif
 
 	Utilities::Timer timer;
@@ -129,7 +135,7 @@ int main( int argc, char* argv[] )
 		if (timer.getElapsedTime() - lastTime >= 1.0f)
 		{	
 			window.setTitle( window.getTitle() + " (" + std::to_string(frames) + " fps)" );
-			label->setText(std::to_string(frames));
+			fps->setText(std::to_string(frames) + " fps");
 			frames = 0;
 			lastTime = timer.getElapsedTime();
 		}

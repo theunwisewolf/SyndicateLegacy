@@ -90,7 +90,7 @@ void BatchRenderer2D::submit(const Renderable2D* renderable)
 	this->m_IndexCount += 6;
 }
 
-void BatchRenderer2D::DrawString(const std::string& text, Maths::Vector2 position, texture_atlas_t* atlas, texture_font_t* font)
+void BatchRenderer2D::DrawString(const std::string& text, Maths::Vector2 position, const Color& color, texture_atlas_t* atlas, texture_font_t* font)
 {
 	if (this->m_RendererStarted == false)
 	{
@@ -98,7 +98,6 @@ void BatchRenderer2D::DrawString(const std::string& text, Maths::Vector2 positio
 		this->start();
 	}
 
-	const Maths::Vector4& color = Maths::Vector4(255,255,255,255);
 	unsigned int c = 0;
 
 	float ts = 0.0f;
@@ -128,15 +127,12 @@ void BatchRenderer2D::DrawString(const std::string& text, Maths::Vector2 positio
 	}
 
 	// We are not going to use normalized colors
-	int r = color.x;
-	int g = color.y;
-	int b = color.z;
-	int a = color.w;
-
-	c = a << 24 | b << 16 | g << 8 | r;
+	c = color.Pack();
 	
-	float scaleX = 960.0f / 16.0f;
-	float scaleY = 540.0f / 9.0f;
+	float scaleX = Font::getScale().x;
+	float scaleY = Font::getScale().y;
+	
+	float x = position.x;
 
 	for (int i = 0; i < text.length(); ++i)
 	{
@@ -148,42 +144,47 @@ void BatchRenderer2D::DrawString(const std::string& text, Maths::Vector2 positio
 
 			if (i > 0)
 			{
-				kerning = texture_glyph_get_kerning(glyph, &text[i-1]);
+				kerning = texture_glyph_get_kerning(glyph, &text[i - 1]);
+				x += kerning / scaleX;
 			}
 
-			position.x += kerning;
-			float x0 = position.x + glyph->offset_x / scaleX;
+			float x0 = x + glyph->offset_x / scaleX;
 			float y0 = position.y + glyph->offset_y / scaleY;
 			float x1 = x0 + glyph->width / scaleX;
 			float y1 = y0 - glyph->height / scaleY;
 
+			float u0 = glyph->s0;
+			float v0 = glyph->t0;
+			float u1 = glyph->s1;
+			float v1 = glyph->t1;
+
 			this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(x0, y0, 0);
 			this->m_Buffer->color = c;
-			this->m_Buffer->uv = Maths::Vector2(glyph->s0, glyph->t0);
+			this->m_Buffer->uv = Maths::Vector2(u0, v0);
 			this->m_Buffer->tid = ts;
 			this->m_Buffer++;
 
 			this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(x0, y1, 0);
 			this->m_Buffer->color = c;
-			this->m_Buffer->uv = Maths::Vector2(glyph->s0, glyph->t1);
+			this->m_Buffer->uv = Maths::Vector2(u0, v1);
 			this->m_Buffer->tid = ts;
 			this->m_Buffer++;
 
 			this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(x1, y1, 0);
 			this->m_Buffer->color = c;
-			this->m_Buffer->uv = Maths::Vector2(glyph->s1, glyph->t1);
+			this->m_Buffer->uv = Maths::Vector2(u1, v1);
 			this->m_Buffer->tid = ts;
 			this->m_Buffer++;
 
 			this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(x1, y0, 0);
 			this->m_Buffer->color = c;
-			this->m_Buffer->uv = Maths::Vector2(glyph->s1, glyph->t0);
+			this->m_Buffer->uv = Maths::Vector2(u1, v0);
 			this->m_Buffer->tid = ts;
 			this->m_Buffer++;
 
 			this->m_IndexCount += 6;
 			
-			position.x += glyph->advance_x / scaleX;
+			x += glyph->advance_x / scaleX;
 		}
 	}
 

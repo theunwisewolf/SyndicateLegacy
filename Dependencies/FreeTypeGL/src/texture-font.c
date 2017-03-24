@@ -217,7 +217,8 @@ texture_font_init(texture_font_t *self)
 	self->height = 0;
 	self->ascender = 0;
 	self->descender = 0;
-	self->rendermode = RENDER_NORMAL;
+	//self->rendermode = RENDER_NORMAL;
+	self->rendermode = RENDER_SIGNED_DISTANCE_FIELD;
 	self->outline_thickness = 0.0;
 	self->hinting = 1;
 	self->kerning = 1;
