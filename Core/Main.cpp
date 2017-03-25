@@ -81,7 +81,7 @@ int main( int argc, char* argv[] )
 #else
 	Font::setScale(Window::i()->getWidth() / 16.0f, Window::i()->getHeight() / 9.0f);
 
-	FontManager::loadFont("Raleway", "res/Fonts/Raleway/Raleway-Regular.ttf");
+	FontManager::loadFont("Raleway", "res/Fonts/Raleway/Raleway-Light.ttf");
 	//FontManager::loadFont("Roboto-Bold", "res/Fonts/Roboto-Bold.ttf");
 
 	Label* fps = new Label("0 fps", Vector2(0.5f, 0.35f), Font("Raleway", 60, Maths::Vector4(255,255,255,255)));
