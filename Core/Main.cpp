@@ -81,10 +81,10 @@ int main( int argc, char* argv[] )
 #else
 	Font::setScale(Window::i()->getWidth() / 16.0f, Window::i()->getHeight() / 9.0f);
 
-	FontManager::loadFont("Raleway", "res/Fonts/Raleway/Raleway-Light.ttf");
+	FontManager::loadFont("RalewayLight", "res/Fonts/Raleway/Raleway-Light.ttf");
 	//FontManager::loadFont("Roboto-Bold", "res/Fonts/Roboto-Bold.ttf");
 
-	Label* fps = new Label("0 fps", Vector2(0.5f, 0.35f), Font("Raleway", 60, Maths::Vector4(255,255,255,255)));
+	Label* fps = new Label("0 fps", Vector2(0.5f, 0.35f), Font("RalewayLight", 60, Maths::Vector4(255,255,255,255)));
 	Group *group = new Group(Matrix4::Translation(Vector3(-16.0f, 7.0f, 0.0f )));
 	//group->Add(new Sprite(Vector3(0, 0, 0), Vector2(5, 1.2f), "Image.png"));
 
@@ -92,7 +92,7 @@ int main( int argc, char* argv[] )
 
 	group->Add(fps);
 	layer.Add(group);
-	layer.Add(new Label("VENUS, A Game Engine", Label::Position::CENTER, Font("Raleway", 100, Maths::Vector4(52, 152, 219, 255))));
+	layer.Add(new Label("VENUS, A Game Engine", Label::Position::CENTER, Font("RalewayLight", 100, Maths::Vector4(52, 152, 219, 255))));
 
 	//Label* label2 = new Label("Hii", Vector2(0.7f, 0.3f), Font("Roboto-Regular", 100, 1));
 	//group->Add(new Sprite(Vector3(0.5f, 0.5f, 0), Vector2(2, 2), Vector4(150, 40, 27, 255)));
