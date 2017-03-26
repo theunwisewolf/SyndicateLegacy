@@ -1,6 +1,8 @@
 #ifndef GROUP_H_
 #define GROUP_H_
 
+#include <Common.h>
+
 #include <Systems/Graphics/Sprites/Renderable2D.h>
 #include <vector>
 

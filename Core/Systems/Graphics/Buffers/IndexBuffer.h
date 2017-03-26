@@ -1,6 +1,8 @@
 #ifndef INDEX_BUFFER_H_
 #define INDEX_BUFFER_H_
 
+#include <Common.h>
+
 #include <GL/glew.h>
 
 namespace Venus { namespace Graphics {

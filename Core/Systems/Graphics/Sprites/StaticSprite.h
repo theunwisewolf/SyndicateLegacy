@@ -1,6 +1,8 @@
 #ifndef STATIC_SPRITE_H_
 #define STATIC_SPRITE_H_
 
+#include <Common.h>
+
 #include <Systems/Graphics/Sprites/Renderable2D.h>
 #include <Systems/Graphics/Texture.h>
 #include <Utilities/Maths/Maths.h>

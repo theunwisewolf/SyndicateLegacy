@@ -1,6 +1,8 @@
 #ifndef GRAPHICS_H_
 #define GRAPHICS_H_
 
+#include <Common.h>
+
 #include <tuple>
 #include <vector>
 #include <GL/glew.h>

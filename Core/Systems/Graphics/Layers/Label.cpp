@@ -75,7 +75,10 @@ void Label::Init()
 
 	m_TextWidth /= m_Font.getScale().x;
 	m_TextHeight /= m_Font.getScale().y;
+}
 
+void Label::Debug()
+{
 	std::cout << "Text \"" << m_Text << "\": (" << m_TextWidth << ", " << m_TextHeight << ")" << std::endl;
 }
 

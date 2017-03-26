@@ -1,6 +1,8 @@
 #ifndef SPRITE_H_
 #define SPRITE_H_
 
+#include <Common.h>
+
 #include <Systems/Graphics/Sprites/Renderable2D.h>
 #include <Systems/ResourceManager.h>
 

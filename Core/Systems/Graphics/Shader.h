@@ -1,5 +1,7 @@
-#ifndef SHADER_H
-#define SHADER_H
+#ifndef SHADER_H_
+#define SHADER_H_
+
+#include <Common.h>
 
 #define VENUS_DEBUG 1
 #define SHADER_ERROR(x) std::cout << "Shader Error: " << x << std::endl

@@ -169,6 +169,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Common.h" />
     <ClInclude Include="Core\Systems\Graphics\Color.h" />
     <ClInclude Include="Core\Systems\Graphics\Font.h" />
     <ClInclude Include="Core\Systems\Graphics\Layers\Group.h" />
@@ -221,6 +222,7 @@
     <ClInclude Include="Core\Systems\Graphics\Layers\TileLayer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Common.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Color.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Font.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Layers\Group.cpp" />

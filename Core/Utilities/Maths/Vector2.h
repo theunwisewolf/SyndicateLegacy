@@ -1,6 +1,8 @@
 #ifndef Vector2_H_
 #define Vector2_H_
 
+#include <Common.h>
+
 #include <iostream>
 
 namespace Venus {

@@ -1,6 +1,8 @@
 #ifndef COLOR_H_
 #define COLOR_H_
 
+#include <Common.h>
+
 #include <string>
 #include <Utilities/Maths/Vector4.h>
 
@@ -27,8 +29,8 @@ public:
 	const float& BlueN() const { return m_ColorComponents.z / 255.0f; }
 	const float& AlphaN() const { return m_ColorComponents.w / 255.0f; }
 
-	const Maths::Vector4& Normalize() const;
-	const unsigned int& Pack(const std::string& format = "abgr") const;
+	Maths::Vector4 Normalize() const;
+	unsigned int Pack(const std::string& format = "abgr") const;
 
 	~Color();
 };
