@@ -16,6 +16,7 @@ public:
 	Group(const Maths::Matrix4& transform);
 	void Submit(Renderer2D* renderer) const override;
 	void Add(Renderable2D* sprite);
+	~Group();
 };
 
 } }

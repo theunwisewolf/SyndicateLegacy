@@ -24,4 +24,12 @@ void Group::Add(Renderable2D* sprite)
 	this->m_Sprites.push_back(sprite);
 }
 
+Group::~Group()
+{
+	for (auto renderable : m_Sprites)
+	{
+		delete renderable;
+	}
+}
+
 } }
