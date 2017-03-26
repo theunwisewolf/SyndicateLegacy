@@ -28,6 +28,8 @@ void VertexArray::addBuffer(Buffer* buffer, GLuint index)
 
 	buffer->Unbind();
 	this->Unbind();
+
+	this->m_Buffers.push_back(buffer);
 }
 
 }}

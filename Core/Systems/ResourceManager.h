@@ -5,7 +5,8 @@
 
 #include <Systems/Graphics/Texture.h>
 #include <string>
-#include <map>
+#include <vector>
+#include <unordered_map>
 
 namespace Venus {
 
@@ -14,7 +15,7 @@ using namespace Graphics;
 class ResourceManager {
 private:
 	unsigned int m_TextureCount;
-	static std::map<std::string, Texture*> textureCache;
+	static std::unordered_map<std::string, Texture*> textureCache;
 
 private:
 	ResourceManager() { m_TextureCount = 0; }
@@ -25,7 +26,7 @@ public:
 	static ResourceManager* i();
 
 	Texture* getTexture(const std::string& filename);
-	
+
 	inline unsigned int getTextureCount() const { return this->m_TextureCount; }
 
 	~ResourceManager();

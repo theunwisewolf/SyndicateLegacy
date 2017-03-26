@@ -47,7 +47,7 @@ void Label::Init()
 	//m_Atlas = *texture_atlas_new(512, 512, 1);
 	//m_FTFont = *texture_font_new_from_file(&m_Atlas, 50, "res/Fonts/Raleway/Raleway-Bold.ttf");
 
-	// Because Maps are too slow for data retrieval, so we derefernce the data and cache it
+	// Because Maps are too slow for data retrieval, so we dereference the data and cache it
 	m_Atlas = *m_Font.getAtlas();
 	m_FTFont = *m_Font.getFont();
 
@@ -62,8 +62,7 @@ void Label::Init()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
+	//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 	for (int i = 0; i < m_Text.length(); ++i)
 	{

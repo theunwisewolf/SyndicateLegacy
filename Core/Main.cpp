@@ -24,6 +24,12 @@
 #include <Systems/Graphics/FontManager.h>
 #include <Systems/Graphics/Font.h>
 
+#include <gorilla\ga.h>
+#include <gorilla\gau.h>
+
+#include <thread>
+#include <Systems/Audio/AudioManager.h>
+
 using namespace Venus;
 using namespace Maths;
 using namespace Graphics;
@@ -33,6 +39,19 @@ int main( int argc, char* argv[] )
 {
 	//MessageBox(NULL, "This is weird!", "Error", MB_OK);
 	Window window("Venus", 960, 540);
+
+	std::vector<Audio*> queue;
+
+	queue.push_back(new Audio("res/Sounds/loop.ogg"));
+	queue.push_back(new Audio("res/Sounds/01.ogg"));
+
+	int queueIndex = AudioManager::LoadQueue(queue);
+
+	std::thread audioThread(&AudioManager::PlayQueue, queueIndex);
+
+	//AudioManager::Load(new Audio("The Trail", "res/Sounds/loop.ogg"));
+	//AudioManager::Get("The Trail")->Loop(2);
+
 	//window.setColor(0, 255, 0);
 
 	Shader *shader = new Shader("Shaders/VertexShader.vert", "Shaders/FragmentShader.frag");
@@ -51,10 +70,16 @@ int main( int argc, char* argv[] )
 #define COLS 16
 #define SIZE 1.0f
 
+	Texture* a = new Texture("b.png");
+	Texture* b = new Texture("Image.png");
+
+	a->loadTexture();
+	b->loadTexture();
 	//StaticSprite sprite(Vector3(0,0,0), Vector2(4,4), texturea, *shader);
 	//SimpleRenderer2D renderer;
 
 	//std::vector<Renderable2D*> sprites;
+	int sprites = 0;
 	srand(time(NULL));
 	for (float i = -ROWS; i < ROWS; i += SIZE)
 	{
@@ -77,8 +102,12 @@ int main( int argc, char* argv[] )
 				//std::cout << "Color" << std::endl;
 				layer.Add(new Sprite(Vector3(j + j * 0.1f, i + i * 0.1f, 0.0f), Vector2(SIZE, SIZE), Vector4(142, 68, 173, 255)));
 			}
+
+			sprites++;
 		}
 	}
+
+	std::cout << "Rendered " << sprites << " sprites." << std::endl;
 
 #else
 	Font::setScale(Window::i()->getWidth() / 16.0f, Window::i()->getHeight() / 9.0f);
@@ -86,15 +115,15 @@ int main( int argc, char* argv[] )
 	FontManager::loadFont("RalewayLight", "res/Fonts/Raleway/Raleway-Light.ttf");
 	//FontManager::loadFont("Roboto-Bold", "res/Fonts/Roboto-Bold.ttf");
 
-	Label* fps = new Label("0 fps", Vector2(0.5f, 0.35f), Font("RalewayLight", 60, Maths::Vector4(255,255,255,255)));
-	//Group *group = new Group(Matrix4::Translation(Vector3(-16.0f, 7.0f, 0.0f )));
+	Label* fps = new Label("0 fps", Vector2(0.5f, 0.35f), Font("RalewayLight", 60, Color( 0xffffff )));
+	Group *group = new Group(Matrix4::Translation(Vector3(-16.0f, 7.0f, 0.0f )));
 	//group->Add(new Sprite(Vector3(0, 0, 0), Vector2(5, 1.2f), "Image.png"));
 
-	//group->Add(new Sprite(Vector3(0, 0, 0), Vector2(5, 1.2f), Maths::Vector4(192, 57, 43, 255)));
+	group->Add(new Sprite(Vector3(0, 0, 0), Vector2(5, 1.2f), Maths::Vector4(192, 57, 43, 255)));
 
-	//group->Add(fps);
-	//layer.Add(group);
-	//layer.Add(new Label("VENUS, A Game Engine", Label::Position::CENTER, Font("RalewayLight", 100, Maths::Vector4(52, 152, 219, 255))));
+	group->Add(fps);
+	layer.Add(group);
+	layer.Add(new Label("VENUS, A Game Engine", Label::Position::CENTER, Font("RalewayLight", 100, Maths::Vector4(52, 152, 219, 255))));
 
 	//Label* label2 = new Label("Hii", Vector2(0.7f, 0.3f), Font("Roboto-Regular", 100, 1));
 	//group->Add(new Sprite(Vector3(0.5f, 0.5f, 0), Vector2(2, 2), Vector4(150, 40, 27, 255)));
@@ -125,8 +154,8 @@ int main( int argc, char* argv[] )
 
 		window.Clear();
 
-		//shader->enable();
-		//shader->setUniform2f("light_pos", Vector2(x * 32.0f / window.getWidth() - 16.0f, 9.0f - y * 18.0f / (window.getHeight())));
+		shader->enable();
+		shader->setUniform2f("light_pos", Vector2(x * 32.0f / window.getWidth() - 16.0f, 9.0f - y * 18.0f / (window.getHeight())));
 
 		layer.Render();
 
@@ -143,11 +172,9 @@ int main( int argc, char* argv[] )
 		}
 	}
 
+	//std::terminate();
 	window.Close();
-
-	_CrtDumpMemoryLeaks();
-
-	system("PAUSE");
+	audioThread.join();
 
 	return 0;
 }

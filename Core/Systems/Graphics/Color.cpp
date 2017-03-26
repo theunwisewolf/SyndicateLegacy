@@ -2,6 +2,21 @@
 
 namespace Venus { namespace Graphics {
 
+Color::Color(const unsigned int& color, bool autoSetAlpha)
+{
+	m_IsNormalized = false;
+
+	int a = (color & 0xff000000) >> 24;
+	int b = (color & 0xff0000) >> 16;
+	int g = (color & 0xff00) >> 8;
+	int r = (color & 0xff);
+
+	if (!a && autoSetAlpha)
+		a = 255;
+
+	m_ColorComponents = Maths::Vector4(r, g, b, a);
+}
+
 Color::Color(float r, float g, float b, float a)
 {
 	m_IsNormalized = true;

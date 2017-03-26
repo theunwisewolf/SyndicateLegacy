@@ -93,15 +93,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;$(ProjectDir)Dependencies\GorillaAudio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw\glfw3.lib;glew\glew32s.lib;opengl32.lib;freeimage\FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\x86;$(ProjectDir)Dependencies\GorillaAudio\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw\glfw3.lib;glew\glew32s.lib;opengl32.lib;freeimage\FreeImage.lib;GorillaAudio.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
     </Link>
@@ -111,15 +111,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;$(ProjectDir)Dependencies\GorillaAudio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw\glfw3.lib;glew\glew32s.lib;opengl32.lib;freeimage\FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\x64;$(ProjectDir)Dependencies\GorillaAudio\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw\glfw3.lib;glew\glew32s.lib;opengl32.lib;freeimage\FreeImage.lib;GorillaAudio.lib;OpenAL64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
     </Link>
@@ -132,7 +132,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;$(ProjectDir)Dependencies\GorillaAudio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -142,8 +142,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw\glfw3.lib;glew\glew32s.lib;opengl32.lib;freeimage\FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\x86;$(ProjectDir)Dependencies\GorillaAudio\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw\glfw3.lib;glew\glew32s.lib;opengl32.lib;freeimage\FreeImage.lib;GorillaAudio.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,7 +154,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;$(ProjectDir)Dependencies\GorillaAudio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -164,12 +164,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw\glfw3.lib;glew\glew32s.lib;opengl32.lib;freeimage\FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\x64;$(ProjectDir)Dependencies\GorillaAudio\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw\glfw3.lib;glew\glew32s.lib;opengl32.lib;freeimage\FreeImage.lib;GorillaAudio.lib;OpenAL64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Core\Common.h" />
+    <ClInclude Include="Core\Systems\Audio\Audio.h" />
     <ClInclude Include="Core\Systems\Graphics\Color.h" />
     <ClInclude Include="Core\Systems\Graphics\Font.h" />
     <ClInclude Include="Core\Systems\Graphics\Layers\Group.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Core\Systems\Graphics\Renderers\SimpleRenderer2D.h" />
     <ClInclude Include="Core\Systems\Graphics\Texture.h" />
     <ClInclude Include="Core\Systems\ResourceManager.h" />
+    <ClInclude Include="Core\Systems\Audio\AudioManager.h" />
     <ClInclude Include="Core\Systems\Window.h" />
     <ClInclude Include="Core\Utilities\File.h" />
     <ClInclude Include="Core\Systems\Graphics\Graphics.h" />
@@ -223,6 +225,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Common.cpp" />
+    <ClCompile Include="Core\Systems\Audio\Audio.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Color.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Font.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Layers\Group.cpp" />
@@ -231,6 +234,7 @@
     <ClCompile Include="Core\Systems\Graphics\Buffers\Buffer.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Texture.cpp" />
     <ClCompile Include="Core\Systems\ResourceManager.cpp" />
+    <ClCompile Include="Core\Systems\Audio\AudioManager.cpp" />
     <ClCompile Include="Core\Systems\Window.cpp" />
     <ClCompile Include="Core\Utilities\File.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Graphics.cpp" />
@@ -299,6 +303,11 @@
   <ItemGroup>
     <None Include="Shaders\FragmentShader.frag" />
     <None Include="Shaders\VertexShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Dependencies\GorillaAudio\GorillaAudio.vcxproj">
+      <Project>{1242924f-bb68-4414-b15b-dc8936a3ea12}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

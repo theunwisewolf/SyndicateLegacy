@@ -50,6 +50,10 @@ public:
 		renderer->submit(this);
 	}
 
+	void setColor(const Maths::Vector4& color)						{ this->m_Color = color; }
+	void setSize(const Maths::Vector2& size)						{ this->m_Size = size; }
+	void setPosition(const Maths::Vector3& position)				{ this->m_Position = position; }
+
 	inline const Maths::Vector2& getSize() const					{ return this->m_Size; }
 	inline const Maths::Vector3& getPosition() const				{ return this->m_Position; }
 	inline const Maths::Vector4& getColor() const					{ return this->m_Color; }

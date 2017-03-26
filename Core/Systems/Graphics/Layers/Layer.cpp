@@ -19,10 +19,14 @@ void Layer::Add(Renderable2D* renderable)
 
 void Layer::Render()
 {
+	// We have nothing to render
+	if (!this->m_Renderables.size())
+	{
+		return;
+	}
+
 	this->m_Shader->enable();
-	glCheckError();
 	this->m_Renderer->start();
-	glCheckError();
 
 	for (const Renderable2D* renderable : this->m_Renderables)
 	{
@@ -30,9 +34,7 @@ void Layer::Render()
 	}
 
 	this->m_Renderer->end();
-	glCheckError();
 	this->m_Renderer->flush();
-	glCheckError();
 
 	this->m_Shader->disable();
 }

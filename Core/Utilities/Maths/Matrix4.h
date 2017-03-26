@@ -27,6 +27,7 @@ public:
 	static Matrix4 Orthographic(float left, float right, float top, float bottom, float near, float far);
 
 	Matrix4& Multiply(const Matrix4& mat4);
+	Matrix4& Invert();
 	
 	Matrix4& operator*=(const Matrix4& mat4);
 

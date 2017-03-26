@@ -240,6 +240,7 @@ void BatchRenderer2D::flush()
 }
 
 BatchRenderer2D::BatchRenderer2D()
+	: m_IndexCount(0)
 {
 	this->m_RendererStarted = false;
 

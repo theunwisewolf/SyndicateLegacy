@@ -31,3 +31,6 @@ _ReSharper*/
 /*.filters
 /Venus.VC.db
 /Venus.VC.VC.opendb
+/Dependencies/GorillaAudio/lib/Intermediates/*.idb
+/Dependencies/GorillaAudio/lib/Intermediates/GorillaAudio.tlog/*.tlog
+/Dependencies/GorillaAudio/lib/Intermediates/GorillaAudio.tlog/GorillaAudio.lastbuildstate

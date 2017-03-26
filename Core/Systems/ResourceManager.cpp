@@ -1,8 +1,10 @@
 #include "ResourceManager.h"
 
+#include <unordered_map>
+
 namespace Venus {
 
-std::map<std::string, Texture*> ResourceManager::textureCache;
+std::unordered_map<std::string, Texture*> ResourceManager::textureCache;
 
 ResourceManager* ResourceManager::i()
 {
@@ -32,7 +34,6 @@ Texture* ResourceManager::getTexture(const std::string& filename)
 
 ResourceManager::~ResourceManager()
 {
-	//for (auto texture : ResourceManager::textureCache)
 	for(auto it = ResourceManager::textureCache.begin(); it != ResourceManager::textureCache.end();)
 	{
 		if (it->second)

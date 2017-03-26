@@ -67,11 +67,7 @@ bool Window::Init()
 		return false;
 	}
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_SAMPLES, 4);
-	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 
 	// Create the OpenGL Window
 	this->m_Window = glfwCreateWindow( this->m_Width, this->m_Height, this->m_Title.c_str(), nullptr, nullptr );
@@ -102,7 +98,6 @@ bool Window::Init()
 	this->centerWindow();
 
 	// Initialize GLEW
-	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 	{
 		std::cout << "Failed to initialize GLEW.";
@@ -112,32 +107,13 @@ bool Window::Init()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	GLint flags; glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
-	if (flags & GL_CONTEXT_FLAG_DEBUG_BIT)
-	{
-		std::cout << "Debug context is initialized." << std::endl;
-	}
-
-#if _DEBUG
-	if (glDebugMessageCallback) 
-	{
-		std::cout << "Registering OpenGL debug callback " << std::endl;
-		glEnable(GL_DEBUG_OUTPUT);
-		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-		//glDebugMessageCallbackARB(glDebugMessageCallBack, nullptr);
-		//glDebugMessageCallbackAMD(glDebugMessageCallBack, nullptr);
-		glDebugMessageCallback(glDebugMessageCallBack, nullptr);
-		GLuint unusedIds = 0;
-		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, &unusedIds, true);
-	}
-	else
-		std::cout << "glDebugMessageCallback not available" << std::endl;
-#endif
-
 	// And finally print some fancy OpenGL Info
 	std::cout << "OpenGL Version: " << glGetString( GL_VERSION ) << std::endl;
 	std::cout << "Vendor: " << glGetString( GL_VENDOR ) << std::endl;
 	std::cout << "Renderer: " << glGetString( GL_RENDERER ) << std::endl;
+
+	// Initialize AudioManager
+	Venus::AudioManager::Init();
 
 	return true;
 }
@@ -207,6 +183,8 @@ bool Window::Closed() const
 void Window::Close() const
 {
 	Venus::Graphics::FontManager::Clear();
+	Venus::AudioManager::Clear();
+
 	glfwDestroyWindow(this->m_Window);
 	glfwTerminate();
 }
@@ -237,5 +215,5 @@ void Window::getMousePosition(double &x, double &y) const
 
 Window::~Window()
 {
-	this->Close();
+	//this->Close();
 }

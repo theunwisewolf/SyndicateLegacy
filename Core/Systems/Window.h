@@ -15,6 +15,7 @@
 #include <map>
 
 #include <Systems/Graphics/FontManager.h>
+#include <Systems/Audio/AudioManager.h>
 
 class Window
 {
@@ -73,8 +74,7 @@ private:
 	static void glfwWindowSizeCallback(GLFWwindow* window, int width, int height);
 	static void glfwMouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	static void glfwCursorPositionCallBack(GLFWwindow* window, double xpos, double ypos);
-	static void APIENTRY glDebugMessageCallBack(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
-	{}
+	static void APIENTRY glDebugMessageCallBack(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 };
 
 #endif
