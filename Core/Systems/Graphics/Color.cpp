@@ -19,7 +19,7 @@ Color::Color(const Maths::Vector4& color)
 	m_ColorComponents = color;
 }
 
-const Maths::Vector4& Color::Normalize() const
+Maths::Vector4 Color::Normalize() const
 {
 	if (m_IsNormalized)
 		return m_ColorComponents;
@@ -27,7 +27,7 @@ const Maths::Vector4& Color::Normalize() const
 	return Maths::Vector4(m_ColorComponents.x / 255.0f, m_ColorComponents.y / 255.0f, m_ColorComponents.z / 255.0f, m_ColorComponents.w / 255.0f);
 }
 
-const unsigned int& Color::Pack(const std::string& format) const
+unsigned int Color::Pack(const std::string& format) const
 {
 	if (format == "rgba")
 	{

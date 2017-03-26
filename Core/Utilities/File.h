@@ -1,6 +1,8 @@
 #ifndef FILE_H_
 #define FILE_H_
 
+#include <Common.h>
+
 #include <iostream>
 #include <string>
 #include <fstream>

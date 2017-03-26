@@ -1,7 +1,9 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
-#if defined(WIN32) || defined(_WIN32)
+#include <Common.h>
+
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64)
 #include <Windows.h>
 #else
 #include <sys/time.h>

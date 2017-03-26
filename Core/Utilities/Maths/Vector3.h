@@ -1,6 +1,8 @@
 #ifndef Vector3_H_
 #define Vector3_H_
 
+#include <Common.h>
+
 #include <iostream>
 
 namespace Venus {

@@ -1,6 +1,8 @@
 #ifndef MATRIX4_H_
 #define MATRIX4_H_
 
+#include <Common.h>
+
 #include <Utilities\Maths\Maths.h>
 
 namespace Venus { namespace Maths {

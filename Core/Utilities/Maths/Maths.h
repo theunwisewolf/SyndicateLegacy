@@ -1,6 +1,8 @@
 #ifndef _MATHS_H
 #define _MATHS_H
 
+#include <Common.h>
+
 #include <Utilities/Maths/Vector2.h>
 #include <Utilities/Maths/Vector3.h>
 #include <Utilities/Maths/Vector4.h>

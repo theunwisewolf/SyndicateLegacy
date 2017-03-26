@@ -1,6 +1,8 @@
 #ifndef SIMPLE_RENDERER2D_H_
 #define SIMPLE_RENDERER2D_H_
 
+#include <Common.h>
+
 #include <deque>
 #include <Systems/Graphics/Sprites/StaticSprite.h>
 #include <Systems/Graphics/Renderers/Renderer2D.h>

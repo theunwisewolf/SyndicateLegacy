@@ -7,6 +7,8 @@
 #include <Systems/Graphics/Color.h>
 #include <freetype-gl.h>
 
+#include <Common.h>
+
 namespace Venus { namespace Graphics { 
 
 class Font {

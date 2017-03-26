@@ -1,6 +1,8 @@
 #ifndef RENDERER2D_H_
 #define RENDERER2D_H_
 
+#include <Common.h>
+
 #include <vector>
 #include <string>
 #include <Utilities/Maths/Maths.h>

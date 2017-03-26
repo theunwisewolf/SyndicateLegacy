@@ -1,6 +1,8 @@
 #ifndef FONT_MANAGER_H_
 #define FONT_MANAGER_H_
 
+#include <Common.h>
+
 #include <map>
 #include <string>
 #include <vector>

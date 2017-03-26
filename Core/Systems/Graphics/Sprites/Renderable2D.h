@@ -1,6 +1,8 @@
 #ifndef RENDERABLE2D_H_
 #define RENDERABLE2D_H_
 
+#include <Common.h>
+
 #include <Systems/Graphics/Buffers/Buffer.h>
 #include <Systems/Graphics/Buffers/IndexBuffer.h>
 #include <Systems/Graphics/Buffers/VertexArray.h>
@@ -53,7 +55,7 @@ public:
 	inline const Maths::Vector4& getColor() const					{ return this->m_Color; }
 	inline const std::vector<Maths::Vector2>& getUVs() const		{ return this->m_UV; }
 
-	inline const GLuint& getTextureID() const						{ return this->m_Texture == nullptr ? 0 : this->m_Texture->getTextureID(); }
+	inline GLuint getTextureID() const								{ return this->m_Texture == nullptr ? 0 : this->m_Texture->getTextureID(); }
 
 private:
 	void setDefaultUVs()

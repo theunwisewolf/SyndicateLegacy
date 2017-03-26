@@ -1,6 +1,8 @@
 #ifndef LABEL_H_
 #define LABEL_H_
 
+#include <Common.h>
+
 #include <string>
 #include <algorithm>
 #include <Systems/Graphics/Renderers/Renderer2D.h>
@@ -11,7 +13,6 @@
 #include <Systems/Graphics/FontManager.h>
 
 namespace Venus { namespace Graphics { 
-
 
 class Label : public Renderable2D
 {
@@ -37,6 +38,7 @@ public:
 	~Label();
 
 	void Init();
+	void Debug();
 	void ReAlignText();
 	void Submit(Renderer2D* renderer) const override;
 	void setText(const std::string& text) { this->m_Text = text; }

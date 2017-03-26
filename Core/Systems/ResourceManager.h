@@ -1,6 +1,8 @@
 #ifndef RESOURCE_MANAGER_H_
 #define RESOURCE_MANAGER_H_
 
+#include <Common.h>
+
 #include <Systems/Graphics/Texture.h>
 #include <string>
 #include <map>

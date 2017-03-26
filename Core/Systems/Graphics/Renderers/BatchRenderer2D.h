@@ -1,5 +1,7 @@
-#ifndef BATCH_RENDERER2D_H
-#define BATCH_RENDERER2D_H
+#ifndef BATCH_RENDERER2D_H_
+#define BATCH_RENDERER2D_H_
+
+#include <Common.h>
 
 #include <Systems/Graphics/Renderers/Renderer2D.h>
 #include <Systems/Graphics/Color.h>

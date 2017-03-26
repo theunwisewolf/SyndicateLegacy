@@ -1,6 +1,8 @@
 #ifndef VEXCEPTION_H_
 #define VEXCEPTION_H_
 
+#include <Common.h>
+
 #include <exception>
 #include <string>
 
