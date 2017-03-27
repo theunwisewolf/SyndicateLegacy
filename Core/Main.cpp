@@ -42,15 +42,17 @@ int main( int argc, char* argv[] )
 
 	std::vector<Audio*> queue;
 
-	queue.push_back(new Audio("res/Sounds/loop.ogg"));
+	//queue.push_back(new Audio("res/Sounds/loop.ogg"));
+	//queue.push_back(new Audio("res/Sounds/23.ogg"));
 	queue.push_back(new Audio("res/Sounds/01.ogg"));
+	queue.push_back(new Audio("res/Sounds/35.ogg"));
 
 	int queueIndex = AudioManager::LoadQueue(queue);
 
 	std::thread audioThread(&AudioManager::PlayQueue, queueIndex);
 
 	//AudioManager::Load(new Audio("The Trail", "res/Sounds/loop.ogg"));
-	//AudioManager::Get("The Trail")->Loop(2);
+	//AudioManager::Get("The Trail")->Loop(3);
 
 	//window.setColor(0, 255, 0);
 
@@ -174,7 +176,7 @@ int main( int argc, char* argv[] )
 
 	//std::terminate();
 	window.Close();
-	audioThread.join();
+	//audioThread.join();
 
 	return 0;
 }

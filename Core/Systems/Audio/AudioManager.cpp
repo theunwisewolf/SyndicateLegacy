@@ -9,6 +9,7 @@ ga_Mixer* AudioManager::m_Mixer = nullptr;
 ga_StreamManager* AudioManager::m_StreamManager = nullptr;
 
 std::mutex m;
+std::condition_variable cv;
 
 void AudioManager::Init()
 {
@@ -59,7 +60,7 @@ void AudioManager::PlayQueue(int index)
 
 		for (auto audio : audioQueue)
 		{
-			audio->Play();
+			audio->PlayOnThread();
 		}
 	}
 }
@@ -82,10 +83,17 @@ void AudioManager::Clear()
 	{
 		for (int j = 0; j < m_AudioQueueCache[i].size(); j++)
 		{
-			m.lock();
+			// Shut down the thread so that the audio stops playing
+			m_AudioQueueCache[i][j]->ShutDownThread();
 			m_AudioQueueCache[i][j]->Stop();
-			m.unlock();
-			delete m_AudioQueueCache[i][j];
+
+			if (i == 0 && j == 0)
+			{
+				std::unique_lock<std::mutex> lock(m_AudioQueueCache[i][j]->m_Mutex);
+				m_AudioQueueCache[i][j]->m_ConditionVariable.wait(lock);
+				lock.unlock();
+				delete m_AudioQueueCache[i][j];
+			}
 		}
 		
 		m_AudioQueueCache[i].clear();

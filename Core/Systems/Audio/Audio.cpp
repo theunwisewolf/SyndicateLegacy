@@ -3,16 +3,20 @@
 namespace Venus {
 
 Audio::Audio(const std::string& path) :
-	m_AudioFilePath(path)
+	m_AudioFilePath(path),
+	m_Close(false),
+	m_Playing(false)
 {
 	m_AudioFileFormat = m_AudioFilePath.substr(m_AudioFilePath.size() - 3, 3);
 	//m_Audio = gau_load_sound_file(m_AudioFilePath.c_str(), m_AudioFileFormat.c_str());
 }
 
-Audio::Audio(const std::string& name, const std::string& path, bool loop)
-	: m_AudioFileName(name),
-	  m_AudioFilePath(path),
-	  m_Loop(loop)
+Audio::Audio(const std::string& name, const std::string& path, bool loop) : 
+	m_AudioFileName(name),
+	m_AudioFilePath(path),
+	m_Loop(loop),
+	m_Close(false),
+	m_Playing(false)
 {
 	m_AudioFileFormat = m_AudioFilePath.substr(m_AudioFilePath.size() - 3, 3);
 	//m_Audio = gau_load_sound_file(m_AudioFilePath.c_str(), m_AudioFileFormat.c_str());
@@ -31,9 +35,34 @@ void Audio::destroyHandle()
 	ga_handle_destroy(m_AudioHandle);
 }
 
+void Audio::PlayOnThread()
+{
+	m_Over = false;
+	m_Playing = true;
+
+	// NULL means no looping
+	this->createHandle(&m_Over, NULL);
+	ga_handle_play(m_AudioHandle);
+
+	while (!m_Over && !m_Close)
+	{
+		gau_manager_update(AudioManager::getSoundManager());
+		gc_thread_sleep(1);
+	}
+
+	// Notify any waiting threads
+	if (m_Close)
+	{
+		m_ConditionVariable.notify_all();
+	}
+
+	m_Playing = false;
+}
+
 void Audio::Play()
 {
 	m_Over = false;
+	m_Playing = true;
 
 	// NULL means no looping
 	this->createHandle(&m_Over, NULL);
@@ -49,16 +78,22 @@ void Audio::Play()
 
 		gc_thread_sleep(1);
 	}
+
+	m_Playing = false;
 }
 
 void Audio::Pause()
 {
-	ga_handle_stop(m_AudioHandle);
+	this->Stop();
 }
 
 void Audio::Stop()
 {
-	ga_handle_stop(m_AudioHandle);
+	if (m_Playing && m_AudioHandle != nullptr)
+	{
+		ga_handle_stop(m_AudioHandle);
+		m_Playing = false;
+	}
 }
 
 void Audio::Loop()
@@ -75,11 +110,14 @@ void Audio::Loop()
 		gau_manager_update(AudioManager::getSoundManager());
 		gc_thread_sleep(1);
 	}
+
+	m_Playing = false;
 }
 
 void Audio::Loop(unsigned int times)
 {
 	m_Over = false;
+	m_Playing = true;
 
 	this->createHandle(&m_Over, NULL);
 	ga_handle_play(m_AudioHandle);
@@ -101,6 +139,8 @@ void Audio::Loop(unsigned int times)
 			ga_handle_play(m_AudioHandle);
 		}
 	}
+
+	m_Playing = false;
 }
 
 Audio::~Audio()
