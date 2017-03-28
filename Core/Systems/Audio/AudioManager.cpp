@@ -1,4 +1,5 @@
 #include "AudioManager.h"
+#include <Systems/Window.h>
 
 namespace Venus {
 
@@ -15,10 +16,17 @@ void AudioManager::Init()
 {
 	gc_initialize(0);
 
-	//AudioManager::m_SoundManager = gau_manager_create();
 	AudioManager::m_SoundManager = gau_manager_create_custom(GA_DEVICE_TYPE_DEFAULT, GAU_THREAD_POLICY_MULTI, 4, 512);
 	AudioManager::m_Mixer = gau_manager_mixer(AudioManager::m_SoundManager);
 	AudioManager::m_StreamManager = gau_manager_streamManager(AudioManager::m_SoundManager);
+}
+
+void AudioManager::Update()
+{
+	for (auto audio : m_AudioCache)
+	{
+		audio->Update();
+	}
 }
 
 Audio* AudioManager::Get(const std::string& name)

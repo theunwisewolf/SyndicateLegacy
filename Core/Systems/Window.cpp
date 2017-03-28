@@ -17,7 +17,7 @@ Window::Window(std::string title, int width, int height, int r, int g, int b, in
 	this->setColor(r, g, b, a);
 }
 
-void APIENTRY glDebugMessageCallBack(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+void APIENTRY Window::glDebugMessageCallBack(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 {
 	// ignore non-significant error/warning codes
 	if (id == 131169 || id == 131185 || id == 131218 || id == 131204) return;
@@ -134,6 +134,13 @@ void Window::Update()
 		system("PAUSE");
 	}
 
+	for (int i = 0; i < MAX_KEYS; ++i)
+	{
+		m_KeysTyped[i] = m_Keys[i] && !m_KeyState[i];
+	}
+
+	memcpy(m_KeyState, m_Keys, MAX_KEYS * sizeof(bool));
+
 	glfwSwapBuffers(this->m_Window);
 	glfwPollEvents();
 }
@@ -152,6 +159,7 @@ void Window::glfwKeyCallback(GLFWwindow* window, int key, int scancode, int acti
 {
 	Window *w = (Window*)glfwGetWindowUserPointer(window);
 	w->m_Keys[key] = (action != GLFW_RELEASE);
+	w->m_KeysTyped[key] = (action == GLFW_RELEASE);
 }
 
 void Window::glfwWindowSizeCallback(GLFWwindow * window, int width, int height)

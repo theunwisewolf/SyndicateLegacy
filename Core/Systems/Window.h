@@ -41,6 +41,8 @@ private:
 	int m_Height;
 
 	bool m_Keys[MAX_KEYS] = { false };
+	bool m_KeyState[MAX_KEYS] = { false };
+	bool m_KeysTyped[MAX_KEYS] = { false };
 	bool m_MouseButtons[MAX_BTNS] = { false };
 	double mouseX;
 	double mouseY;
@@ -60,6 +62,11 @@ public:
 	void setColor(int, int, int, int a = 255) const;
 	void centerWindow() const;
 	void getMousePosition(double&, double&) const;
+
+	bool IsKeyPressed(size_t keyCode) const { return m_Keys[keyCode]; }
+	bool IsKeyTyped(size_t keyCode)	const { return m_KeysTyped[keyCode]; }
+
+	void clearTypedKeys() { memset(m_KeysTyped, false, MAX_KEYS * sizeof(bool)); }
 
 	inline double getMouseX() const { return this->mouseX; }
 	inline double getMouseY() const { return this->mouseY; }

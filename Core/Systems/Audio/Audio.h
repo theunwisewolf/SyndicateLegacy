@@ -34,7 +34,8 @@ private:
 	bool m_Loop;
 	bool m_Over;
 	bool m_Playing;
-	unsigned int m_LoopTimes;
+	size_t m_LoopTimes;
+	size_t m_Volume;
 
 	ga_Sound* m_Audio;
 	ga_Handle* m_AudioHandle;
@@ -50,7 +51,9 @@ public:
 	const std::string& getName() const { return m_AudioFileName; }
 	const std::string& getPath() const { return m_AudioFilePath; }
 	const std::string& getFormat() const { return m_AudioFileFormat; }
+	const size_t& getVolume() const { return m_Volume; }
 
+	void Update();
 	void Play();
 	void PlayOnThread();
 	void ShutDownThread() { m_Close = true; }
@@ -58,6 +61,10 @@ public:
 	void Stop();
 	void Loop();
 	void Loop(unsigned int times);
+
+	// Volume can range from 0-100, we will normalize it to 0.0 to 1.0
+	void VolumeUp(int value);
+	void VolumeDown(int value);
 
 	~Audio();
 };

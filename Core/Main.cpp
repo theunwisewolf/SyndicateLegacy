@@ -43,16 +43,20 @@ int main( int argc, char* argv[] )
 	std::vector<Audio*> queue;
 
 	//queue.push_back(new Audio("res/Sounds/loop.ogg"));
-	//queue.push_back(new Audio("res/Sounds/23.ogg"));
-	queue.push_back(new Audio("res/Sounds/01.ogg"));
-	queue.push_back(new Audio("res/Sounds/35.ogg"));
+	queue.push_back(new Audio("res/Sounds/23.ogg"));
+	//queue.push_back(new Audio("res/Sounds/BloodAndWine/01.ogg"));
+	//queue.push_back(new Audio("res/Sounds/35.ogg"));
+	queue.push_back(new Audio("res/Sounds/song.ogg"));
 
 	int queueIndex = AudioManager::LoadQueue(queue);
 
 	std::thread audioThread(&AudioManager::PlayQueue, queueIndex);
 
-	//AudioManager::Load(new Audio("The Trail", "res/Sounds/loop.ogg"));
-	//AudioManager::Get("The Trail")->Loop(3);
+	//AudioManager::Load(new Audio("The Trail", "res/Sounds/01.ogg"));
+	//AudioManager::Get("The Trail")->Play();
+
+	//AudioManager::Load(new Audio("Priscilla's Song", "res/Sounds/song.ogg"));
+	//AudioManager::Get("Priscilla's Song")->Play();
 
 	//window.setColor(0, 255, 0);
 
@@ -162,11 +166,25 @@ int main( int argc, char* argv[] )
 		layer.Render();
 
 		window.Update();
+		AudioManager::Update();
 		frames++;
+
+		if (Window::i()->IsKeyTyped( GLFW_KEY_DOWN ))
+		{
+			AudioManager::GetQueue(queueIndex)[0]->VolumeDown(1);
+			//AudioManager::Get("Priscilla's Song")->VolumeDown(1);
+		} 
+
+		if (Window::i()->IsKeyTyped(GLFW_KEY_UP))
+		{
+			AudioManager::GetQueue(queueIndex)[0]->VolumeUp(1);
+			//AudioManager::Get("Priscilla's Song")->VolumeUp(1);
+		}
 
 		// Print the number of frames
 		if (timer.getElapsedTime() - lastTime >= 1.0f)
 		{	
+			//Window::i()->clearTypedKeys();
 			window.setTitle( window.getTitle() + " (" + std::to_string(frames) + " fps)" );
 			fps->setText(std::to_string(frames) + " fps");
 			frames = 0;
@@ -176,7 +194,7 @@ int main( int argc, char* argv[] )
 
 	//std::terminate();
 	window.Close();
-	//audioThread.join();
+	audioThread.join();
 
 	return 0;
 }
