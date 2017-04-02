@@ -15,7 +15,6 @@
 
 #include <Systems/Graphics/Layers/Group.h>
 #include <Systems/Graphics/Layers/Label.h>
-#include <Systems/Graphics/Layers/TileLayer.h>
 
 #include <Systems/Graphics/Texture.h>
 
@@ -31,6 +30,8 @@
 
 #include <Utilities/Logger.h>
 
+#include "TileLayer.h"
+
 using namespace Syndicate;
 using namespace Maths;
 using namespace Graphics;
@@ -40,27 +41,13 @@ int main(int argc, char* argv[])
 {
 	Window window("Syndicate", 960, 540);
 
-	std::vector<Audio*> queue;
-
 	Syndicate::AudioManager audioManager;
-
 	Syndicate::AudioManager::i()->Init();
 
-	//queue.push_back(new Audio("res/Sounds/loopaaa.ogg"));
-	//queue.push_back(new Audio("res/Sounds/23.ogg"));
-	//queue.push_back(new Audio("res/Sounds/BloodAndWine/01.ogg"));
-	//queue.push_back(new Audio("res/Sounds/35.ogg"));
-	//queue.push_back(new Audio("res/Sounds/testsong.ogg"));
-
-	//int queueIndex = AudioManager::LoadQueue(queue);
-
-	//std::thread audioThread(&AudioManager::PlayQueue, queueIndex);
-
-	AudioManager::i()->Load(new Audio("The Trail", "res/Sounds/01.ogg"));
-	AudioManager::i()->Get("The Trail")->Play();
-
 	AudioManager::i()->Load(new Audio("Priscilla's Song", "res/Sounds/song.ogg"));
-	//AudioManager::i()->Get("Priscilla's Song")->Play();
+	AudioManager::i()->Get("Priscilla's Song")->Play();
+	//AudioManager::i()->Load(new Audio("The Trail", "res/Sounds/01.ogg"));
+	//AudioManager::i()->Get("The Trail")->Play();
 
 	//window.setColor(0, 255, 0);
 
@@ -74,7 +61,7 @@ int main(int argc, char* argv[])
 	shader->setUniform1iv("textures", textureSlots, 10);
 
 	TileLayer layer(shader);
-#if 1
+#if 0
 
 #define ROWS 9
 #define COLS 16
@@ -114,7 +101,7 @@ int main(int argc, char* argv[])
 
 	SYNDICATE_INFO("Rendered " + std::to_string(sprites) + " sprites." );
 
-//#else
+#else
 	Font::setScale(Window::i()->getWidth() / 16.0f, Window::i()->getHeight() / 9.0f);
 
 	FontManager::loadFont("RalewayLight", "res/Fonts/Raleway/Raleway-Light.ttf");
@@ -130,8 +117,8 @@ int main(int argc, char* argv[])
 	layer.Add(group);
 
 	Group *logo = new Group(Matrix4::Translation(Vector3(0.0f, 0.0f, 0.0f)));
-	logo->Add(new Sprite(Vector3(-9.0f, 0, 0), Vector2(20, 1.5f), Maths::Vector4(0, 0, 0, 255)));
-	logo->Add(new Label("SYNDICATE, A Game Engine", Label::Position::CENTER, Font("RalewayLight", 100, Maths::Vector4(52, 152, 219, 255))));
+	logo->Add(new Sprite(Vector3(-9.0f, 0, 0), Vector2(20, 1.5f), Maths::Vector4(26, 26, 26, 255)));
+	logo->Add(new Label("SYNDICATE", Label::Position::CENTER, Font("RalewayLight", 100, Maths::Vector4(52, 152, 219, 255))));
 
 	layer.Add(logo);
 
@@ -190,7 +177,16 @@ int main(int argc, char* argv[])
 		{
 			AudioManager::i()->StopAll();
 			AudioManager::i()->Load(new Audio("Blood And Wine", "res/Sounds/23.ogg"));
-			AudioManager::i()->Get("Blood And Wine")->Play();
+
+			if (AudioManager::i()->Get("Blood And Wine")->IsPlaying())
+			{
+				
+				AudioManager::i()->Get("Blood And Wine")->Pause();
+			}
+			else
+			{
+				AudioManager::i()->Get("Blood And Wine")->Play();
+			}
 		}
 
 		// Print the number of frames

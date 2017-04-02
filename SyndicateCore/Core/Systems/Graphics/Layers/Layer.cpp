@@ -2,8 +2,8 @@
 
 namespace Syndicate { namespace Graphics {
 
-Layer::Layer(Renderer2D* renderer, Shader* shader, Maths::Matrix4 projectionMatrix)
-	: m_Renderer(renderer),
+Layer::Layer(Renderer2D* renderer, Shader* shader, Maths::Matrix4 projectionMatrix) : 
+	m_Renderer(renderer),
 	m_Shader(shader),
 	m_ProjectionMatrix(projectionMatrix)
 {

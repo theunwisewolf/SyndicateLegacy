@@ -113,6 +113,12 @@ void Audio::Loop(unsigned int times)
 
 void Audio::Update()
 {
+	// Don't need to update if it's not playing
+	if (!m_Playing)
+	{
+		return;
+	}
+
 	gau_manager_update(AudioManager::i()->getSoundManager());
 	gc_thread_sleep(1);
 
