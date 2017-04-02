@@ -36,7 +36,6 @@ while(!window.Closed())
 {
     // Draw stuff
 }
-
 ```
 
 ### Creating your own layers
@@ -82,7 +81,6 @@ while(!window.Closed())
 window.Close();
 
 delete layer;
-
 ```
 
 ### Rendering Sprites
@@ -133,6 +131,21 @@ while (!window.Closed())
 
 delete layer;
 ```
+
+### Audio & Sounds
+Playing audio is pretty simple in Syndicate. An Audio manager runs on a separate thread that manages all the sounds and audio files for you.
+
+```
+Syndicate::AudioManager::i()->Load( new Audio("AccessKey", "path/to/ogg/or/wav/file") );
+Syndicate::AudioManager::i()->Get( "AccessKey" )->Play();
+```
+
+# TODO
+- Implement an Input Manager
+- Remove GLFW and use Windows API for creating the OpenGL context
+- Implement a proper Texture Manager
+- Implement DirectX
+- and things I can't remember.... :)
 
 
 # License
