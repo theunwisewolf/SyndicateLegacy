@@ -72,26 +72,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>$(ProjectDir)Build\$(Platform)\$(Configuration)\Intermediates\</IntDir>
+    <IntDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\Intermediates\</IntDir>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)Build\$(Platform)\$(Configuration)\Intermediates\</IntDir>
+    <IntDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\Intermediates\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IntDir>$(ProjectDir)Build\$(Platform)\$(Configuration)\Intermediates\</IntDir>
+    <IntDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\Intermediates\</IntDir>
     <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>$(ProjectDir)Build\$(Platform)\$(Configuration)\Intermediates\</IntDir>
+    <IntDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\Intermediates\</IntDir>
     <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
