@@ -1,6 +1,6 @@
 #include "Matrix4.h"
 
-namespace Venus { namespace Maths {
+namespace Syndicate { namespace Maths {
 
 Matrix4::Matrix4()
 {

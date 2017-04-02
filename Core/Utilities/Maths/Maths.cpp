@@ -1,6 +1,6 @@
 #include "Maths.h"
 
-namespace Venus { namespace Maths {
+namespace Syndicate { namespace Maths {
 
 float Math::toRadians(float degrees)
 {

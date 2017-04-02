@@ -1,10 +1,9 @@
 #include "Audio.h"
 
-namespace Venus {
+namespace Syndicate {
 
 Audio::Audio(const std::string& path) :
 	m_AudioFilePath(path),
-	m_Close(false),
 	m_Playing(false),
 	m_Audio(nullptr),
 	m_AudioHandle(nullptr),
@@ -12,7 +11,7 @@ Audio::Audio(const std::string& path) :
 {
 	m_AudioFileFormat = m_AudioFilePath.substr(m_AudioFilePath.size() - 3, 3);
 
-#if !VENUS_USE_BUFFERED_AUDIO
+#if !SYNDICATE_USE_BUFFERED_AUDIO
 	m_Audio = gau_load_sound_file(m_AudioFilePath.c_str(), m_AudioFileFormat.c_str());
 #endif
 }
@@ -21,26 +20,24 @@ Audio::Audio(const std::string& name, const std::string& path, bool loop) :
 	m_AudioFileName(name),
 	m_AudioFilePath(path),
 	m_Loop(loop),
-	m_Close(false),
 	m_Playing(false),
 	m_Audio(nullptr),
 	m_AudioHandle(nullptr),
 	m_Volume(100)
 {
-	std::cout << "Initial Volume: " << m_Volume  << std::endl;
 	m_AudioFileFormat = m_AudioFilePath.substr(m_AudioFilePath.size() - 3, 3);
 
-#if !VENUS_USE_BUFFERED_AUDIO
+#if !SYNDICATE_USE_BUFFERED_AUDIO
 	m_Audio = gau_load_sound_file(m_AudioFilePath.c_str(), m_AudioFileFormat.c_str());
 #endif
 }
 
 ga_Handle* Audio::createHandle(void* in_context, gau_SampleSourceLoop** out_loopSrc)
 {
-#if VENUS_USE_BUFFERED_AUDIO
-	m_AudioHandle = gau_create_handle_buffered_file(AudioManager::getMixer(), AudioManager::getStreamManager(), m_AudioFilePath.c_str(), m_AudioFileFormat.c_str(), &AudioManager::setFlagAndDestroyOnFinish, in_context, out_loopSrc);
+#if SYNDICATE_USE_BUFFERED_AUDIO
+	m_AudioHandle = gau_create_handle_buffered_file(AudioManager::i()->getMixer(), AudioManager::i()->getStreamManager(), m_AudioFilePath.c_str(), m_AudioFileFormat.c_str(), &AudioManager::setFlagAndDestroyOnFinish, in_context, out_loopSrc);
 #else
-	m_AudioHandle = gau_create_handle_sound(AudioManager::getMixer(), m_Audio, &AudioManager::setFlagAndDestroyOnFinish, in_context, out_loopSrc);
+	m_AudioHandle = gau_create_handle_sound(AudioManager::i()->getMixer(), m_Audio, &AudioManager::i()->setFlagAndDestroyOnFinish, in_context, out_loopSrc);
 #endif
 
 	return m_AudioHandle;
@@ -51,37 +48,18 @@ void Audio::destroyHandle()
 	ga_handle_destroy(m_AudioHandle);
 }
 
-void Audio::PlayOnThread()
-{
-	m_Over = false;
-	m_Playing = true;
-
-	// NULL means no looping
-	this->createHandle(&m_Over, NULL);
-	ga_handle_play(m_AudioHandle);
-
-	while (!m_Over && !m_Close)
-	{
-		gau_manager_update(AudioManager::getSoundManager());
-		gc_thread_sleep(1);
-	}
-
-	// Notify any waiting threads
-	if (m_Close)
-	{
-		m_ConditionVariable.notify_all();
-	}
-
-	m_Playing = false;
-}
-
 void Audio::Play()
 {
 	m_Over = false;
 	m_Playing = true;
 
-	// NULL means no looping
-	this->createHandle(&m_Over, NULL);
+	// Only create the handle if it does not exist
+	if (m_AudioHandle == nullptr)
+	{
+		// NULL means no looping
+		this->createHandle(&m_Over, NULL);
+	}
+
 	ga_handle_play(m_AudioHandle);
 }
 
@@ -108,7 +86,12 @@ void Audio::Loop()
 	gau_SampleSourceLoop* loopSrc = 0;
 	gau_SampleSourceLoop** pLoopSrc = &loopSrc;
 
-	this->createHandle(&m_Over, pLoopSrc);
+	// Only create the handle if it does not exist
+	if (m_AudioHandle == nullptr)
+	{
+		this->createHandle(&m_Over, pLoopSrc);
+	}
+
 	ga_handle_play(m_AudioHandle);
 }
 
@@ -119,13 +102,18 @@ void Audio::Loop(unsigned int times)
 	m_LoopTimes = times - 1;
 	m_Loop = true;
 
-	this->createHandle(&m_Over, NULL);
+	// Only create the handle if it does not exist
+	if (m_AudioHandle == nullptr)
+	{
+		this->createHandle(&m_Over, NULL);
+	}
+
 	ga_handle_play(m_AudioHandle);
 }
 
 void Audio::Update()
 {
-	gau_manager_update(AudioManager::getSoundManager());
+	gau_manager_update(AudioManager::i()->getSoundManager());
 	gc_thread_sleep(1);
 
 	if (m_Loop)
@@ -152,7 +140,7 @@ void Audio::Update()
 void Audio::VolumeUp(int value)
 {
 	// Invalid value provided
-	if (value > VENUS_AUDIO_MAX_VOLUME || value < VENUS_AUDIO_MIN_VOLUME)
+	if (value > SYNDICATE_AUDIO_MAX_VOLUME || value < SYNDICATE_AUDIO_MIN_VOLUME)
 	{
 		return;
 	}
@@ -160,18 +148,18 @@ void Audio::VolumeUp(int value)
 	m_Volume += value;
 
 	// Overflow, reset to max value
-	if (m_Volume > VENUS_AUDIO_MAX_VOLUME)
+	if (m_Volume > SYNDICATE_AUDIO_MAX_VOLUME)
 	{
-		m_Volume = VENUS_AUDIO_MAX_VOLUME;
+		m_Volume = SYNDICATE_AUDIO_MAX_VOLUME;
 	}
 
-	ga_handle_setParamf(m_AudioHandle, GA_HANDLE_PARAM_GAIN, (float)(m_Volume / VENUS_AUDIO_MAX_VOLUME_F));
+	ga_handle_setParamf(m_AudioHandle, GA_HANDLE_PARAM_GAIN, (float)(m_Volume / SYNDICATE_AUDIO_MAX_VOLUME_F));
 }
 
 void Audio::VolumeDown(int value)
 {
 	// Invalid value provided
-	if (value > VENUS_AUDIO_MAX_VOLUME || value < VENUS_AUDIO_MIN_VOLUME)
+	if (value > SYNDICATE_AUDIO_MAX_VOLUME || value < SYNDICATE_AUDIO_MIN_VOLUME)
 	{
 		return;
 	}
@@ -179,20 +167,19 @@ void Audio::VolumeDown(int value)
 	m_Volume -= value;
 
 	// Underflow, reset to max value
-	if (m_Volume < VENUS_AUDIO_MIN_VOLUME)
+	if (m_Volume < SYNDICATE_AUDIO_MIN_VOLUME)
 	{
-		m_Volume = VENUS_AUDIO_MIN_VOLUME;
+		m_Volume = SYNDICATE_AUDIO_MIN_VOLUME;
 	}
 
-	ga_handle_setParamf(m_AudioHandle, GA_HANDLE_PARAM_GAIN, (float)(m_Volume / VENUS_AUDIO_MAX_VOLUME_F));
+	ga_handle_setParamf(m_AudioHandle, GA_HANDLE_PARAM_GAIN, (float)(m_Volume / SYNDICATE_AUDIO_MAX_VOLUME_F));
 }
 
 Audio::~Audio()
 {
-#if !VENUS_USE_BUFFERED_AUDIO
+#if !SYNDICATE_USE_BUFFERED_AUDIO
 	ga_sound_release(m_Audio);
 #endif
-	//this->destroyHandle();
 }
 
 }

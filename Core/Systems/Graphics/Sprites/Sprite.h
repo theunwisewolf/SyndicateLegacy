@@ -6,9 +6,9 @@
 #include <Systems/Graphics/Sprites/Renderable2D.h>
 #include <Systems/ResourceManager.h>
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
-class Sprite : public Renderable2D
+class SYNDICATE_API Sprite : public Renderable2D
 {
 private:
 	bool m_bDeleteTexture = false;

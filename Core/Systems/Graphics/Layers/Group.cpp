@@ -1,6 +1,6 @@
 #include "Group.h"
 
-namespace Venus { namespace Graphics { 
+namespace Syndicate { namespace Graphics { 
 
 Group::Group(const Maths::Matrix4& transform)
 {

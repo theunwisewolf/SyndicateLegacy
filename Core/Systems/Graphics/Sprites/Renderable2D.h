@@ -13,7 +13,7 @@
 
 #include <Utilities/Maths/Maths.h>
  
-namespace Venus { namespace Graphics { 
+namespace Syndicate { namespace Graphics { 
 
 struct VertexData {
 	Maths::Vector3 vertex;
@@ -22,7 +22,7 @@ struct VertexData {
 	float tid;
 };
 
-class Renderable2D {
+class SYNDICATE_API Renderable2D {
 private:
 	Maths::Vector2 m_Size;
 	Maths::Vector3 m_Position;

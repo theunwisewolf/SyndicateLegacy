@@ -1,6 +1,6 @@
 #include "File.h"
 
-namespace Venus {
+namespace Syndicate {
 namespace Utilities {
 
 File::File()
@@ -20,7 +20,7 @@ File& File::Read(int mode)
 {
 	if (!this->filePath.length())
 	{
-		throw VException("File path is empty.");
+		SYNDICATE_ERROR("File path is empty.");
 		return *this;
 	}
 
@@ -33,7 +33,7 @@ File& File::Read(int mode)
 
 	if (file.fail())
 	{
-		throw VException( "Failed to open file: " + this->filePath );
+		SYNDICATE_ERROR( "Failed to open file: " + this->filePath );
 		return *this;
 	}
   
@@ -54,7 +54,7 @@ File& File::Read(int mode)
 	}
 	else
 	{
-		throw VException("Failed to open file: " + this->filePath);
+		SYNDICATE_ERROR("Failed to open file: " + this->filePath);
 		return *this;
 	}
 }
@@ -63,7 +63,7 @@ File& File::Read(std::streampos startPos, int mode)
 {
 	if (!this->filePath.length())
 	{
-		throw VException("File path is empty.");
+		SYNDICATE_ERROR("File path is empty.");
 		return *this;
 	}
 
@@ -90,7 +90,7 @@ File& File::Read(std::streampos startPos, int mode)
 	}
 	else
 	{
-		throw VException("Failed to open file: " + this->filePath);
+		SYNDICATE_ERROR("Failed to open file: " + this->filePath);
 		return *this;
 	}
 }
@@ -99,7 +99,7 @@ File& File::Read(std::streampos startPos, std::streampos endPos, int mode)
 {
 	if (!this->filePath.length())
 	{
-		throw VException("File path is empty.");
+		SYNDICATE_ERROR("File path is empty.");
 		return *this;
 	}
 
@@ -118,7 +118,7 @@ File& File::Read(std::streampos startPos, std::streampos endPos, int mode)
 	}
 	else
 	{
-		throw VException("Failed to open file: " + this->filePath);
+		SYNDICATE_ERROR("Failed to open file: " + this->filePath);
 		return *this;
 	}
 }
@@ -133,7 +133,8 @@ std::string File::_Read(std::ifstream& file)
 
 		if (!file)
 		{
-			std::cout << "Failed to read from file!" << std::endl;
+			SYNDICATE_ERROR("Failed to read from file!");
+			return "";
 		}
 
 		std::vector<char> buffer;

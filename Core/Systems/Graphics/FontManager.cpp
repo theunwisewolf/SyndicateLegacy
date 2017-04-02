@@ -1,12 +1,18 @@
 #include "FontManager.h"
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
 std::map<std::string, texture_font_t*> FontManager::m_FontCache;
 std::map<std::string, std::string> FontManager::m_FontDataCache;
 
 void FontManager::loadFont(const std::string& fontName, const std::string& fontPath)
 {
+	if (!Utilities::File::Exists(fontPath))
+	{
+		SYNDICATE_WARNING( "Font " + fontName + " at path " + fontPath + " does not exist." );
+		return;
+	}
+
 	Utilities::File fontData = Utilities::File(fontPath, true);
 
 	std::string data = fontData.Read().getData();

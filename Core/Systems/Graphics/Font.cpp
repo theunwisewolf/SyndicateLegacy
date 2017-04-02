@@ -1,6 +1,6 @@
 #include "Font.h"
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
 Maths::Vector2 Font::s_Scale = Maths::Vector2(1.0f, 1.0f);
 

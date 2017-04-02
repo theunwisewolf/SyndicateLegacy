@@ -7,15 +7,16 @@
 #include <string>
 #include <fstream>
 #include <vector>
-#include <Utilities\VException.h>
+#include <Utilities/VException.h>
+#include <Utilities/Logger.h>
 
-namespace Venus {
+namespace Syndicate {
 namespace Utilities {
 
 enum class FILETYPE { BINARY, TEXT };
 enum class MODE { READ, WRITE, READWRITE };
 
-class File
+class SYNDICATE_API File
 {
 private:
 	std::string data;
@@ -37,6 +38,13 @@ public:
 
 	~File();
 	
+public:
+	static inline bool Exists(const std::string& name) 
+	{
+		if (FILE *file = fopen(name.c_str(), "r")) { fclose(file); return true; }
+		return false;
+	}
+
 private:
 	std::string _Read(std::ifstream& file);
 };

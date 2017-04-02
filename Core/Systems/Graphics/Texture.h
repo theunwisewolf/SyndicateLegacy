@@ -2,15 +2,16 @@
 #define TEXTURE_H_
 
 #include <Common.h>
+#include <Utilities/Logger.h>
+#include <Utilities/File.h>
 
 #include <string>
 
-#include <GL/glew.h>
 #include <Utilities/Image.h>
 
-namespace Venus { namespace Graphics { 
+namespace Syndicate { namespace Graphics { 
 
-class Texture {
+class SYNDICATE_API Texture {
 private:
 	GLuint m_TextureID;
 	GLsizei m_Width;

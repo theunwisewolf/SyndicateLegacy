@@ -1,6 +1,6 @@
 #include "Texture.h"
 #include <iostream>
-namespace Venus { namespace Graphics { 
+namespace Syndicate { namespace Graphics { 
 
 Texture::Texture(const std::string& filename)
 	: m_Filename(filename)
@@ -9,6 +9,13 @@ Texture::Texture(const std::string& filename)
 
 void Texture::loadTexture()
 {
+	// Make sure the texture file exists, otherwise send a warning
+	if (!Utilities::File::Exists(this->m_Filename))
+	{
+		SYNDICATE_WARNING("Texture file " + this->m_Filename + " does not exist.");
+		return;
+	}
+
 	FIBITMAP* dataInBits = Utilities::loadImage(this->m_Filename.c_str(), &this->m_Width, &this->m_Height);
 	BYTE* pixels = FreeImage_GetBits(dataInBits);
 	

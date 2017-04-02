@@ -6,9 +6,9 @@
 #include <string>
 #include <Utilities/Maths/Vector4.h>
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
-class Color
+class SYNDICATE_API Color
 {
 private:
 	bool m_IsNormalized;
@@ -25,10 +25,10 @@ public:
 	const float& Blue() const { return m_ColorComponents.z; }
 	const float& Alpha() const { return m_ColorComponents.w; }
 
-	const float& RedN() const { return m_ColorComponents.x / 255.0f; }
-	const float& GreenN() const { return m_ColorComponents.y / 255.f; }
-	const float& BlueN() const { return m_ColorComponents.z / 255.0f; }
-	const float& AlphaN() const { return m_ColorComponents.w / 255.0f; }
+	float RedN() const { return m_ColorComponents.x / 255.0f; }
+	float GreenN() const { return m_ColorComponents.y / 255.f; }
+	float BlueN() const { return m_ColorComponents.z / 255.0f; }
+	float AlphaN() const { return m_ColorComponents.w / 255.0f; }
 
 	Maths::Vector4 Normalize() const;
 	unsigned int Pack(const std::string& format = "abgr") const;

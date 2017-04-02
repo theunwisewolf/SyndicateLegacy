@@ -6,9 +6,9 @@
 #include <exception>
 #include <string>
 
-namespace Venus { namespace Utilities {
+namespace Syndicate { namespace Utilities {
 
-class VException : public std::exception
+class SYNDICATE_API VException : public std::exception
 {
 public:
 	std::string message;

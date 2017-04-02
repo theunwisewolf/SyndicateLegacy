@@ -1,6 +1,6 @@
 #include "Vector2.h"
 
-namespace Venus {
+namespace Syndicate {
 	namespace Maths {
 
 Vector2::Vector2()

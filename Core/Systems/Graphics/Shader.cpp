@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 Shader::Shader()
 {
 }

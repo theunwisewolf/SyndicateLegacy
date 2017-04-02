@@ -10,46 +10,78 @@
 #include <condition_variable>
 
 #include <Systems/Audio/Audio.h>
+#include <Utilities/Logger.h>
+#include <Utilities/File.h>
 
-#include <gorilla\ga.h>
-#include <gorilla\gau.h>
+#include <gorilla/ga.h>
+#include <gorilla/gau.h>
 
-#define VENUS_USE_BUFFERED_AUDIO 1
-#define VENUS_AUDIO_MAX_VOLUME 100
-#define VENUS_AUDIO_MAX_VOLUME_F 100.0f
-#define VENUS_AUDIO_MIN_VOLUME 1
-#define VENUS_AUDIO_MIN_VOLUME_F 0.1f
+#define SYNDICATE_USE_BUFFERED_AUDIO 1
+#define SYNDICATE_AUDIO_MAX_VOLUME 100
+#define SYNDICATE_AUDIO_MAX_VOLUME_F 100.0f
+#define SYNDICATE_AUDIO_MIN_VOLUME 1
+#define SYNDICATE_AUDIO_MIN_VOLUME_F 0.1f
 
-namespace Venus {
+namespace Syndicate {
 
-class Audio;
+class SYNDICATE_API Audio;
 
-class AudioManager 
+SYNDICATE_TEMPLATE template class SYNDICATE_API std::allocator<Audio*>;
+SYNDICATE_TEMPLATE template class SYNDICATE_API std::vector<Audio*>;
+
+class SYNDICATE_API AudioManager 
 {
-private: 
-	static std::vector<Audio*> m_AudioCache;
-	static std::vector<std::vector<Audio*>> m_AudioQueueCache;
+private:
+	static AudioManager* instance;
+public:
+	static AudioManager* i()
+	{
+		return instance;
+	}
 
-	static ga_StreamManager* m_StreamManager;
-	static gau_Manager* m_SoundManager;
-	static ga_Mixer* m_Mixer;
+private: 
+	// Thread Related Stuff
+	std::thread m_AudioThread;
+	std::condition_variable m_ConditionVariable;
+	std::atomic<bool> m_StopThread;
+	std::atomic<bool> m_InsertingAudio;
+	std::mutex m_Mutex;
+
+	std::vector<Audio*> m_AudioCache;
+
+	ga_StreamManager* m_StreamManager;
+	gau_Manager* m_SoundManager;
+	ga_Mixer* m_Mixer;
 
 public:
-	static void Init();
-	static void Clear();
-	static void Update();
+	AudioManager();
+	~AudioManager();
 
-	static Audio* Get(const std::string& name);
-	static void Load(Audio* audio);
-	static int LoadQueue(std::vector<Audio*> audioQueue);
-	static void PlayQueue(int index);
-	static std::thread BackgroundAudio(int index);
-	static void Delete(Audio* audio);
+	// Initializes the class
+	void Init();
+	// The thread handler
+	void Start();
+	// Stops a thread
+	void Stop();
+	// Clears the members
+	void Clear();
+	// Updates Audio
+	void Update();
 
-	static ga_StreamManager* getStreamManager() { return m_StreamManager;  }
-	static gau_Manager* getSoundManager() { return m_SoundManager; }
-	static ga_Mixer* getMixer() { return m_Mixer; }
-	static std::vector<Audio*> GetQueue(int index) { if (index >= 0 && index < m_AudioQueueCache.size()) return m_AudioQueueCache[index]; }
+	// Audio Related Functions
+	// Stops all playing audio files
+	void StopAll();
+	void VolumeUp(size_t volume);
+	void VolumeDown(size_t volume);
+
+	Audio* Get(const std::string& name);
+	void Load(Audio* audio);
+	void Delete(Audio* audio);
+
+	ga_StreamManager* getStreamManager() { return m_StreamManager;  }
+	gau_Manager* getSoundManager() { return m_SoundManager; }
+	ga_Mixer* getMixer() { return m_Mixer; }
+	std::atomic<bool>& getThreadStatus() { return std::ref(m_StopThread); }
 
 	static void setFlagAndDestroyOnFinish(ga_Handle* in_handle, void* in_context);
 };

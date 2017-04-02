@@ -8,9 +8,9 @@
 #include <Systems/Graphics/Renderers/Renderer2D.h>
 #include <Utilities/Maths/Maths.h>
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
-class SimpleRenderer2D : public Renderer2D
+class SYNDICATE_API SimpleRenderer2D : public Renderer2D
 {
 private:
 	std::deque<const StaticSprite*> m_RenderQueue;

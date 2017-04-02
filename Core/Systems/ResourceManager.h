@@ -8,19 +8,19 @@
 #include <vector>
 #include <unordered_map>
 
-namespace Venus {
+namespace Syndicate {
 
 using namespace Graphics;
 
-class ResourceManager {
+class SYNDICATE_API ResourceManager {
 private:
 	unsigned int m_TextureCount;
 	static std::unordered_map<std::string, Texture*> textureCache;
 
 private:
 	ResourceManager() { m_TextureCount = 0; }
-	ResourceManager(const ResourceManager& copy) {}
-	ResourceManager& operator=(const ResourceManager& copy) {}
+	ResourceManager(const ResourceManager& copy);
+	ResourceManager& operator=(const ResourceManager& copy);
 
 public:
 	static ResourceManager* i();

@@ -12,9 +12,9 @@
 #include <Systems/Graphics/Font.h>
 #include <Systems/Graphics/FontManager.h>
 
-namespace Venus { namespace Graphics { 
+namespace Syndicate { namespace Graphics { 
 
-class Label : public Renderable2D
+class SYNDICATE_API Label : public Renderable2D
 {
 private:
 	std::string m_Text;

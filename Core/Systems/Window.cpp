@@ -85,7 +85,7 @@ bool Window::Init()
 	glfwSetFramebufferSizeCallback(this->m_Window, &Window::glfwWindowSizeCallback);
 	glfwSetMouseButtonCallback(this->m_Window, &Window::glfwMouseButtonCallback);
 
-	// Pass our "Window" class object to the glfw for callbacks to use
+	// Pass our "Window" class SYNDICATE_API object to the glfw for callbacks to use
 	glfwSetWindowUserPointer(this->m_Window, this);
 
 	// Make the context current
@@ -108,16 +108,21 @@ bool Window::Init()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// And finally print some fancy OpenGL Info
-	std::cout << "OpenGL Version: " << glGetString( GL_VERSION ) << std::endl;
-	std::cout << "Vendor: " << glGetString( GL_VENDOR ) << std::endl;
-	std::cout << "Renderer: " << glGetString( GL_RENDERER ) << std::endl;
+	std::string OPENGL_VERSION(reinterpret_cast<char const*>(glGetString(GL_VERSION)));
+	std::string OPENGL_VENDOR(reinterpret_cast<char const*>(glGetString(GL_VENDOR)));
+	std::string OPENGL_RENDERER(reinterpret_cast<char const*>(glGetString(GL_RENDERER)));
+
+	SYNDICATE_INFO_NH("OpenGL Version: " + OPENGL_VERSION);
+	SYNDICATE_INFO_NH("Vendor: " + OPENGL_VENDOR);
+	SYNDICATE_INFO_NH("Renderer: " + OPENGL_RENDERER);
+	SYNDICATE_INFO_NH(""); // For a new line
 
 	// Initialize AudioManager
-	Venus::AudioManager::Init();
+	SYNDICATE_INFO("Initializing Audio Manager...");
+	SYNDICATE_SUCCESS("Successfully Initialized Audio Manager.");
 
 	return true;
 }
-
 
 void Window::Clear() const
 {
@@ -190,8 +195,8 @@ bool Window::Closed() const
 
 void Window::Close() const
 {
-	Venus::Graphics::FontManager::Clear();
-	Venus::AudioManager::Clear();
+	Syndicate::Graphics::FontManager::Clear();
+	Syndicate::AudioManager::i()->Stop();
 
 	glfwDestroyWindow(this->m_Window);
 	glfwTerminate();
@@ -223,5 +228,6 @@ void Window::getMousePosition(double &x, double &y) const
 
 Window::~Window()
 {
+	SYNDICATE_INFO("Shutting Down.");
 	//this->Close();
 }

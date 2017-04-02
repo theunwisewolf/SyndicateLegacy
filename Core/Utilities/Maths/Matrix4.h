@@ -2,12 +2,11 @@
 #define MATRIX4_H_
 
 #include <Common.h>
-
 #include <Utilities\Maths\Maths.h>
 
-namespace Venus { namespace Maths {
+namespace Syndicate { namespace Maths {
 
-class Matrix4
+class SYNDICATE_API Matrix4
 {
 public:
 	union {

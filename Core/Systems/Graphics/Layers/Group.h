@@ -6,9 +6,9 @@
 #include <Systems/Graphics/Sprites/Renderable2D.h>
 #include <vector>
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
-class Group : public Renderable2D
+class SYNDICATE_API Group : public Renderable2D
 {
 private:
 	std::vector<Renderable2D*> m_Sprites;

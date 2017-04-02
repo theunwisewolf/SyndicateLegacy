@@ -1,6 +1,6 @@
 #include "IndexBuffer.h"
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
 IndexBuffer::IndexBuffer(GLushort* data, GLsizei count) :
 	m_Count(count)

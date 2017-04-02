@@ -1,6 +1,6 @@
 #include "VException.h"
 
-namespace Venus { namespace Utilities {
+namespace Syndicate { namespace Utilities {
 
 VException::VException(std::string message)
 	: message{ message }

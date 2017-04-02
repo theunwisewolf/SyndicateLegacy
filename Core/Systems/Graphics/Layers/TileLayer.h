@@ -6,9 +6,9 @@
 #include <Systems/Graphics/Layers/Layer.h>
 #include <Systems/Graphics/Renderers/BatchRenderer2D.h>
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
-class TileLayer : public Layer
+class SYNDICATE_API TileLayer : public Layer
 {
 public:
 	TileLayer(Shader* shader);

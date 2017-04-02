@@ -9,9 +9,9 @@
 
 #include <Common.h>
 
-namespace Venus { namespace Graphics { 
+namespace Syndicate { namespace Graphics { 
 
-class Font {
+class SYNDICATE_API Font {
 private:
 	static Maths::Vector2 s_Scale;
 

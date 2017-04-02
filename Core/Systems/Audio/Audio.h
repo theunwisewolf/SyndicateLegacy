@@ -10,22 +10,12 @@
 #include <gorilla\ga.h>
 #include <gorilla\gau.h>
 
-#include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <atomic>
+namespace Syndicate {
 
-namespace Venus {
+class SYNDICATE_API AudioManager;
 
-class AudioManager;
-
-class Audio 
+class SYNDICATE_API Audio 
 {
-public:
-	std::mutex m_Mutex;
-	std::condition_variable m_ConditionVariable;
-	std::atomic<bool> m_Close;
-
 private: 
 	std::string m_AudioFileName;
 	std::string m_AudioFilePath;
@@ -55,12 +45,11 @@ public:
 
 	void Update();
 	void Play();
-	void PlayOnThread();
-	void ShutDownThread() { m_Close = true; }
 	void Pause();
 	void Stop();
 	void Loop();
 	void Loop(unsigned int times);
+	bool IsPlaying() const { return m_Playing; }
 
 	// Volume can range from 0-100, we will normalize it to 0.0 to 1.0
 	void VolumeUp(int value);

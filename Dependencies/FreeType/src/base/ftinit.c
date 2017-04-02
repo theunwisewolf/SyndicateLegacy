@@ -87,12 +87,12 @@
 #define FT_EXTERNC  extern
 #endif
 
-  /* declare the module's class creation/destruction functions */
+  /* declare the module's class SYNDICATE_API creation/destruction functions */
 #undef  FT_USE_MODULE
 #define FT_USE_MODULE( type, x )                            \
   FT_EXTERNC FT_Error                                       \
   FT_Create_Class_ ## x( FT_Library         library,        \
-                         FT_Module_Class*  *output_class ); \
+                         FT_Module_Class*  *output_class SYNDICATE_API ); \
   FT_EXTERNC void                                           \
   FT_Destroy_Class_ ## x( FT_Library        library,        \
                           FT_Module_Class*  clazz );

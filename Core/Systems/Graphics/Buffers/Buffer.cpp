@@ -1,7 +1,7 @@
 #include "Buffer.h"
 
 #include <iostream>
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 Buffer::Buffer(GLfloat* data, GLsizei count, GLuint componentCount) :
 	m_ComponentCount(componentCount)
 {

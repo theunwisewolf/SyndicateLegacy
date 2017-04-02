@@ -7,9 +7,9 @@
 #include <Systems/Graphics/Texture.h>
 #include <Utilities/Maths/Maths.h>
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
-class StaticSprite : public Renderable2D
+class SYNDICATE_API StaticSprite : public Renderable2D
 {
 private: 
 	Shader& m_Shader;

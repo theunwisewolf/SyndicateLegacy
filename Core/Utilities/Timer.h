@@ -9,9 +9,9 @@
 #include <sys/time.h>
 #endif
 
-namespace Venus { namespace Utilities { 
+namespace Syndicate { namespace Utilities { 
 
-class Timer
+class SYNDICATE_API Timer
 {
 private:
 

@@ -6,8 +6,8 @@
 #define MAX_KEYS 1024
 #define MAX_BTNS 32
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <glew.h>
+#include <glfw3.h>
 
 #include <string>
 #include <iostream>
@@ -16,8 +16,9 @@
 
 #include <Systems/Graphics/FontManager.h>
 #include <Systems/Audio/AudioManager.h>
+#include <Utilities/Logger.h>
 
-class Window
+class SYNDICATE_API Window
 {
 public:
 	static Window* i() {

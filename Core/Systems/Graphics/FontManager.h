@@ -3,6 +3,8 @@
 
 #include <Common.h>
 
+#include <Utilities/Logger.h>
+
 #include <map>
 #include <string>
 #include <vector>
@@ -13,9 +15,9 @@
 #define ATLAS_HEIGHT	512
 #define ATLAS_BIT_DEPTH 1
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
-class FontManager
+class SYNDICATE_API FontManager
 {
 	// Name => Texture Font
 	static std::map<std::string, texture_font_t*> m_FontCache;

@@ -10,13 +10,11 @@
 #include <Systems/Graphics/Font.h>
 #include <Systems/Graphics/Color.h>
 
-#define RENDERER2D_ERROR(x) std::cout << "Renderer2D Error: " << x << std::endl
+namespace Syndicate { namespace Graphics { 
 
-namespace Venus { namespace Graphics { 
+class SYNDICATE_API Renderable2D;
 
-class Renderable2D;
-
-class Renderer2D
+class SYNDICATE_API Renderer2D
 {
 protected:
 	std::vector<Maths::Matrix4> m_TransformationStack;

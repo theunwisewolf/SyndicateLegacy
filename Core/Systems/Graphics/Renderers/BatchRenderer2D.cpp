@@ -1,6 +1,6 @@
 #include "BatchRenderer2D.h"
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
 void BatchRenderer2D::start()
 {
@@ -14,7 +14,7 @@ void BatchRenderer2D::submit(const Renderable2D* renderable)
 {
 	if (this->m_RendererStarted == false)
 	{
-		RENDERER2D_ERROR("Renderer2D was not started using the start() method. Starting internally.");
+		SYNDICATE_WARNING("Renderer2D was not started using the start() method. Starting internally.");
 		this->start();
 	}
 
@@ -94,7 +94,7 @@ void BatchRenderer2D::DrawString(const std::string& text, Maths::Vector2 positio
 {
 	if (this->m_RendererStarted == false)
 	{
-		RENDERER2D_ERROR("Renderer2D was not started using the start() method. Starting internally.");
+		SYNDICATE_WARNING("Renderer2D was not started using the start() method. Starting internally.");
 		this->start();
 	}
 
@@ -218,7 +218,7 @@ void BatchRenderer2D::flush()
 {
 	if (this->m_RendererStarted == true)
 	{
-		RENDERER2D_ERROR("Renderer2D was not ended using the end() method. Ending internally.");
+		SYNDICATE_WARNING("Renderer2D was not ended using the end() method. Ending internally.");
 		this->end();
 	}
 

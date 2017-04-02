@@ -3,14 +3,15 @@
 
 #include <Common.h>
 
+#include <Utilities/Logger.h>
+
 #include <Systems/Graphics/Renderers/Renderer2D.h>
 #include <Systems/Graphics/Color.h>
 #include <Systems/Graphics/Sprites/Renderable2D.h>
-#include <GL/glew.h>
+#include <Systems/Window.h>
 #include <map>
 #include <string>
 #include <freetype-gl.h>
-#include <Systems/Window.h>
 
 #define SHADER_VERTEX_POSITION_LOCATION 0
 #define SHADER_VERTEX_COLOR_LOCATION    1
@@ -23,9 +24,9 @@
 #define RENDERER2D_BUFFER_SIZE		RENDERER2D_SPRITE_SIZE * RENDERER2D_MAX_SPRITES
 #define RENDERER2D_INDICES_SIZE		RENDERER2D_MAX_SPRITES * 6
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 	
-class BatchRenderer2D : public Renderer2D
+class SYNDICATE_API BatchRenderer2D : public Renderer2D
 {
 private:
 	GLuint  m_VAO;

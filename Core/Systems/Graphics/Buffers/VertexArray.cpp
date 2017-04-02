@@ -1,6 +1,6 @@
 #include "VertexArray.h"
 #include <iostream>
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
 VertexArray::VertexArray()
 {

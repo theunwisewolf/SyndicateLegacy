@@ -3,11 +3,9 @@
 
 #include <Common.h>
 
-#include <GL/glew.h>
+namespace Syndicate { namespace Graphics {
 
-namespace Venus { namespace Graphics {
-
-class IndexBuffer
+class SYNDICATE_API IndexBuffer
 {
 private:
 	GLuint m_BufferID;

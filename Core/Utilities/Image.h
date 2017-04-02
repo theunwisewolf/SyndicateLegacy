@@ -3,10 +3,9 @@
 
 #include <Common.h>
 
-#include <GL/glew.h>
-#include <FreeImage/FreeImage.h>
+#include <FreeImage.h>
 
-namespace Venus { namespace Utilities { 
+namespace Syndicate { namespace Utilities { 
 
 static FIBITMAP* loadImage(const char* filename, GLsizei *width, GLsizei* height)
 {

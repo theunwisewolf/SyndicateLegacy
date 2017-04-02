@@ -1,6 +1,6 @@
 #include "Color.h"
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
 Color::Color(const unsigned int& color, bool autoSetAlpha)
 {

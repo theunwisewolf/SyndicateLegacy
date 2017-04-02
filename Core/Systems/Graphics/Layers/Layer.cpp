@@ -1,6 +1,6 @@
 #include "Layer.h"
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
 Layer::Layer(Renderer2D* renderer, Shader* shader, Maths::Matrix4 projectionMatrix)
 	: m_Renderer(renderer),

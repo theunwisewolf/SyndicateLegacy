@@ -1,16 +1,32 @@
 #include "AudioManager.h"
-#include <Systems/Window.h>
 
-namespace Venus {
+namespace Syndicate {
 
-std::vector<std::vector<Audio*>> AudioManager::m_AudioQueueCache;
-std::vector<Audio*> AudioManager::m_AudioCache;
-gau_Manager* AudioManager::m_SoundManager = nullptr;
-ga_Mixer* AudioManager::m_Mixer = nullptr;
-ga_StreamManager* AudioManager::m_StreamManager = nullptr;
+AudioManager* AudioManager::instance = nullptr;
 
-std::mutex m;
-std::condition_variable cv;
+AudioManager::AudioManager() :
+	m_AudioThread(),
+	m_StopThread(false),
+	m_SoundManager(nullptr),
+	m_Mixer(nullptr),
+	m_StreamManager(nullptr),
+	m_InsertingAudio(false)
+{
+	AudioManager::instance = this;
+}
+
+AudioManager::~AudioManager()
+{
+	m_StopThread = true;
+	this->Clear();
+
+	if (m_AudioThread.joinable())
+	{
+		m_AudioThread.join();
+	}
+
+	SYNDICATE_SUCCESS("Audio Manager Terminated...");
+}
 
 void AudioManager::Init()
 {
@@ -19,58 +35,114 @@ void AudioManager::Init()
 	AudioManager::m_SoundManager = gau_manager_create_custom(GA_DEVICE_TYPE_DEFAULT, GAU_THREAD_POLICY_MULTI, 4, 512);
 	AudioManager::m_Mixer = gau_manager_mixer(AudioManager::m_SoundManager);
 	AudioManager::m_StreamManager = gau_manager_streamManager(AudioManager::m_SoundManager);
+
+	m_AudioThread = std::thread(&AudioManager::Start, this);
+}
+
+void AudioManager::Start()
+{
+	while (!m_StopThread)
+	{
+		this->Update();
+	}
+
+	// Notify waiting threads
+	this->m_ConditionVariable.notify_all();
+}
+
+void AudioManager::Stop()
+{
+	m_StopThread = true;
 }
 
 void AudioManager::Update()
 {
-	for (auto audio : m_AudioCache)
+	// A new file is to be insert in the cache
+	if (m_InsertingAudio)
 	{
-		audio->Update();
+		// Notify waiting threads to do their work
+		//this->m_ConditionVariable.notify_all();
+
+		// Halt this thread and let it insert
+		std::unique_lock<std::mutex> lock(this->m_Mutex);
+		this->m_ConditionVariable.wait(lock);
+		lock.unlock();
+	}
+
+	std::vector<Audio*> copy(m_AudioCache);
+
+	for (auto audioIt = copy.begin(); audioIt != copy.end(); audioIt++)
+	{
+		(*audioIt)->Update();
+	}
+}
+
+void AudioManager::StopAll()
+{
+	std::vector<Audio*> copy(m_AudioCache);
+	for (auto audioIt = copy.begin(); audioIt != copy.end(); audioIt++)
+	{
+		(*audioIt)->Stop();
 	}
 }
 
 Audio* AudioManager::Get(const std::string& name)
 {
-	for (auto audio : m_AudioCache)
+	for (auto audioIt = m_AudioCache.begin(); audioIt != m_AudioCache.end(); audioIt++)
 	{
-		if (audio->getName() == name)
+		if ((*audioIt)->getName() == name)
 		{
-			return audio;
+			return (*audioIt);
 		}
 	}
 
 	return nullptr;
 }
 
+void AudioManager::VolumeUp(size_t volume)
+{
+	for (auto audioIt = m_AudioCache.begin(); audioIt != m_AudioCache.end(); audioIt++)
+	{
+		(*audioIt)->VolumeUp(volume);
+	}
+}
+
+void AudioManager::VolumeDown(size_t volume)
+{
+	for (auto audioIt = m_AudioCache.begin(); audioIt != m_AudioCache.end(); audioIt++)
+	{
+		(*audioIt)->VolumeDown(volume);
+	}
+}
+
 void AudioManager::Load(Audio* audio)
 {
-	m_AudioCache.push_back(audio);
-}
-
-int AudioManager::LoadQueue(std::vector<Audio*> audioQueue)
-{
-	m_AudioQueueCache.push_back(audioQueue);
-
-	return m_AudioQueueCache.size() - 1;
-}
-
-std::thread AudioManager::BackgroundAudio(int index)
-{
-	std::thread audioThread(&AudioManager::PlayQueue, index);
-	return audioThread;
-}
-
-void AudioManager::PlayQueue(int index)
-{
-	if (index >= 0 && index < m_AudioQueueCache.size())
+	if (!Utilities::File::Exists(audio->getPath()))
 	{
-		std::vector<Audio*> audioQueue = m_AudioQueueCache[index];
+		SYNDICATE_WARNING("Audio File " + audio->getName() + " does not exist at " + audio->getPath());
+		delete audio;
+		return;
+	}
 
-		for (auto audio : audioQueue)
+	// We will only insert if the audio does not already exist
+	for (auto _audio : m_AudioCache)
+	{
+		if (_audio->getName() == audio->getName())
 		{
-			audio->PlayOnThread();
+			//SYNDICATE_WARNING("Audio File " + audio->getName() + " already in cache, returning");
+			delete audio;
+			return;
 		}
 	}
+
+	m_InsertingAudio = true;
+	m_AudioCache.push_back(audio);
+
+	// Resume audio Playing
+	this->m_ConditionVariable.notify_all();
+
+	// Done inserting
+	m_InsertingAudio = false;
 }
 
 void AudioManager::Delete(Audio* audio)
@@ -80,34 +152,20 @@ void AudioManager::Delete(Audio* audio)
 
 void AudioManager::Clear()
 {
+	// Thread is still playing, wait for it to finish
+	std::unique_lock<std::mutex> lock(this->m_Mutex);
+	this->m_ConditionVariable.wait(lock, [this]() {
+		bool status = this->getThreadStatus();
+		return status;
+	});
+	lock.unlock();
+
 	for (auto audio : m_AudioCache)
 	{
 		delete audio;
 	}
 
 	m_AudioCache.clear();
-
-	for (int i = 0; i < m_AudioQueueCache.size(); i++)
-	{
-		for (int j = 0; j < m_AudioQueueCache[i].size(); j++)
-		{
-			// Shut down the thread so that the audio stops playing
-			m_AudioQueueCache[i][j]->ShutDownThread();
-			m_AudioQueueCache[i][j]->Stop();
-
-			if (i == 0 && j == 0)
-			{
-				std::unique_lock<std::mutex> lock(m_AudioQueueCache[i][j]->m_Mutex);
-				m_AudioQueueCache[i][j]->m_ConditionVariable.wait(lock);
-				lock.unlock();
-				delete m_AudioQueueCache[i][j];
-			}
-		}
-		
-		m_AudioQueueCache[i].clear();
-	}
-
-	m_AudioQueueCache.clear();
 
 	gau_manager_destroy(AudioManager::m_SoundManager);
 	gc_shutdown();

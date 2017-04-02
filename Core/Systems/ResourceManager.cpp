@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 
-namespace Venus {
+namespace Syndicate {
 
 std::unordered_map<std::string, Texture*> ResourceManager::textureCache;
 

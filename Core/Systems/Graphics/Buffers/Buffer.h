@@ -3,11 +3,13 @@
 
 #include <Common.h>
 
-#include <GL/glew.h>
+namespace Syndicate { namespace Graphics {
+class SYNDICATE_API Buffer;
 
-namespace Venus { namespace Graphics {
+SYNDICATE_TEMPLATE template class SYNDICATE_API std::allocator<Buffer*>;
+SYNDICATE_TEMPLATE template class SYNDICATE_API std::vector<Buffer*>;
 
-class Buffer
+class SYNDICATE_API Buffer
 {
 private:
 	GLuint m_BufferID;

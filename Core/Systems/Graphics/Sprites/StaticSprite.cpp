@@ -1,6 +1,6 @@
 #include "StaticSprite.h"
 
-namespace Venus { namespace Graphics { 
+namespace Syndicate { namespace Graphics { 
 
 StaticSprite::StaticSprite(Maths::Vector3 position, Maths::Vector2 size, Maths::Vector4 color, Shader shader)
 	: Renderable2D(position, size, color), m_Shader{shader}

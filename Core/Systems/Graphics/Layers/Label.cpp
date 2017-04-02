@@ -1,6 +1,6 @@
 #include "Label.h"
 
-namespace Venus { namespace Graphics { 
+namespace Syndicate { namespace Graphics { 
 
 Label::Label(std::string text, Maths::Vector2 position, Font font) :
 	m_TextHeight(0.0f),
@@ -68,7 +68,8 @@ void Label::Init()
 	{
 		texture_glyph_t* glyph = texture_font_get_glyph(&m_FTFont, &m_Text[i]);
 
-		m_TextHeight = std::max((float)glyph->height, m_TextHeight);
+		using namespace std;
+		m_TextHeight = max((float)glyph->height, m_TextHeight);
 		m_TextWidth += glyph->width;
 	}
 

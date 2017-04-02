@@ -9,9 +9,9 @@
 #include <Systems/Graphics/Renderers/Renderer2D.h>
 #include <Systems/Graphics/Sprites/Renderable2D.h>
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
-class Layer
+class SYNDICATE_API Layer
 {
 protected:
 	Shader* m_Shader;

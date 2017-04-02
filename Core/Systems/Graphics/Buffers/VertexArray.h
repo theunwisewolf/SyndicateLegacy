@@ -5,11 +5,10 @@
 
 #include <Systems/Graphics/Buffers/Buffer.h>
 #include <vector>
-#include <GL/glew.h>
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
-class VertexArray
+class SYNDICATE_API VertexArray
 {
 	GLuint m_ArrayID;
 	std::vector<Buffer*> m_Buffers;

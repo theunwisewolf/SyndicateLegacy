@@ -13,9 +13,9 @@
 
 #include <math.h>
 
-namespace Venus { namespace Maths {
+namespace Syndicate { namespace Maths {
 
-class Math
+class SYNDICATE_API Math
 {
 public:
 	static float toRadians(float degrees);

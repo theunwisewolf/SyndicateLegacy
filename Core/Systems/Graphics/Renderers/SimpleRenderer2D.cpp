@@ -1,7 +1,7 @@
 #include "SimpleRenderer2D.h"
 #include <Systems/Graphics/Sprites/Renderable2D.h>
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
 void SimpleRenderer2D::flush()
 {

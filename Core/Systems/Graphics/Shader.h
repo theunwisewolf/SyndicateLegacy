@@ -3,21 +3,20 @@
 
 #include <Common.h>
 
-#define VENUS_DEBUG 1
+#define SYNDICATE_DEBUG 1
 #define SHADER_ERROR(x) std::cout << "Shader Error: " << x << std::endl
 
 #include <vector>
 #include <string>
 #include <iostream>
 
-#include <GL/glew.h>
 #include <Utilities\Maths\Maths.h>
 #include <Utilities/File.h>
 #include <Utilities/VException.h>
 
-namespace Venus { namespace Graphics {
+namespace Syndicate { namespace Graphics {
 
-class Shader
+class SYNDICATE_API Shader
 {
 private:
 	GLuint m_ShaderID = -1;

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Venus", "Venus.vcxproj", "{3271C34E-B5BA-4364-B757-628370E74EB1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Syndicate", "Syndicate.vcxproj", "{3271C34E-B5BA-4364-B757-628370E74EB1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GorillaAudio", "Dependencies\GorillaAudio\GorillaAudio.vcxproj", "{1242924F-BB68-4414-B15B-DC8936A3EA12}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Venus", "..\Venus\Venus.vcxproj", "{E12DB3B7-2A7A-4A98-92FC-5AE40FFDD188}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,18 @@ Global
 		{1242924F-BB68-4414-B15B-DC8936A3EA12}.Release+Libs|x64.Build.0 = Release|x64
 		{1242924F-BB68-4414-B15B-DC8936A3EA12}.Release+Libs|x86.ActiveCfg = Release|Win32
 		{1242924F-BB68-4414-B15B-DC8936A3EA12}.Release+Libs|x86.Build.0 = Release|Win32
+		{E12DB3B7-2A7A-4A98-92FC-5AE40FFDD188}.Debug|x64.ActiveCfg = Debug|x64
+		{E12DB3B7-2A7A-4A98-92FC-5AE40FFDD188}.Debug|x64.Build.0 = Debug|x64
+		{E12DB3B7-2A7A-4A98-92FC-5AE40FFDD188}.Debug|x86.ActiveCfg = Debug|Win32
+		{E12DB3B7-2A7A-4A98-92FC-5AE40FFDD188}.Debug|x86.Build.0 = Debug|Win32
+		{E12DB3B7-2A7A-4A98-92FC-5AE40FFDD188}.Release|x64.ActiveCfg = Release|x64
+		{E12DB3B7-2A7A-4A98-92FC-5AE40FFDD188}.Release|x64.Build.0 = Release|x64
+		{E12DB3B7-2A7A-4A98-92FC-5AE40FFDD188}.Release|x86.ActiveCfg = Release|Win32
+		{E12DB3B7-2A7A-4A98-92FC-5AE40FFDD188}.Release|x86.Build.0 = Release|Win32
+		{E12DB3B7-2A7A-4A98-92FC-5AE40FFDD188}.Release+Libs|x64.ActiveCfg = Release|x64
+		{E12DB3B7-2A7A-4A98-92FC-5AE40FFDD188}.Release+Libs|x64.Build.0 = Release|x64
+		{E12DB3B7-2A7A-4A98-92FC-5AE40FFDD188}.Release+Libs|x86.ActiveCfg = Release|Win32
+		{E12DB3B7-2A7A-4A98-92FC-5AE40FFDD188}.Release+Libs|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

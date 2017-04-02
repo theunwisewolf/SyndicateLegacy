@@ -1,6 +1,6 @@
 #include "Timer.h"
 
-namespace Venus { namespace Utilities { 
+namespace Syndicate { namespace Utilities { 
 
 Timer::Timer()
 {

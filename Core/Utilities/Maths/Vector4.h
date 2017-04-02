@@ -3,12 +3,10 @@
 
 #include <Common.h>
 
-#include <iostream>
-
-namespace Venus {
+namespace Syndicate {
 	namespace Maths {
 
-class Vector4
+class SYNDICATE_API Vector4
 {
 public: 
 	float x;
