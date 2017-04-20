@@ -7,8 +7,10 @@
 #include <Systems/Graphics/Layers/Group.h>
 #include <Systems/Graphics/Layers/Label.h>
 #include <Systems/Graphics/Sprites/Sprite.h>
+#include <Systems/Event/EventManager.h>
 
 #include <Utilities/Maths/Maths.h>
+#include <Utilities/Callback.h>
 
 #include "TileLayer.h"
 

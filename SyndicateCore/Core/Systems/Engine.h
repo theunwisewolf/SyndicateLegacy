@@ -10,6 +10,7 @@
 #include <Systems/Window.h>
 
 #include <Systems/Graphics/FontManager.h>
+#include <Systems/Event/EventManager.h>
 #include <Systems/Audio/AudioManager.h>
 #include <Systems/ResourceManager.h>
 

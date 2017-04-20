@@ -19,6 +19,9 @@ Engine::Engine(IGame* game, Settings settings) :
 
 	// Initialize Audio Manager
 	AudioManager::i()->Initialize();
+
+	// Initialize the Event Manager
+	EventManager::i()->Initialize();
 }
 
 bool Engine::Initialize()
@@ -125,6 +128,9 @@ Engine::~Engine()
 {
 	// Release the game
 	delete m_Game;
+
+	// Shutdown the event manager
+	EventManager::i()->ShutDown();
 
 	// Release all fonts
 	FontManager::Clear();

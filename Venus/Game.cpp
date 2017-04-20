@@ -9,6 +9,10 @@ Game::Game() :
 
 bool Game::Initialize()
 {
+	EventManager::i()->AddEvent(Events::TESTEVENT, Callback([]() {
+		std::cout << "Hello!" << std::endl;
+	}));
+
 	AudioManager::i()->Load(synnew Audio("Thor Ragnarok", "res/Sounds/ThorR.ogg"));
 	AudioManager::i()->Get("Thor Ragnarok")->Play();
 
@@ -31,6 +35,8 @@ bool Game::Initialize()
 	logo->Add(synnew Sprite(Vector3(-9.0f, 0, 0), Vector2(20, 1.5f), Maths::Vector4(26, 26, 26, 255)));
 	logo->Add(synnew Label("SYNDICATE", Label::Position::CENTER, Font("RalewayLight", 100, Maths::Vector4(52, 152, 219, 255))));
 	m_Layer.Add(logo);
+
+	EventManager::i()->DispatchEvent(Events::TESTEVENT);
 
 	return true;
 }
