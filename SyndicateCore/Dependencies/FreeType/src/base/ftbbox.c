@@ -394,7 +394,7 @@
   {
     /* We don't need to check `to' since it is always an on-point,    */
     /* thus within the bbox.  Only segments with an off-point outside */
-    /* the bbox can possibly reach new extreme values.                */
+    /* the bbox can possibly reach synnew extreme values.                */
 
     if ( CHECK_X( control1, user->bbox ) ||
          CHECK_X( control2, user->bbox ) )

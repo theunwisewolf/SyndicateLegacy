@@ -118,7 +118,7 @@ FT_BEGIN_HEADER
   /* Mac support                                                           */
   /*                                                                       */
   /*   This is the only necessary change, so it is defined here instead    */
-  /*   providing a new configuration file.                                 */
+  /*   providing a synnew configuration file.                                 */
   /*                                                                       */
 #if defined( __APPLE__ ) || ( defined( __MWERKS__ ) && defined( macintosh ) )
   /* no Carbon frameworks for 64bit 10.4.x */

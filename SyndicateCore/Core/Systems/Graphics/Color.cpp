@@ -23,7 +23,7 @@ Color::Color(float r, float g, float b, float a)
 	m_ColorComponents = Maths::Vector4(r, g, b, a);
 }
 
-Color::Color(int r, int g, int b, int a)
+Color::Color(unsigned int r, unsigned int g, unsigned int b, unsigned int a)
 {
 	m_IsNormalized = false;
 	m_ColorComponents = Maths::Vector4((float)r, (float)g, (float)b, (float)a);

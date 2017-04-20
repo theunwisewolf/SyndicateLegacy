@@ -3,6 +3,8 @@
 
 #include <Common.h>
 
+#include <Systems/Graphics/Color.h>
+
 #include <Systems/Graphics/Buffers/Buffer.h>
 #include <Systems/Graphics/Buffers/IndexBuffer.h>
 #include <Systems/Graphics/Buffers/VertexArray.h>
@@ -17,7 +19,7 @@ namespace Syndicate { namespace Graphics {
 
 struct VertexData {
 	Maths::Vector3 vertex;
-	GLuint color;
+	unsigned int color;
 	Maths::Vector2 uv;
 	float tid;
 };
@@ -26,17 +28,17 @@ class SYNDICATE_API Renderable2D {
 private:
 	Maths::Vector2 m_Size;
 	Maths::Vector3 m_Position;
-	Maths::Vector4 m_Color;
+	Color m_Color;
 	std::vector<Maths::Vector2> m_UV;
 
 protected:
 	Texture* m_Texture;
 
 protected:
-	Renderable2D() { setDefaultUVs(); }
+	Renderable2D() : m_Color(Color(0xffffffff)) { setDefaultUVs(); }
 
 public:
-	Renderable2D(Maths::Vector3 position, Maths::Vector2 size, Maths::Vector4 color) :
+	Renderable2D(Maths::Vector3 position, Maths::Vector2 size, Color color) :
 		m_Position{position},
 		m_Color{color},
 		m_Size{size}
@@ -47,19 +49,19 @@ public:
 	virtual ~Renderable2D() {}
 	virtual void Submit(Renderer2D* renderer) const
 	{
-		renderer->submit(this);
+		renderer->Submit(this);
 	}
 
-	void setColor(const Maths::Vector4& color)						{ this->m_Color = color; }
+	void setColor(const Color& color)								{ this->m_Color = color; }
 	void setSize(const Maths::Vector2& size)						{ this->m_Size = size; }
 	void setPosition(const Maths::Vector3& position)				{ this->m_Position = position; }
 
 	inline const Maths::Vector2& getSize() const					{ return this->m_Size; }
 	inline const Maths::Vector3& getPosition() const				{ return this->m_Position; }
-	inline const Maths::Vector4& getColor() const					{ return this->m_Color; }
+	inline const Color& getColor() const							{ return this->m_Color; }
 	inline const std::vector<Maths::Vector2>& getUVs() const		{ return this->m_UV; }
 
-	inline GLuint getTextureID() const								{ return this->m_Texture == nullptr ? 0 : this->m_Texture->getTextureID(); }
+	inline Texture* getTexture() const								{ return this->m_Texture == nullptr ? 0 : this->m_Texture; }
 
 private:
 	void setDefaultUVs()

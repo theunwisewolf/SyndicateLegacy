@@ -192,7 +192,7 @@ static vorbis_look_floor *floor1_look(vorbis_dsp_state *vd,
   look->n=info->postlist[1];
 
   /* we drop each position value in-between already decoded values,
-     and use linear interpolation to predict each new value past the
+     and use linear interpolation to predict each synnew value past the
      edges.  The positions are read in the order of the position
      list... we precompute the bounding positions in the lookup.  Of
      course, the neighbors can change (if a position is declined), but
@@ -668,7 +668,7 @@ int *floor1_fit(vorbis_block *vb,vorbis_look_floor1 *look,
               fit_valueA[i]=-200;
               fit_valueB[i]=-200;
             }else{
-              /* store new edge values */
+              /* store synnew edge values */
               fit_valueB[ln]=ly0;
               if(ln==0)fit_valueA[ln]=ly0;
               fit_valueA[i]=ly1;
@@ -677,7 +677,7 @@ int *floor1_fit(vorbis_block *vb,vorbis_look_floor1 *look,
               if(hn==1)fit_valueB[hn]=hy1;
 
               if(ly1>=0 || hy0>=0){
-                /* store new neighbor values */
+                /* store synnew neighbor values */
                 for(j=sortpos-1;j>=0;j--)
                   if(hineighbor[j]==hn)
                     hineighbor[j]=i;

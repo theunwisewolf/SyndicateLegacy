@@ -249,7 +249,7 @@
     /* seeking backwards. */
     if ( pos < zip->pos )
     {
-      /* If the new position is within the output buffer, simply       */
+      /* If the synnew position is within the output buffer, simply       */
       /* decrement pointers, otherwise we reset the stream completely! */
       if ( ( zip->pos - pos ) <= (FT_ULong)( zip->cursor - zip->buffer ) )
       {

@@ -1,10 +1,12 @@
 #include "Common.h"
 
-GLenum glCheckError_(const char *file, int line)
+GLenum glCheckError_(const char* function, const char *file, int line)
 {
 	GLenum errorCode;
 	while ((errorCode = glGetError()) != GL_NO_ERROR)
 	{
+		std::cout << "Function: " << function << std::endl;
+
 		std::string error;
 		switch (errorCode)
 		{
@@ -18,5 +20,6 @@ GLenum glCheckError_(const char *file, int line)
 		}
 		std::cout << error << " | " << file << " (" << line << ")" << std::endl;
 	}
+
 	return errorCode;
 }

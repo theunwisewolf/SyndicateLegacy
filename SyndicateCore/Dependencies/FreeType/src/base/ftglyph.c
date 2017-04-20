@@ -172,7 +172,7 @@
       goto Exit;
     }
 
-    /* allocate new outline */
+    /* allocate synnew outline */
     error = FT_Outline_New( library, source->n_points, source->n_contours,
                             &glyph->outline );
     if ( error )

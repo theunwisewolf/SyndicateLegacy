@@ -103,7 +103,7 @@ cleanup:
 	return 0;
 }
 
-// ------------------------------------------------------ texture_glyph_new ---
+// ------------------------------------------------------ texture_glyph_synnew ---
 texture_glyph_t *
 texture_glyph_new(void)
 {

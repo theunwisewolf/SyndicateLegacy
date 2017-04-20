@@ -16,7 +16,7 @@ private:
 
 public:
 	Color(float r, float g, float b, float a = 1.0f);
-	Color(int r, int g, int b, int a = 255);
+	Color(unsigned int r, unsigned int g, unsigned int b, unsigned int a = 255);
 	Color(const Maths::Vector4& color);
 	Color(const unsigned int& color, bool autoSetAlpha = true);
 

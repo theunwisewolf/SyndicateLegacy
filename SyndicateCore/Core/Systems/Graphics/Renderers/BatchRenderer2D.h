@@ -38,19 +38,21 @@ private:
 
 	bool m_RendererStarted;
 
-	std::vector<GLuint> m_TextureSlots;
+	std::vector<Texture*> m_Textures;
 	std::map<unsigned int, std::string> m_TextureAtlasCache;
 
 public:
 	BatchRenderer2D();
 
-	void start() override;
-	void submit(const Renderable2D* renderable) override;
-	void DrawString(const std::string& text, Maths::Vector2 position, const Color& color, texture_atlas_t* atlas, texture_font_t* font) override;
-	void end() override;
-	void flush() override;
+	float GetTexture(Texture*);
 
-	~BatchRenderer2D();
+	void Start() override;
+	void Submit(const Renderable2D* renderable) override;
+	void DrawString(const std::string& text, Maths::Vector2 position, const Font& font) override;
+	void End() override;
+	void Render() override;
+
+	~BatchRenderer2D() override;
 };
 
 } }

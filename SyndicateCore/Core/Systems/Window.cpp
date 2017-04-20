@@ -1,109 +1,59 @@
 #include "Window.h"
 
+namespace Syndicate {
+
 Window* Window::instance = nullptr;
 
-Window::Window(std::string title, int width, int height, int r, int g, int b, int a) :
-	m_Title{title},
-	m_Width{width},
-	m_Height{height}
+Window::Window(std::string title, int width, int height, Color color, bool VSync) :
+	IWindow(title, width, height, color, VSync),
+	ISystem( "SYNDICATE_SYS_WINDOW" )
 {
-	glfwSetErrorCallback(&Window::glfwErrorCallback);
-
-	if (!this->Init())
-	{
-		glfwTerminate();
-	}
-
-	this->setColor(r, g, b, a);
-}
-
-void APIENTRY Window::glDebugMessageCallBack(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
-{
-	// ignore non-significant error/warning codes
-	if (id == 131169 || id == 131185 || id == 131218 || id == 131204) return;
-
-	std::cout << "---------------" << std::endl;
-	std::cout << "Debug message (" << id << "): " << message << std::endl;
-
-	switch (source)
-	{
-	case GL_DEBUG_SOURCE_API:             std::cout << "Source: API"; break;
-	case GL_DEBUG_SOURCE_WINDOW_SYSTEM:   std::cout << "Source: Window System"; break;
-	case GL_DEBUG_SOURCE_SHADER_COMPILER: std::cout << "Source: Shader Compiler"; break;
-	case GL_DEBUG_SOURCE_THIRD_PARTY:     std::cout << "Source: Third Party"; break;
-	case GL_DEBUG_SOURCE_APPLICATION:     std::cout << "Source: Application"; break;
-	case GL_DEBUG_SOURCE_OTHER:           std::cout << "Source: Other"; break;
-	} std::cout << std::endl;
-
-	switch (type)
-	{
-	case GL_DEBUG_TYPE_ERROR:               std::cout << "Type: Error"; break;
-	case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: std::cout << "Type: Deprecated Behaviour"; break;
-	case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:  std::cout << "Type: Undefined Behaviour"; break;
-	case GL_DEBUG_TYPE_PORTABILITY:         std::cout << "Type: Portability"; break;
-	case GL_DEBUG_TYPE_PERFORMANCE:         std::cout << "Type: Performance"; break;
-	case GL_DEBUG_TYPE_MARKER:              std::cout << "Type: Marker"; break;
-	case GL_DEBUG_TYPE_PUSH_GROUP:          std::cout << "Type: Push Group"; break;
-	case GL_DEBUG_TYPE_POP_GROUP:           std::cout << "Type: Pop Group"; break;
-	case GL_DEBUG_TYPE_OTHER:               std::cout << "Type: Other"; break;
-	} std::cout << std::endl;
-
-	switch (severity)
-	{
-	case GL_DEBUG_SEVERITY_HIGH:         std::cout << "Severity: high"; break;
-	case GL_DEBUG_SEVERITY_MEDIUM:       std::cout << "Severity: medium"; break;
-	case GL_DEBUG_SEVERITY_LOW:          std::cout << "Severity: low"; break;
-	case GL_DEBUG_SEVERITY_NOTIFICATION: std::cout << "Severity: notification"; break;
-	} std::cout << std::endl;
-	std::cout << std::endl;
-}
-
-bool Window::Init()
-{
-	// Initialize GLFW
-	if (!glfwInit())
-	{
-		std::cout << "Failed to initialize GLFW." << std::endl;
-		return false;
-	}
-
-	glfwWindowHint(GLFW_SAMPLES, 4);
-
-	// Create the OpenGL Window
-	this->m_Window = glfwCreateWindow( this->m_Width, this->m_Height, this->m_Title.c_str(), nullptr, nullptr );
 	Window::instance = this;
+}
 
-	if (!this->m_Window)
+bool Window::Initialize()
+{
+	this->setWindowStyle(WS_OVERLAPPEDWINDOW);
+	this->setWindowExtendedStyle(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE);
+
+	if (!this->createWindow())
 	{
-		std::cout << "Failed to create window or OpenGL context." << std::endl;
+		SYNDICATE_ERROR("Failed to initialize Window!");
+		this->ShutDown();
 		return false;
 	}
 
-	// Callbacks
-	glfwSetKeyCallback(this->m_Window, &Window::glfwKeyCallback);
-	glfwSetCursorPosCallback(this->m_Window, &Window::glfwCursorPositionCallBack);
-	glfwSetFramebufferSizeCallback(this->m_Window, &Window::glfwWindowSizeCallback);
-	glfwSetMouseButtonCallback(this->m_Window, &Window::glfwMouseButtonCallback);
-
-	// Pass our "Window" class SYNDICATE_API object to the glfw for callbacks to use
-	glfwSetWindowUserPointer(this->m_Window, this);
-
-	// Make the context current
-	glfwMakeContextCurrent(this->m_Window);
-
-	// Buffer swap interval
-	glfwSwapInterval(0);
-
+	ShowWindow(this->getWindowHandle(), SW_SHOW); 
+	//SetForegroundWindow(this->getWindowHandle()); 
+	SetFocus(this->getWindowHandle());
 	// This function centers the window
-	this->centerWindow();
+	//this->centerWindow();
+
+	this->m_RenderingContext = wglCreateContext(this->getDeviceContext());
+
+	if (!this->m_RenderingContext)
+	{
+		SYNDICATE_ERROR( "Failed to created a rendering context..." );
+		return false;
+	}
+
+	if (!wglMakeCurrent(this->getDeviceContext(), this->m_RenderingContext))
+	{
+		SYNDICATE_ERROR("Failed to activate the rendering context...");
+		return false;
+	}
 
 	// Initialize GLEW
 	if (glewInit() != GLEW_OK)
 	{
-		std::cout << "Failed to initialize GLEW.";
+		SYNDICATE_ERROR( "Failed to initialize GLEW." );
 		return false;
 	}
-	
+
+	this->setVSync(this->m_VSync);
+		
+	//this->resizeWindow(this->m_Width, this->m_Height);
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -115,11 +65,103 @@ bool Window::Init()
 	SYNDICATE_INFO_NH("OpenGL Version: " + OPENGL_VERSION);
 	SYNDICATE_INFO_NH("Vendor: " + OPENGL_VENDOR);
 	SYNDICATE_INFO_NH("Renderer: " + OPENGL_RENDERER);
-	SYNDICATE_INFO_NH(""); // For a new line
+	SYNDICATE_INFO_NH(""); // For a synnew line
 
 	// Initialize AudioManager
 	SYNDICATE_INFO("Initializing Audio Manager...");
 	SYNDICATE_SUCCESS("Successfully Initialized Audio Manager.");
+
+	return true;
+}
+
+void Window::setVSync(bool value)
+{
+#if defined(WIN32) | defined(_WIN32) 
+	wglSwapIntervalEXT(value);
+#endif
+}
+
+void Window::resizeWindow(long width, long height)
+{
+	this->m_Width = width;
+	this->m_Height = height;
+
+	glViewport( 0, 0, (GLsizei)width, (GLsizei)height);
+	//Syndicate::Graphics::Font::setScale(Window::i()->getWidth() / 32.0f, Window::i()->getHeight() / 18.0f);
+}
+
+LRESULT CALLBACK Window::handleEvents(HWND hWindow, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_ACTIVATE:
+	{
+		if (!HIWORD(wParam)) // A nonzero value indicates the window is minimized.
+			this->m_IsMinimized = true;
+		else
+			this->m_IsMinimized = false;
+
+		if(LOWORD(wParam) != WA_INACTIVE)
+			this->m_IsActive = true; 
+		else
+			this->m_IsActive = false;
+
+		return 0;
+	}
+	case WM_SYSCOMMAND:
+	{
+		switch (wParam)
+		{
+		case SC_SCREENSAVE:
+		case SC_MONITORPOWER:
+			return 0;
+		}
+
+		break;
+	} break;
+	case WM_MOUSEMOVE:
+		//std::cout << GET_X_LPARAM(lParam) << ", " << GET_Y_LPARAM(lParam) << std::endl;
+		return 0;
+	case WM_SETFOCUS:
+		//FocusCallback(window, true);
+		return 0;
+	case WM_KILLFOCUS:
+		//FocusCallback(window, false);
+		return 0;
+	case WM_CLOSE:
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return 0;
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		//KeyCallback(inputManager, lParam, wParam, message);
+		return 0;
+	case WM_LBUTTONDOWN:
+	case WM_LBUTTONUP:
+	case WM_RBUTTONDOWN:
+	case WM_RBUTTONUP:
+	case WM_MBUTTONDOWN:
+	case WM_MBUTTONUP:
+		//MouseButtonCallback(inputManager, message, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		break;
+	case WM_SIZE:
+		this->resizeWindow( LOWORD(lParam), HIWORD(lParam) );
+		return 0;
+	default:
+		break;
+	}
+
+	return DefWindowProc(hWindow, message, wParam, lParam);
+}
+
+bool Window::ShutDown()
+{
+	wglMakeCurrent(NULL, NULL);
+	wglDeleteContext(this->m_RenderingContext);
+
+	this->destroyWindow();
 
 	return true;
 }
@@ -130,7 +172,7 @@ void Window::Clear() const
 }
 
 void Window::Update()
-{
+{	
 	GLenum error;
 
 	if (( error = glGetError() ) != GL_NO_ERROR)
@@ -139,67 +181,17 @@ void Window::Update()
 		system("PAUSE");
 	}
 
-	for (int i = 0; i < MAX_KEYS; ++i)
-	{
-		m_KeysTyped[i] = m_Keys[i] && !m_KeyState[i];
-	}
-
-	memcpy(m_KeyState, m_Keys, MAX_KEYS * sizeof(bool));
-
-	glfwSwapBuffers(this->m_Window);
-	glfwPollEvents();
+	SwapBuffers(this->getDeviceContext());
 }
 
 void Window::setTitle(std::string title)
 {
-	glfwSetWindowTitle(this->m_Window, title.c_str());
+	Syndicate::IWindow::setTitle(title);
 }
 
-void Window::glfwErrorCallback(int error, const char* description)
+void Window::Close()
 {
-	std::cout << description;
-}
-
-void Window::glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	Window *w = (Window*)glfwGetWindowUserPointer(window);
-	w->m_Keys[key] = (action != GLFW_RELEASE);
-	w->m_KeysTyped[key] = (action == GLFW_RELEASE);
-}
-
-void Window::glfwWindowSizeCallback(GLFWwindow * window, int width, int height)
-{
-	Window *w = (Window*)glfwGetWindowUserPointer(window);
-	w->m_Width = width;
-	w->m_Height = height;
-	glViewport(0, 0, width, height);
-}
-
-void Window::glfwMouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
-{
-	Window *w = (Window*)glfwGetWindowUserPointer(window);
-	w->m_MouseButtons[button] = (action != GLFW_RELEASE);
-}
-
-void Window::glfwCursorPositionCallBack(GLFWwindow* window, double xpos, double ypos)
-{
-	Window *w = (Window*)glfwGetWindowUserPointer(window);
-	w->mouseX = xpos;
-	w->mouseY = ypos;
-}
-
-bool Window::Closed() const
-{
-	return glfwWindowShouldClose(this->m_Window) == 1;
-}
-
-void Window::Close() const
-{
-	Syndicate::Graphics::FontManager::Clear();
-	Syndicate::AudioManager::i()->Stop();
-
-	glfwDestroyWindow(this->m_Window);
-	glfwTerminate();
+	this->ShutDown();
 }
 
 void Window::setColor(int r, int g, int b, int a) const
@@ -208,26 +200,34 @@ void Window::setColor(int r, int g, int b, int a) const
 	glClearColor(std::get<0>(colors), std::get<1>(colors), std::get<2>(colors), std::get<3>(colors));
 }
 
-void Window::centerWindow() const
+void Window::centerWindow()
 {
-	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
-	int x, y;
-
-	x = ( mode->width - this->m_Width ) / 2;
-	y = ( mode->height - this->m_Height ) / 2;
-
-	glfwSetWindowPos( this->m_Window, x, y );
+	IWindow::centerWindow();
 }
 
-void Window::getMousePosition(double &x, double &y) const
+POINT Window::getWindowCenterPosition() const
 {
-	x = this->mouseX;
-	y = this->mouseY;
+	int windowwidth = this->getWindowRect().right - this->getWindowRect().left;
+	int windowheight = this->getWindowRect().bottom - this->getWindowRect().top;
+
+	return POINT
+	{
+		GetSystemMetrics(SM_CXSCREEN) / 2 - windowwidth / 2,
+		GetSystemMetrics(SM_CYSCREEN) / 2 - windowheight / 2
+	};
+}
+
+POINT Window::getWindowPosition() const
+{
+	return POINT {
+		this->getWindowRect().left,
+		this->getWindowRect().bottom
+	};
 }
 
 Window::~Window()
 {
 	SYNDICATE_INFO("Shutting Down.");
-	//this->Close();
+}
+
 }

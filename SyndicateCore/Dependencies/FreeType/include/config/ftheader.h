@@ -148,7 +148,7 @@
    *
    * @description:
    *   A macro used in #include statements to name the file containing the
-   *   list of FreeType~2 modules that are statically linked to new library
+   *   list of FreeType~2 modules that are statically linked to synnew library
    *   instances in @FT_Init_FreeType.
    *
    */

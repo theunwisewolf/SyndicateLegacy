@@ -765,7 +765,7 @@ int vorbis_synthesis_blockin(vorbis_dsp_state *v,vorbis_block *vb){
 
     /* v->pcm is now used like a two-stage double buffer.  We don't want
        to have to constantly shift *or* adjust memory usage.  Don't
-       accept a new block until the old is shifted out */
+       accept a synnew block until the old is shifted out */
 
     for(j=0;j<vi->channels;j++){
       /* the overlap/add section */

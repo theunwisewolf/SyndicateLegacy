@@ -11,7 +11,7 @@
 #include "texture-atlas.h"
 
 
-// ------------------------------------------------------ texture_atlas_new ---
+// ------------------------------------------------------ texture_atlas_synnew ---
 texture_atlas_t *
 texture_atlas_new( const size_t width,
                    const size_t height,

@@ -22,8 +22,7 @@ Texture* ResourceManager::getTexture(const std::string& filename)
 	{
 		m_TextureCount++;
 
-		Texture* texture = new Texture(filename);
-		texture->loadTexture();
+		Texture* texture = synnew Texture(filename);
 
 		ResourceManager::textureCache.emplace(filename, texture);
 		return texture;
@@ -32,9 +31,9 @@ Texture* ResourceManager::getTexture(const std::string& filename)
 	return it->second;
 }
 
-ResourceManager::~ResourceManager()
+void ResourceManager::Shutdown()
 {
-	for(auto it = ResourceManager::textureCache.begin(); it != ResourceManager::textureCache.end();)
+	for (auto it = ResourceManager::textureCache.begin(); it != ResourceManager::textureCache.end();)
 	{
 		if (it->second)
 		{
@@ -47,6 +46,14 @@ ResourceManager::~ResourceManager()
 			++it;
 		}
 	}
+
+	m_TextureCount = 0;
+}
+
+ResourceManager::~ResourceManager()
+{
+	if(m_TextureCount)
+		this->Shutdown();
 }
 
 }

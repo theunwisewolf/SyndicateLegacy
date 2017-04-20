@@ -58,7 +58,7 @@ typedef struct gc_Thread {
   gc_int32 stackSize;
 } gc_Thread;
 
-/** Creates a new thread.
+/** Creates a synnew thread.
  *
  *  The created thread will not run until gc_thread_run() is called on it.
  *

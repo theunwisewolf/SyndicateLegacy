@@ -13,7 +13,7 @@ class SYNDICATE_API Sprite : public Renderable2D
 private:
 	bool m_bDeleteTexture = false;
 public:
-	Sprite(Maths::Vector3 position, Maths::Vector2 size, Maths::Vector4 color);
+	Sprite(Maths::Vector3 position, Maths::Vector2 size, Color color);
 	Sprite(Maths::Vector3 position, Maths::Vector2 size, const std::string& texturePath);
 	Sprite(Maths::Vector3 position, Maths::Vector2 size, Texture* texture);
 	~Sprite();

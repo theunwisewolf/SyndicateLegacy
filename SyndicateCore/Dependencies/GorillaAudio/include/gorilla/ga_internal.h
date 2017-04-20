@@ -42,7 +42,7 @@ extern "C"
  *
  *  \ingroup intDevice
  *  \warning You can only have one device open at-a-time.
- *  \warning Never instantiate a ga_Device directly, unless you are implementing a new concrete
+ *  \warning Never instantiate a ga_Device directly, unless you are implementing a synnew concrete
  *           device implementation. Instead, you should use ga_device_open().
  */
 struct ga_Device {

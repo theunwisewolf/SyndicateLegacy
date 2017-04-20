@@ -71,10 +71,10 @@ typedef struct vector_t
 
 
 /**
- * Creates a new empty vector.
+ * Creates a synnew empty vector.
  *
  * @param   item_size    item size in bytes
- * @return               a new empty vector
+ * @return               a synnew empty vector
  *
  */
   vector_t *
@@ -161,7 +161,7 @@ typedef struct vector_t
  *  Reserve storage such that it can hold at last size items.
  *
  *  @param  self  a vector structure
- *  @param  size  the new storage capacity
+ *  @param  size  the synnew storage capacity
  */
   void
   vector_reserve( vector_t *self,
@@ -201,7 +201,7 @@ typedef struct vector_t
  *
  *  @param  self  a vector structure
  *  @param  index the index of the item to be replaced
- *  @param  item  the new item
+ *  @param  item  the synnew item
  */
   void
   vector_set( vector_t *self,
@@ -261,7 +261,7 @@ typedef struct vector_t
  *  vector is reduced to its first size elements.
  *
  *  @param  self a vector structure
- *  @param  size the new size
+ *  @param  size the synnew size
  */
   void
   vector_resize( vector_t *self,

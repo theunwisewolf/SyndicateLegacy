@@ -215,11 +215,11 @@
       return FT_Err_Ok;
     }
 
-    /* otherwise allocate new buffer */
+    /* otherwise allocate synnew buffer */
     if ( FT_QALLOC_MULT( buffer, new_pitch, bitmap->rows + ypixels ) )
       return error;
 
-    /* new rows get added at the top of the bitmap, */
+    /* synnew rows get added at the top of the bitmap, */
     /* thus take care of the flow direction         */
     if ( bitmap->pitch > 0 )
     {

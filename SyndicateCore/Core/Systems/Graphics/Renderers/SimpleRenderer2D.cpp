@@ -3,7 +3,7 @@
 
 namespace Syndicate { namespace Graphics {
 
-void SimpleRenderer2D::flush()
+void SimpleRenderer2D::Render()
 {
 	while (this->m_RenderQueue.empty() == false)
 	{
@@ -15,7 +15,7 @@ void SimpleRenderer2D::flush()
 		//sprite->getShader().enable();
 		//sprite->getShader().setUniformMat4("ml_matrix", Maths::Matrix4::Translation( renderable->getPosition() ));
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, sprite->getTextureID());
+		glBindTexture(GL_TEXTURE_2D, sprite->getTexture()->GetTextureID());
 		glDrawElements(GL_TRIANGLES, sprite->getIBO()->getCount(), GL_UNSIGNED_SHORT, nullptr);
 		//sprite->getShader().disable();
 
@@ -26,7 +26,7 @@ void SimpleRenderer2D::flush()
 	}
 }
 
-void SimpleRenderer2D::submit(const Renderable2D* renderable)
+void SimpleRenderer2D::Submit(const Renderable2D* renderable)
 {
 	this->m_RenderQueue.push_back((StaticSprite*)renderable);
 }

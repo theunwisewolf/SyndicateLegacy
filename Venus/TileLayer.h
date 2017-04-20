@@ -9,7 +9,9 @@ namespace Syndicate { namespace Graphics {
 class TileLayer : public Layer
 {
 public:
+	TileLayer();
 	TileLayer(Shader* shader);
+	void SetProjectionMatrix();
 	~TileLayer();
 };
 

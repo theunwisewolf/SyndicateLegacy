@@ -1,57 +1,116 @@
 #include "Texture.h"
-#include <iostream>
+
 namespace Syndicate { namespace Graphics { 
 
-Texture::Texture(const std::string& filename)
-	: m_Filename(filename)
+Texture::Texture() :
+	m_Width(0),
+	m_Height(0),
+	m_Filename("")
 {
+	m_Parameters = TextureParameters{ TextureFormat::RGBA, TextureWrap::CLAMP_TO_EDGE, TextureFilter::NEAREST };
+	Texture::LoadTexture();
 }
 
-void Texture::loadTexture()
+Texture::Texture(unsigned int width, unsigned int height) :
+	m_Width(width),
+	m_Height(height),
+	m_Filename("")
 {
-	// Make sure the texture file exists, otherwise send a warning
-	if (!Utilities::File::Exists(this->m_Filename))
+	m_Parameters = TextureParameters{ TextureFormat::RGBA, TextureWrap::CLAMP_TO_EDGE, TextureFilter::NEAREST };
+	Texture::LoadTexture();
+}
+
+Texture::Texture(const std::string& filename) :
+	m_Filename(filename)
+{
+	m_Parameters = TextureParameters{ TextureFormat::RGBA, TextureWrap::CLAMP_TO_EDGE, TextureFilter::NEAREST };
+	Texture::LoadTexture();
+}
+
+
+Texture::Texture(unsigned int width, unsigned int height, TextureParameters params) :
+	m_Width(width),
+	m_Height(height),
+	m_Parameters(params),
+	m_Filename("")
+{
+	Texture::LoadTexture();
+}
+
+Texture::Texture(const std::string& filename, TextureParameters params) : 
+	m_Filename(filename),
+	m_Parameters(params)
+{
+	Texture::LoadTexture();
+}
+
+void Texture::SetData(const void* data)
+{
+	GL(glBindTexture(GL_TEXTURE_2D, this->m_TextureID));
+	//GL(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, this->m_Width, this->m_Height, 0, GL_RED, GL_UNSIGNED_BYTE, data));
+	GL(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, this->m_Width, this->m_Height, (GLint)m_Parameters.format, GL_UNSIGNED_BYTE, data));
+}
+
+void Texture::LoadTexture()
+{	
+	FIBITMAP* dataInBits = nullptr;
+	BYTE* pixels = nullptr;
+
+	if (this->m_Filename.length())
 	{
-		SYNDICATE_WARNING("Texture file " + this->m_Filename + " does not exist.");
-		return;
+		// Make sure the texture file exists, otherwise send a warning
+		if (!Utilities::File::Exists(this->m_Filename))
+		{
+			SYNDICATE_WARNING("Texture file " + this->m_Filename + " does not exist.");
+			return;
+		}
+
+		//dataInBits = Utilities::loadImage(this->m_Filename.c_str(), &this->m_Width, &this->m_Height);
+		pixels = Utilities::loadImage(this->m_Filename.c_str(), &this->m_Width, &this->m_Height);
+		//pixels = FreeImage_GetBits(dataInBits);
 	}
 
-	FIBITMAP* dataInBits = Utilities::loadImage(this->m_Filename.c_str(), &this->m_Width, &this->m_Height);
-	BYTE* pixels = FreeImage_GetBits(dataInBits);
-	
 	// Generate 1 texture
-	glGenTextures(1, &this->m_TextureID);
+	GL(glGenTextures(1, &this->m_TextureID));
 
 	// Bind it
-	glBindTexture(GL_TEXTURE_2D, this->m_TextureID);
+	GL(glBindTexture(GL_TEXTURE_2D, this->m_TextureID));
 
 	// Setup our texture parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
+	GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (GLint)m_Parameters.filter));
+	GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, (GLint)m_Parameters.filter));
+	GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint)m_Parameters.wrap));
+	GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint)m_Parameters.wrap));
+	
 	// Upload to GPU
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, this->m_Width, this->m_Height, 0, GL_BGR, GL_UNSIGNED_BYTE, pixels);
+	GL(glTexImage2D(GL_TEXTURE_2D, 0, (GLint)m_Parameters.format, this->m_Width, this->m_Height, 0, (GLint)m_Parameters.format, GL_UNSIGNED_BYTE, pixels));
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, this->m_Width, this->m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+	// Generate MipMaps
+	//GL(glGenerateMipmap(GL_TEXTURE_2D));
 
 	// Unbind the texture
-	glBindTexture(GL_TEXTURE_2D, 0);
+	GL(glBindTexture(GL_TEXTURE_2D, 0));
 
 	// Unload the image since we have loaded in OpenGL
-	FreeImage_Unload(dataInBits);
+	if (pixels != nullptr)
+	{
+		free(pixels);
+	}
 }
 
-void Texture::bind() const
+void Texture::Bind() const
 {
-	glBindTexture(GL_TEXTURE_2D, this->m_TextureID);
+	GL(glBindTexture(GL_TEXTURE_2D, this->m_TextureID));
 }
 
-void Texture::unbind() const
+void Texture::Unbind() const
 {
-	glBindTexture(GL_TEXTURE_2D, 0);
+	GL(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
 Texture::~Texture()
 {
-	glDeleteTextures(1, &this->m_TextureID);
+	GL(glDeleteTextures(1, &this->m_TextureID));
 }
 
 }}

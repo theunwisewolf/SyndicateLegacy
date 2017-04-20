@@ -222,7 +222,7 @@ extern int vorbis_encode_ctl(vorbis_info *vi,int number,void *arg);
 /**
  * \deprecated This is a deprecated interface. Please use vorbis_encode_ctl()
  * with the \ref ovectl_ratemanage2_arg struct and \ref
- * OV_ECTL_RATEMANAGE2_GET and \ref OV_ECTL_RATEMANAGE2_SET calls in new code.
+ * OV_ECTL_RATEMANAGE2_GET and \ref OV_ECTL_RATEMANAGE2_SET calls in synnew code.
  *
  * The \ref ovectl_ratemanage_arg structure is used with vorbis_encode_ctl()
  * and the \ref OV_ECTL_RATEMANAGE_GET, \ref OV_ECTL_RATEMANAGE_SET, \ref

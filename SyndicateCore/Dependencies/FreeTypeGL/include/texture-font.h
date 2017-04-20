@@ -326,7 +326,7 @@ extern "C" {
 
 
 		/**
-		* This function creates a new texture font from given filename and size.  The
+		* This function creates a synnew texture font from given filename and size.  The
 		* texture atlas is used to store glyph on demand. Note the depth of the atlas
 		* will determine if the font is rendered as alpha channel only (depth = 1) or
 		* RGB (depth = 3) that correspond to subpixel rendering (if available on your
@@ -336,7 +336,7 @@ extern "C" {
 		* @param pt_size   Size of font to be created (in points)
 		* @param filename  A font filename
 		*
-		* @return A new empty font (no glyph inside yet)
+		* @return A synnew empty font (no glyph inside yet)
 		*
 		*/
 		texture_font_t *
@@ -346,7 +346,7 @@ extern "C" {
 
 
 		/**
-		* This function creates a new texture font from a memory location and size.
+		* This function creates a synnew texture font from a memory location and size.
 		* The texture atlas is used to store glyph on demand. Note the depth of the
 		* atlas will determine if the font is rendered as alpha channel only
 		* (depth = 1) or RGB (depth = 3) that correspond to subpixel rendering (if
@@ -357,7 +357,7 @@ extern "C" {
 		* @param memory_base Start of the font file in memory
 		* @param memory_size Size of the font file memory region, in bytes
 		*
-		* @return A new empty font (no glyph inside yet)
+		* @return A synnew empty font (no glyph inside yet)
 		*
 		*/
 		texture_font_t *
@@ -377,13 +377,13 @@ extern "C" {
 
 
 		/**
-		* Request a new glyph from the font. If it has not been created yet, it will
+		* Request a synnew glyph from the font. If it has not been created yet, it will
 		* be.
 		*
 		* @param self      A valid texture font
 		* @param codepoint Character codepoint to be loaded in UTF-8 encoding.
 		*
-		* @return A pointer on the new glyph or 0 if the texture atlas is not big
+		* @return A pointer on the synnew glyph or 0 if the texture atlas is not big
 		*         enough
 		*
 		*/
@@ -432,9 +432,9 @@ extern "C" {
 
 
 		/**
-		* Creates a new empty glyph
+		* Creates a synnew empty glyph
 		*
-		* @return a new empty glyph (not valid)
+		* @return a synnew empty glyph (not valid)
 		*/
 		texture_glyph_t *
 			texture_glyph_new(void);

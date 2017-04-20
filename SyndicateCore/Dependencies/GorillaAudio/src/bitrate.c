@@ -104,7 +104,7 @@ int vorbis_bitrate_addblock(vorbis_block *vb){
     long avg_target_bits=(vb->W?bm->avg_bitsper*bm->short_per_long:bm->avg_bitsper);
     double slewlimit= 15./bi->slew_damp;
 
-    /* choosing a new floater:
+    /* choosing a synnew floater:
        if we're over target, we slew down
        if we're under target, we slew up
 

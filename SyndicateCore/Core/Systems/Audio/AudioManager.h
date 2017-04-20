@@ -44,6 +44,7 @@ private:
 	std::thread m_AudioThread;
 	std::condition_variable m_ConditionVariable;
 	std::atomic<bool> m_StopThread;
+	std::atomic<bool> m_Finished;
 	std::atomic<bool> m_InsertingAudio;
 	std::mutex m_Mutex;
 
@@ -58,7 +59,7 @@ public:
 	~AudioManager();
 
 	// Initializes the class
-	void Init();
+	void Initialize();
 	// The thread handler
 	void Start();
 	// Stops a thread
@@ -82,6 +83,7 @@ public:
 	gau_Manager* getSoundManager() { return m_SoundManager; }
 	ga_Mixer* getMixer() { return m_Mixer; }
 	std::atomic<bool>& getThreadStatus() { return std::ref(m_StopThread); }
+	std::atomic<bool>& getStatus() { return std::ref(m_Finished); }
 
 	static void setFlagAndDestroyOnFinish(ga_Handle* in_handle, void* in_context);
 };

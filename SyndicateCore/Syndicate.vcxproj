@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -28,26 +28,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -72,26 +72,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\Intermediates\</IntDir>
+    <IntDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\Intermediates\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\Intermediates\</IntDir>
+    <IntDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\Intermediates\$(ProjectName)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IntDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\Intermediates\</IntDir>
+    <IntDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\Intermediates\$(ProjectName)\</IntDir>
     <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\Intermediates\</IntDir>
+    <IntDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\Intermediates\$(ProjectName)\</IntDir>
     <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
@@ -103,15 +103,15 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\GLFW\include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;$(ProjectDir)Dependencies\GorillaAudio\include;$(ProjectDir)Dependencies\FreeImage\include;$(ProjectDir)Dependencies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;SYNDICATE_DYNAMIC;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRTDBG_MAP_ALLOC;GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;SYNDICATE_DYNAMIC;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Precise</FloatingPointModel>
       <DisableSpecificWarnings>4251;4275;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\FreeImage\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GorillaAudio\lib;$(ProjectDir)Dependencies\GLFW\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GLEW\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\FreeImage\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GorillaAudio\lib;$(ProjectDir)Dependencies\GLEW\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
     </Link>
@@ -122,15 +122,15 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\GLFW\include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;$(ProjectDir)Dependencies\GorillaAudio\include;$(ProjectDir)Dependencies\FreeImage\include;$(ProjectDir)Dependencies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;SYNDICATE_DYNAMIC;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRTDBG_MAP_ALLOC;GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;SYNDICATE_DYNAMIC;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Precise</FloatingPointModel>
       <DisableSpecificWarnings>4251;4275;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\FreeImage\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GorillaAudio\lib;$(ProjectDir)Dependencies\GLFW\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GLEW\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;OpenAL64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\FreeImage\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GorillaAudio\lib;$(ProjectDir)Dependencies\GLEW\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;OpenAL64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
     </Link>
@@ -142,7 +142,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;SYNDICATE_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRTDBG_MAP_ALLOC;GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;SYNDICATE_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\GLFW\include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;$(ProjectDir)Dependencies\GorillaAudio\include;$(ProjectDir)Dependencies\FreeImage\include;$(ProjectDir)Dependencies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -154,8 +154,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\FreeImage\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GorillaAudio\lib;$(ProjectDir)Dependencies\GLFW\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GLEW\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\FreeImage\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GorillaAudio\lib;$(ProjectDir)Dependencies\GLEW\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -165,7 +165,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;SYNDICATE_DYNAMIC;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRTDBG_MAP_ALLOC;GLEW_STATIC;FT2_BUILD_LIBRARY;WIN32;_LIB;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;SYNDICATE_DYNAMIC;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\GLFW\include;$(ProjectDir)Core;$(ProjectDir)Dependencies\FreeType\include;$(ProjectDir)Dependencies\FreeTypeGL\include;$(ProjectDir)Dependencies\GorillaAudio\include;$(ProjectDir)Dependencies\FreeImage\include;$(ProjectDir)Dependencies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -177,13 +177,17 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\FreeImage\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GorillaAudio\lib;$(ProjectDir)Dependencies\GLFW\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GLEW\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;OpenAL64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\FreeImage\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GorillaAudio\lib;$(ProjectDir)Dependencies\GLEW\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;OpenAL64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Core\Common.h" />
+    <ClInclude Include="Core\Interfaces\IGame.h" />
+    <ClInclude Include="Core\Interfaces\ISystem.h" />
+    <ClInclude Include="Core\Interfaces\IWindow.h" />
     <ClInclude Include="Core\Systems\Audio\Audio.h" />
+    <ClInclude Include="Core\Systems\Engine.h" />
     <ClInclude Include="Core\Systems\Graphics\Color.h" />
     <ClInclude Include="Core\Systems\Graphics\Font.h" />
     <ClInclude Include="Core\Systems\Graphics\Layers\Group.h" />
@@ -193,12 +197,14 @@
     <ClInclude Include="Core\Systems\Graphics\Sprites\Renderable2D.h" />
     <ClInclude Include="Core\Systems\Graphics\Renderers\SimpleRenderer2D.h" />
     <ClInclude Include="Core\Systems\Graphics\Texture.h" />
+    <ClInclude Include="Core\Systems\Input\InputManager.h" />
     <ClInclude Include="Core\Systems\ResourceManager.h" />
     <ClInclude Include="Core\Systems\Audio\AudioManager.h" />
     <ClInclude Include="Core\Systems\Window.h" />
     <ClInclude Include="Core\Utilities\File.h" />
     <ClInclude Include="Core\Utilities\Image.h" />
     <ClInclude Include="Core\Utilities\Logger.h" />
+    <ClInclude Include="Dependencies\FreeImage\include\FreeImage.h" />
     <ClInclude Include="Dependencies\FreeTypeGL\include\freetype-gl.h" />
     <ClInclude Include="Dependencies\FreeTypeGL\include\opengl.h" />
     <ClInclude Include="Dependencies\FreeTypeGL\include\platform.h" />
@@ -233,11 +239,13 @@
     <ClInclude Include="Core\Systems\Graphics\Sprites\StaticSprite.h" />
     <ClInclude Include="Core\Utilities\Timer.h" />
     <ClInclude Include="Core\Systems\Graphics\Layers\Layer.h" />
-    <ClInclude Include="Core\Systems\Graphics\Layers\TileLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Common.cpp" />
+    <ClCompile Include="Core\Interfaces\ISystem.cpp" />
+    <ClCompile Include="Core\Interfaces\IWindow.cpp" />
     <ClCompile Include="Core\Systems\Audio\Audio.cpp" />
+    <ClCompile Include="Core\Systems\Engine.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Color.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Font.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Layers\Group.cpp" />
@@ -245,11 +253,13 @@
     <ClCompile Include="Core\Systems\Graphics\Renderers\BatchRenderer2D.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Buffers\Buffer.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Texture.cpp" />
+    <ClCompile Include="Core\Systems\Input\InputManager.cpp" />
     <ClCompile Include="Core\Systems\ResourceManager.cpp" />
     <ClCompile Include="Core\Systems\Audio\AudioManager.cpp" />
     <ClCompile Include="Core\Systems\Window.cpp" />
     <ClCompile Include="Core\Utilities\File.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Buffers\IndexBuffer.cpp" />
+    <ClCompile Include="Core\Utilities\Image.cpp" />
     <ClCompile Include="Core\Utilities\Logger.cpp" />
     <ClCompile Include="Core\Utilities\VException.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Shader.cpp" />
@@ -264,7 +274,6 @@
     <ClCompile Include="Core\Systems\Graphics\Sprites\StaticSprite.cpp" />
     <ClCompile Include="Core\Utilities\Timer.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Layers\Layer.cpp" />
-    <ClCompile Include="Core\Systems\Graphics\Layers\TileLayer.cpp" />
     <ClCompile Include="Dependencies\FreeTypeGL\src\platform.c" />
     <ClCompile Include="Dependencies\FreeTypeGL\src\texture-atlas.c" />
     <ClCompile Include="Dependencies\FreeTypeGL\src\texture-font.c" />

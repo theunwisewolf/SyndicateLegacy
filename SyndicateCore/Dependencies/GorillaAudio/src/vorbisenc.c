@@ -1200,11 +1200,11 @@ int vorbis_encode_ctl(vorbis_info *vi,int number,void *arg){
         int *iarg=(int *)arg;
         hi->coupling_p=((*iarg)!=0);
 
-        /* Fetching a new template can alter the base_setting, which
+        /* Fetching a synnew template can alter the base_setting, which
            many other parameters are based on.  Right now, the only
            parameter drawn from the base_setting that can be altered
            by an encctl is the lowpass, so that is explictly flagged
-           to not be overwritten when we fetch a new template and
+           to not be overwritten when we fetch a synnew template and
            recompute the dependant settings */
         new_template = get_setup_template(hi->coupling_p?vi->channels:-1,
                                           vi->rate,

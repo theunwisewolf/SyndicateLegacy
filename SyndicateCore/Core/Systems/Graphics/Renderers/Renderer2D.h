@@ -27,6 +27,8 @@ protected:
 	}
 
 public:
+	virtual ~Renderer2D() {};
+
 	void push(const Maths::Matrix4& matrix, bool override = false)
 	{
 		if (override)
@@ -44,11 +46,11 @@ public:
 		this->m_TransformationBack = &this->m_TransformationStack.back();
 	}
 
-	virtual void start() {}
-	virtual void submit(const Renderable2D* renderable) = 0;
-	virtual void DrawString(const std::string& text, Maths::Vector2 position, const Color& color, texture_atlas_t* atlas, texture_font_t* font) = 0;
-	virtual void end() {}
-	virtual void flush() = 0;
+	virtual void Start() {}
+	virtual void Submit(const Renderable2D* renderable) = 0;
+	virtual void DrawString(const std::string& text, Maths::Vector2 position, const Font& font) = 0;
+	virtual void End() {}
+	virtual void Render() = 0;
 };
 
 } }

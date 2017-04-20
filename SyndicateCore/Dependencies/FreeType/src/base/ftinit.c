@@ -22,7 +22,7 @@
   /*                                                                       */
   /*  FT_Add_Default_Modules():                                            */
   /*     This function is used to add the set of default modules to a      */
-  /*     fresh new library object.  The set is taken from the header file  */
+  /*     fresh synnew library object.  The set is taken from the header file  */
   /*     `config/ftmodule.h'.  See the document `FreeType 2.0 Build        */
   /*     System' for more information.                                     */
   /*                                                                       */
@@ -237,7 +237,7 @@
 
     /* check of `alibrary' delayed to `FT_New_Library' */
 
-    /* First of all, allocate a new system object -- this function is part */
+    /* First of all, allocate a synnew system object -- this function is part */
     /* of the system-specific component, i.e. `ftsystem.c'.                */
 
     memory = FT_New_Memory();

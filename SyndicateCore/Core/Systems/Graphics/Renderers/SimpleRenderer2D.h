@@ -16,8 +16,8 @@ private:
 	std::deque<const StaticSprite*> m_RenderQueue;
 
 public:
-	void submit(const Renderable2D* renderable) override;
-	void flush() override;
+	void Submit(const Renderable2D* renderable) override;
+	void Render() override;
 };
 
 } }

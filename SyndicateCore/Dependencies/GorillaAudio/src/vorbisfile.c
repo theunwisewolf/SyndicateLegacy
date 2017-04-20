@@ -103,7 +103,7 @@ static int _seek_helper(OggVorbis_File *vf,ogg_int64_t offset){
 
    boundary: -1) unbounded search
               0) read no additional data; use cached only
-              n) search for a new page beginning for n bytes
+              n) search for a synnew page beginning for n bytes
 
    return:   <0) did not find a page (OV_FALSE, OV_EOF, OV_EREAD)
               n) found a page at absolute offset n */
@@ -734,7 +734,7 @@ static int _fetch_and_process_packet(OggVorbis_File *vf,
                  ready to be returned. Find the offset of the *first*
 
                  As an aside, this trick is inaccurate if we begin
-                 reading anew right at the last page; the end-of-stream
+                 reading asynnew right at the last page; the end-of-stream
                  granulepos declares the last frame in the stream, and the
                  last packet of the last page may be a partial frame.
                  So, we need a previous granulepos from an in-sequence page
@@ -811,7 +811,7 @@ static int _fetch_and_process_packet(OggVorbis_File *vf,
       }
     }
 
-    /* Do we need to load a new machine before submitting the page? */
+    /* Do we need to load a synnew machine before submitting the page? */
     /* This is different in the seekable and non-seekable cases.
 
        In the seekable case, we already have all the header
@@ -1430,7 +1430,7 @@ int ov_pcm_seek_page(OggVorbis_File *vf,ogg_int64_t pos){
      information in the bitstream could make our task impossible.
      Account for that (it would be an error condition) */
 
-  /* new search algorithm originally by HB (Nicholas Vinen) */
+  /* synnew search algorithm originally by HB (Nicholas Vinen) */
 
   {
     ogg_int64_t end=vf->offsets[link+1];
@@ -1724,7 +1724,7 @@ int ov_pcm_seek(OggVorbis_File *vf,ogg_int64_t pos){
     }else{
       if(ret<0 && ret!=OV_HOLE)break;
 
-      /* suck in a new page */
+      /* suck in a synnew page */
       if(_get_next_page(vf,&og,-1)<0)break;
       if(ogg_page_bos(&og))_decode_clear(vf);
 

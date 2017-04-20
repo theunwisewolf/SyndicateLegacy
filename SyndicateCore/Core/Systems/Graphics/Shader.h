@@ -3,9 +3,6 @@
 
 #include <Common.h>
 
-#define SYNDICATE_DEBUG 1
-#define SHADER_ERROR(x) std::cout << "Shader Error: " << x << std::endl
-
 #include <vector>
 #include <string>
 #include <iostream>
@@ -19,8 +16,9 @@ namespace Syndicate { namespace Graphics {
 class SYNDICATE_API Shader
 {
 private:
-	GLuint m_ShaderID = -1;
+	unsigned int m_ShaderID = -1;
 	bool m_ShaderEnabled = false;
+	bool m_Freed;
 
 	std::string m_vertexShaderPath;
 	std::string m_fragmentShaderPath;
@@ -30,25 +28,27 @@ public:
 	Shader(std::string vertexShaderPath, std::string fragmentShaderPath);
 	~Shader();
 
-	void enable();
-	void disable();
+	void Free();
 
-	GLint getUniformLocation(const GLchar* name);
-	GLint getAttributeLocation(const GLchar* name);
+	void Enable();
+	void Disable();
 
-	void setUniform1i(const GLchar* name, int value);
-	void setUniform1iv(const GLchar* name, int* value, int count);
-	void setUniform1f(const GLchar* name, float value);
-	void setUniform1fv(const GLchar* name, float* value, int count);
-	void setUniform2f(const GLchar* name, const Maths::Vector2& vector);
-	void setUniform3f(const GLchar* name, const Maths::Vector3& vector);
-	void setUniform4f(const GLchar* name, const Maths::Vector4& vector);
-	void setUniformMat4(const GLchar* name, const Maths::Matrix4& matrix);
+	int getUniformLocation(const char* name);
+	int getAttributeLocation(const char* name);
 
-	GLuint getShaderID() const { return this->m_ShaderID; }
+	void setUniform1i(const char* name, int value);
+	void setUniform1iv(const char* name, int* value, int count);
+	void setUniform1f(const char* name, float value);
+	void setUniform1fv(const char* name, float* value, int count);
+	void setUniform2f(const char* name, const Maths::Vector2& vector);
+	void setUniform3f(const char* name, const Maths::Vector3& vector);
+	void setUniform4f(const char* name, const Maths::Vector4& vector);
+	void setUniformMat4(const char* name, const Maths::Matrix4& matrix);
+
+	int getShaderID() const { return this->m_ShaderID; }
 
 private:
-	GLuint load();
+	unsigned int load();
 
 };
 

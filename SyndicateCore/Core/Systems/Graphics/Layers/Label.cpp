@@ -51,19 +51,6 @@ void Label::Init()
 	m_Atlas = *m_Font.getAtlas();
 	m_FTFont = *m_Font.getFont();
 
-	// Generate the OpenGL Texture
-	glGenTextures(1, &m_Atlas.id);
-
-	// Set the texture parameters
-	glBindTexture(GL_TEXTURE_2D, m_Atlas.id);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-	//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
 	for (int i = 0; i < m_Text.length(); ++i)
 	{
 		texture_glyph_t* glyph = texture_font_get_glyph(&m_FTFont, &m_Text[i]);
@@ -84,23 +71,12 @@ void Label::Debug()
 
 void Label::Submit(Renderer2D* renderer) const 
 {
-	renderer->DrawString(m_Text, m_Position, m_Font.getColor(), (texture_atlas_t *)&m_Atlas, (texture_font_t *)&m_FTFont);
+	renderer->DrawString(m_Text, m_Position, m_Font);
 }
 
 Label::~Label()
 {
-	/*if (m_Font)
-	{
-		texture_font_delete(m_Font);
-		m_Font = nullptr;
-	}
-
-	if (m_FontAtlas)
-	{
-		texture_atlas_delete(m_FontAtlas);
-		m_FontAtlas = nullptr;
-	}*/
-
+	delete m_Font.getTexture();
 }
 
 } }

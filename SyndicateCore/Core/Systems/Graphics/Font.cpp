@@ -24,6 +24,17 @@ Font::Font(const std::string& fontName, const float& size, const Color& color)
 {
 	m_Font = FontManager::getFont(fontName, size);
 	m_Atlas = m_Font->atlas;
+
+	TextureParameters parameters{
+		TextureFormat::RED,
+		TextureWrap::CLAMP_TO_EDGE,
+		TextureFilter::LINEAR
+	};
+
+	m_Texture = synnew Texture(m_Atlas->width, m_Atlas->height, parameters);
+	m_Font->atlas->id = m_Atlas->id = m_Texture->GetTextureID();
+	
+	m_Texture->SetData(m_Atlas->data);
 }
 
 Font::~Font() 

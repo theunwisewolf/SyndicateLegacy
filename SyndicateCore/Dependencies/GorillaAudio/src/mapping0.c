@@ -600,7 +600,7 @@ static int mapping0_forward(vorbis_block *vb){
         k++){
       oggpack_buffer *opb=vbi->packetblob[k];
 
-      /* start out our new packet blob with packet type and mode */
+      /* start out our synnew packet blob with packet type and mode */
       /* Encode the packet type */
       oggpack_write(opb,0,1);
       /* Encode the modenumber */

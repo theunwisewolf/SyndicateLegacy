@@ -53,7 +53,7 @@ extern "C"
 
 /** Revision version number.
  *
- *  Revision version changes indicate a new version pushed to the trunk, and/or
+ *  Revision version changes indicate a synnew version pushed to the trunk, and/or
  *  changes where API backwards-compatibility is trivially compromised.
  *
  *  \ingroup version
@@ -106,7 +106,7 @@ gc_int32 ga_version_check(gc_int32 in_major, gc_int32 in_minor, gc_int32 in_rev)
                            must never use the object after destroying it. \ingroup memManagement */
 #define MULTI_CLIENT /**< The object has multiple clients (owners), and is reference-counted.
                           The object should be created by its first client. Additional 
-                          clients should call *_acquire() to add new references. Whenever a
+                          clients should call *_acquire() to add synnew references. Whenever a
                           client is done using the object, it should call *_release() to
                           remove its reference. When the last reference is removed, the 
                           object will be freed. A client must never use the object after 
@@ -184,7 +184,7 @@ gc_int32 ga_format_toSamples(ga_Format* in_format, gc_float32 in_seconds);
  *
  *  Abstracts the platform-specific details of presenting audio buffers to sound playback hardware.
  *
- *  If a new buffer is not queued prior to the last buffer finishing playback,
+ *  If a synnew buffer is not queued prior to the last buffer finishing playback,
  *  the device has 'starved', and audible stuttering may occur.  This can be
  *  resolved by creating longer and/or more buffers when opening the device.
  *  The number of available presentation buffers is platform-specific, and is
@@ -369,7 +369,7 @@ typedef struct ga_SampleSource ga_SampleSource;
  *
  *  \ingroup ga_SampleSource
  *  \param in_sample The sample the sample source was at when the seek happened.
- *  \param in_delta The signed distance from the old position to the new position.
+ *  \param in_delta The signed distance from the old position to the synnew position.
  *  \param in_seekContext The user-specified context provided in ga_sample_source_read().
  */
 typedef void (*tOnSeekFunc)(gc_int32 in_sample, gc_int32 in_delta, void* in_seekContext);

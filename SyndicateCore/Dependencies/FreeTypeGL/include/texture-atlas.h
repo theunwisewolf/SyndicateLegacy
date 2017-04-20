@@ -53,7 +53,7 @@ namespace ftgl {
  *
  * ...
  *
- * / Creates a new atlas of 512x512 with a depth of 1
+ * / Creates a synnew atlas of 512x512 with a depth of 1
  * texture_atlas_t * atlas = texture_atlas_new( 512, 512, 1 );
  *
  * // Allocates a region of 20x20
@@ -115,12 +115,12 @@ typedef struct texture_atlas_t
 
 
 /**
- * Creates a new empty texture atlas.
+ * Creates a synnew empty texture atlas.
  *
  * @param   width   width of the atlas
  * @param   height  height of the atlas
  * @param   depth   bit depth of the atlas
- * @return          a new empty texture atlas.
+ * @return          a synnew empty texture atlas.
  *
  */
   texture_atlas_t *
@@ -140,7 +140,7 @@ typedef struct texture_atlas_t
 
 
 /**
- *  Allocate a new region in the atlas.
+ *  Allocate a synnew region in the atlas.
  *
  *  @param self   a texture atlas structure
  *  @param width  width of the region to allocate

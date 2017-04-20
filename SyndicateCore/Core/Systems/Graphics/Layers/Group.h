@@ -11,14 +11,24 @@ namespace Syndicate { namespace Graphics {
 class SYNDICATE_API Group : public Renderable2D
 {
 private:
+	unsigned int m_ChildrenCount = 0;
+
+private:
 	std::vector<Renderable2D*> m_Sprites;
+	std::map<std::string, int> m_ChildrenMap;
 	Maths::Matrix4 m_TransformationMatrix;
 
 public:
 	Group(const Maths::Matrix4& transform);
 	void Submit(Renderer2D* renderer) const override;
-	void Add(Renderable2D* sprite);
+	unsigned int Add(Renderable2D* sprite);
+	void Add(std::string name, Renderable2D* sprite);
 	~Group();
+
+	Renderable2D* GetSprite(std::string name);
+	Renderable2D* GetSprite(int index);
+
+	unsigned int getChildrenCount() const { return this->m_ChildrenCount; }
 };
 
 } }

@@ -10,7 +10,8 @@ AudioManager::AudioManager() :
 	m_SoundManager(nullptr),
 	m_Mixer(nullptr),
 	m_StreamManager(nullptr),
-	m_InsertingAudio(false)
+	m_InsertingAudio(false),
+	m_Finished(false)
 {
 	AudioManager::instance = this;
 }
@@ -28,7 +29,7 @@ AudioManager::~AudioManager()
 	SYNDICATE_SUCCESS("Audio Manager Terminated...");
 }
 
-void AudioManager::Init()
+void AudioManager::Initialize()
 {
 	gc_initialize(0);
 
@@ -48,6 +49,9 @@ void AudioManager::Start()
 
 	// Notify waiting threads
 	this->m_ConditionVariable.notify_all();
+
+	// Finished...
+	this->m_Finished = true;
 }
 
 void AudioManager::Stop()
@@ -57,7 +61,7 @@ void AudioManager::Stop()
 
 void AudioManager::Update()
 {
-	// A new file is to be insert in the cache
+	// A synnew file is to be insert in the cache
 	if (m_InsertingAudio)
 	{
 		// Notify waiting threads to do their work
@@ -155,7 +159,7 @@ void AudioManager::Clear()
 	// Thread is still playing, wait for it to finish
 	std::unique_lock<std::mutex> lock(this->m_Mutex);
 	this->m_ConditionVariable.wait(lock, [this]() {
-		bool status = this->getThreadStatus();
+		bool status = this->getStatus();
 		return status;
 	});
 	lock.unlock();

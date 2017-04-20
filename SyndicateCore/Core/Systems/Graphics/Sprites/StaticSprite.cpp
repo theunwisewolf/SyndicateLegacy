@@ -35,13 +35,13 @@ StaticSprite::StaticSprite(Maths::Vector3 position, Maths::Vector2 size, Maths::
 
 	GLfloat tid = 0.0f;
 
-	this->m_VertexArray = new VertexArray();
-	this->m_IndexBuffer = new IndexBuffer(indices, 6);
+	this->m_VertexArray = synnew VertexArray();
+	this->m_IndexBuffer = synnew IndexBuffer(indices, 6);
 
-	this->m_VertexArray->addBuffer(new Buffer(vertices, 3 * 4, 3), 0);
-	this->m_VertexArray->addBuffer(new Buffer(colors, 4 * 4, 4), 1);
-	this->m_VertexArray->addBuffer(new Buffer(uvs, 2 * 4, 2), 2);
-	this->m_VertexArray->addBuffer(new Buffer(&tid, 1, 1), 3);
+	this->m_VertexArray->addBuffer(synnew Buffer(vertices, 3 * 4, 3), 0);
+	this->m_VertexArray->addBuffer(synnew Buffer(colors, 4 * 4, 4), 1);
+	this->m_VertexArray->addBuffer(synnew Buffer(uvs, 2 * 4, 2), 2);
+	this->m_VertexArray->addBuffer(synnew Buffer(&tid, 1, 1), 3);
 }
 
 StaticSprite::StaticSprite(Maths::Vector3 position, Maths::Vector2 size, Texture* texture, Shader shader)
@@ -75,15 +75,15 @@ StaticSprite::StaticSprite(Maths::Vector3 position, Maths::Vector2 size, Texture
 		1, 0
 	};
 
-	GLfloat tid = (float)texture->getTextureID();
+	GLfloat tid = (float)texture->GetTextureID();
 
-	this->m_VertexArray = new VertexArray();
-	this->m_IndexBuffer = new IndexBuffer(indices, 6);
+	this->m_VertexArray = synnew VertexArray();
+	this->m_IndexBuffer = synnew IndexBuffer(indices, 6);
 
-	this->m_VertexArray->addBuffer(new Buffer(vertices, 3 * 4, 3), 0);
-	this->m_VertexArray->addBuffer(new Buffer(colors, 4 * 4, 4), 1);
-	this->m_VertexArray->addBuffer(new Buffer(uvs, 2 * 4, 2), 2);
-	this->m_VertexArray->addBuffer(new Buffer(&tid, 1, 1), 3);
+	this->m_VertexArray->addBuffer(synnew Buffer(vertices, 3 * 4, 3), 0);
+	this->m_VertexArray->addBuffer(synnew Buffer(colors, 4 * 4, 4), 1);
+	this->m_VertexArray->addBuffer(synnew Buffer(uvs, 2 * 4, 2), 2);
+	this->m_VertexArray->addBuffer(synnew Buffer(&tid, 1, 1), 3);
 }
 
 StaticSprite::~StaticSprite()

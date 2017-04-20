@@ -1,35 +1,60 @@
 #include "Shader.h"
 
 namespace Syndicate { namespace Graphics {
-Shader::Shader()
+Shader::Shader() :
+	m_Freed(false),
+	m_ShaderEnabled(false),
+	m_ShaderID(-1)
 {
+	// Use default fallback shaders
+	m_vertexShaderPath = "Shaders/VertexShader.vert";
+	m_fragmentShaderPath = "Shaders/FragmentShader.frag";
+
+	this->m_ShaderEnabled = false;
+	this->m_ShaderID = this->load();
+
+	int textureSlots[] = { 0,1,2,3,4,5,6,7,8,9 };
+	this->Enable();
+	this->setUniform1iv("textures", textureSlots, 10);
 }
 
 Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) :
 	m_vertexShaderPath{vertexShaderPath},
-	m_fragmentShaderPath{fragmentShaderPath}
+	m_fragmentShaderPath{fragmentShaderPath},
+	m_Freed(false),
+	m_ShaderEnabled(false),
+	m_ShaderID(-1)
 {
 	this->m_ShaderEnabled = false;
 	this->m_ShaderID = this->load();
 }
 
-Shader::~Shader()
+void Shader::Free()
 {
-	glDeleteProgram(this->m_ShaderID);
+	if (!m_Freed)
+	{
+		GL(glDeleteProgram(this->m_ShaderID));
+		m_Freed = true;
+	}
 }
 
-GLuint Shader::load()
+Shader::~Shader()
 {
-	GLuint shaderProgram = glCreateProgram();
-	GLuint vertexShader  = glCreateShader(GL_VERTEX_SHADER);
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	this->Free();
+}
+
+unsigned int Shader::load()
+{
+	unsigned int shaderProgram  = glCreateProgram();
+	unsigned int vertexShader   = glCreateShader(GL_VERTEX_SHADER);
+	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	
 	std::string vertShaderData;
 	std::string fragShaderData;
 
 	// For logging
-	GLint success;
-	GLint length;
+	int success;
+	int length;
 
 	try
 	{
@@ -45,26 +70,26 @@ GLuint Shader::load()
 	const char* vData = vertShaderData.c_str();
 	const char* fData = fragShaderData.c_str();
 
-	glShaderSource(vertexShader, 1, &vData, NULL);
-	glShaderSource(fragmentShader, 1, &fData, NULL);
+	GL(glShaderSource(vertexShader, 1, &vData, NULL));
+	GL(glShaderSource(fragmentShader, 1, &fData, NULL));
 
-	glCompileShader(vertexShader);
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+	GL(glCompileShader(vertexShader));
+	GL(glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success));
 
 	if (!success)
 	{
-		glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &length);
+		GL(glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &length));
 		std::vector<char> error(length);
-		glGetShaderInfoLog(vertexShader, length, &length, &error[0]);
+		GL(glGetShaderInfoLog(vertexShader, length, &length, &error[0]));
 
 		std::cout << "Failed to compile Vertex Shader: " << std::endl << &error[0] << std::endl;
 
-		glDeleteShader(vertexShader);
+		GL(glDeleteShader(vertexShader));
 		return -1;
 	}
 
-	glCompileShader(fragmentShader);
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+	GL(glCompileShader(fragmentShader));
+	GL(glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success));
 
 	if (!success)
 	{
@@ -78,97 +103,97 @@ GLuint Shader::load()
 		return -1;
 	}
 
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
+	GL(glAttachShader(shaderProgram, vertexShader));
+	GL(glAttachShader(shaderProgram, fragmentShader));
 
-	glLinkProgram(shaderProgram);
-	glValidateProgram(shaderProgram);
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	GL(glLinkProgram(shaderProgram));
+	GL(glValidateProgram(shaderProgram));
+	GL(glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success));
 
 	if (!success)
 	{
-		glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH, &length);
+		GL(glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH, &length));
 		std::vector<char> error(length);
-		glGetProgramInfoLog(shaderProgram, length, &length, &error[0]);
+		GL(glGetProgramInfoLog(shaderProgram, length, &length, &error[0]));
 
 		std::cout << "Failed to link shader program: " << std::endl << &error[0] << std::endl;
 
-		glDeleteProgram(shaderProgram);
+		GL(glDeleteProgram(shaderProgram));
 		return -1;
 	}
 
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	GL(glDeleteShader(vertexShader));
+	GL(glDeleteShader(fragmentShader));
 
 	return shaderProgram;
 }
 
-void Shader::enable() 
+void Shader::Enable() 
 {
 	this->m_ShaderEnabled = true;
-	glUseProgram(this->m_ShaderID);
+	GL(glUseProgram(this->m_ShaderID));
 }
 
-void Shader::disable()
+void Shader::Disable()
 {
 	this->m_ShaderEnabled = false;
-	glUseProgram(0);
+	GL(glUseProgram(0));
 }
 
-GLint Shader::getUniformLocation(const GLchar* name)
+int Shader::getUniformLocation(const char* name)
 {
 	if (this->m_ShaderEnabled == false)
 	{
-		this->enable();
-		SHADER_ERROR("Shader was not enabled while setting value: " + std::string(name));
+		this->Enable();
+		SYNDICATE_ERROR("Shader was not enabled while setting value: " + std::string(name));
 	}
 
 	return glGetUniformLocation(this->m_ShaderID, name);
 }
 
-GLint Shader::getAttributeLocation(const GLchar* name)
+int Shader::getAttributeLocation(const char* name)
 {
 	return glGetAttribLocation(this->m_ShaderID, name);
 }
 
-void Shader::setUniform1i(const GLchar* name, int value)
+void Shader::setUniform1i(const char* name, int value)
 {
-	glUniform1i(this->getUniformLocation(name), value);
+	GL(glUniform1i(this->getUniformLocation(name), value));
 }
 
-void Shader::setUniform1f(const GLchar* name, float value)
+void Shader::setUniform1f(const char* name, float value)
 {
-	glUniform1f(this->getUniformLocation(name), value);
+	GL(glUniform1f(this->getUniformLocation(name), value));
 }
 
-void Shader::setUniform2f(const GLchar* name, const Maths::Vector2& vector)
+void Shader::setUniform2f(const char* name, const Maths::Vector2& vector)
 {
-	glUniform2f(this->getUniformLocation(name), vector.x, vector.y);
+	GL(glUniform2f(this->getUniformLocation(name), vector.x, vector.y));
 }
 
-void Shader::setUniform3f(const GLchar* name, const Maths::Vector3& vector)
+void Shader::setUniform3f(const char* name, const Maths::Vector3& vector)
 {
-	glUniform3f(this->getUniformLocation(name), vector.x, vector.y, vector.z);
+	GL(glUniform3f(this->getUniformLocation(name), vector.x, vector.y, vector.z));
 }
 
-void Shader::setUniform4f(const GLchar* name, const Maths::Vector4& vector)
+void Shader::setUniform4f(const char* name, const Maths::Vector4& vector)
 {
-	glUniform4f(this->getUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
+	GL(glUniform4f(this->getUniformLocation(name), vector.x, vector.y, vector.z, vector.w));
 }
 
-void Shader::setUniformMat4(const GLchar* name, const Maths::Matrix4& matrix)
+void Shader::setUniformMat4(const char* name, const Maths::Matrix4& matrix)
 {
-	glUniformMatrix4fv(this->getUniformLocation(name), 1, GL_FALSE, matrix.elements);
+	GL(glUniformMatrix4fv(this->getUniformLocation(name), 1, GL_FALSE, matrix.elements));
 }
 
-void Shader::setUniform1fv(const GLchar* name, float* value, int count)
+void Shader::setUniform1fv(const char* name, float* value, int count)
 {
-	glUniform1fv(this->getUniformLocation(name), count, value);
+	GL(glUniform1fv(this->getUniformLocation(name), count, value));
 }
 
-void Shader::setUniform1iv(const GLchar* name, int* value, int count)
+void Shader::setUniform1iv(const char* name, int* value, int count)
 {
-	glUniform1iv(this->getUniformLocation(name), count, value);
+	GL(glUniform1iv(this->getUniformLocation(name), count, value));
 }
 
 }}

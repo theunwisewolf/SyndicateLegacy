@@ -29,6 +29,8 @@ public:
 
 	inline unsigned int getTextureCount() const { return this->m_TextureCount; }
 
+	void Shutdown();
+
 	~ResourceManager();
 };
 
