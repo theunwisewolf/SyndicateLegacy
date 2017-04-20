@@ -4,7 +4,6 @@ Syndicate is a Game Engine written in C++, still in development.
 A hobby project.
 
 # Dependencies
-- GLFW
 - GLEW
 - FreeImage
 - FreeType
@@ -25,17 +24,30 @@ using namespace Maths;
 using namespace Graphics;
 ```
 
-### Creating a Window
+### The Game class
+The game class is the base class of your game. It must inherit the interface IGame and override the following methods:
+```
+// Initialize the game resources, layers, audio, fonts, etc here
+bool Initialize() override;
+
+// The is what the engine will call inside the game loop
+bool Render() override;
+
+// Called just before the engine shuts itself down.
+// Deallocate any resources you allocated during Initialize here
+bool Shutdown() override;
+```
+
+An example is provided insided the "Venus" project.
+
+### Initializing the Engine
 
 ```
-// Initialize the window
-Window( "Window Title", 1024, 768 );
+Engine engine(new Game());
 
-// The Game loop
-while(!window.Closed())
-{
-    // Draw stuff
-}
+engine.Initialize();
+engine.Run();
+engine.Shutdown();
 ```
 
 ### Creating your own layers
@@ -64,23 +76,52 @@ public:
 
 ### Using your custom layer
 ```
-// Initialize the window
-Window( "Window Title", 1024, 768 );
 
-// Create a layer; Heap or stack, your choice. Be sure to free it if you allocate it on the heap!
-TestLayer layer = new TestLayer( new BatchRenderer2D(), new Shader("path/to/vertexShader", "path/to/fragmentShader"), Matrix4::Orthographic(-16.0f, 16.0f, 9.0f, -9.0f, 1.0f, -1.0f) );
+// Somewhere inside the class header...
 
-// Add your sprites to the layer
+public:
+    TestLayer m_Layer;
+    Shader* m_Shader;
 
-// The Game loop
-while(!window.Closed())
+// and the class implementation...
+
+// Initialize the layer
+bool Game::Initialize()
 {
-    layer->Render();
+    // Load your shaders
+	m_Shader = synnew Shader("Shaders/VertexShader.vert", "Shaders/FragmentShader.frag");
+
+    // This will be fixed in a later version...
+	int textureSlots[] = { 0,1,2,3,4,5,6,7,8,9 };
+
+	m_Shader->Enable();
+	m_Shader->setUniform2f("light_pos", Vector2(0.0, 0.0));
+	m_Shader->setUniformMat4("pr_matrix", Matrix4::Orthographic(-16.0f, 16.0f, 9.0f, -9.0f, 1.0f, -1.0f));
+	m_Shader->setUniform1iv("textures", textureSlots, 10);
+	m_Shader->Disable();
+
+	m_Layer.SetShader(m_Shader);
+	m_Layer.SetRenderer(synnew BatchRenderer2D());
+	m_Layer.SetProjectionMatrix();
+
+	Group *logo = synnew Group(Matrix4::Translation(Vector3(0.0f, 0.0f, 0.0f)));
+	logo->Add(synnew Sprite(Vector3(-9.0f, 0, 0), Vector2(20, 1.5f), Maths::Vector4(26, 26, 26, 255)));
+	m_Layer.Add(logo);
+
+	return true;
 }
 
-window.Close();
+bool Game::Render()
+{
+	m_Layer.Render();
+	return true;
+}
 
-delete layer;
+bool Game::Shutdown()
+{
+	m_Layer.Free();
+	return true;
+}
 ```
 
 ### Rendering Sprites
@@ -142,7 +183,8 @@ Syndicate::AudioManager::i()->Get( "AccessKey" )->Play();
 
 # TODO
 - Implement an Input Manager
-- Remove GLFW and use Windows API for creating the OpenGL context
+- An Event Manager
+- ~~Remove GLFW and use Windows API for creating the OpenGL context~~ ***Done!***
 - Implement a proper Texture Manager
 - Implement DirectX
 - and things I can't remember.... :)

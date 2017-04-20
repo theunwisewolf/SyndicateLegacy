@@ -27,9 +27,9 @@ public:
 	Game();
 	~Game();
 
-	virtual bool Initialize() override;
-	virtual bool Render() override;
-	virtual bool Shutdown() override;
+	bool Initialize() override;
+	bool Render() override;
+	bool Shutdown() override;
 
 };
 
