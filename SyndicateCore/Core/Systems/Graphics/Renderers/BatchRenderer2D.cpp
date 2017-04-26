@@ -111,8 +111,8 @@ void BatchRenderer2D::DrawString(const std::string& text, Maths::Vector2 positio
 	// We are not going to use normalized colors
 	c = font.getColor().Pack();
 	
-	float scaleX = Font::getScale().x;
-	float scaleY = Font::getScale().y;
+	float scaleX = font.getScale().x;
+	float scaleY = font.getScale().y;
 	
 	float x = position.x;
 

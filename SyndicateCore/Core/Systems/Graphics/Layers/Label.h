@@ -29,17 +29,13 @@ private:
 	float m_TextHeight;
 
 public:
-	enum class Position { LEFT, CENTER, RIGHT };
-	Position e_PositionParameter;
-
-public:
     Label(std::string text, Maths::Vector2 position, Font font);
 	Label(std::string text, Position position, Font font);
 	~Label();
 
 	void Init();
 	void Debug();
-	void ReAlignText();
+	void ReAlign() override;
 	void Submit(Renderer2D* renderer) const override;
 	void setText(const std::string& text) { this->m_Text = text; }
 };

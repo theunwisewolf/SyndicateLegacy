@@ -14,10 +14,12 @@ private:
 	static int m_NumCallbacks;
 	
 	int m_CallbackId;
+
 	std::function <void()> m_Callback;
 
 public:
 	Callback(std::function<void()> function);
+
 	bool operator==(const Callback& left);
 
 	inline int getId() const { return this->m_CallbackId; }

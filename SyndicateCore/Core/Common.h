@@ -47,4 +47,6 @@ GLenum SYNDICATE_API glCheckError_(const char* function, const char *file, int l
 
 typedef unsigned char BYTE;
 
+enum class Position { LEFT, CENTER, RIGHT };
+
 #endif

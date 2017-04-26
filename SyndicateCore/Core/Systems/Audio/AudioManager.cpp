@@ -2,8 +2,6 @@
 
 namespace Syndicate {
 
-AudioManager* AudioManager::instance = nullptr;
-
 AudioManager::AudioManager() :
 	m_AudioThread(),
 	m_StopThread(false),
@@ -13,20 +11,29 @@ AudioManager::AudioManager() :
 	m_InsertingAudio(false),
 	m_Finished(false)
 {
-	AudioManager::instance = this;
+}
+
+void AudioManager::ShutDown()
+{
+	if (!m_ShutDown)
+	{
+		m_StopThread = true;
+
+		this->Clear();
+
+		if (m_AudioThread.joinable())
+		{
+			m_AudioThread.join();
+		}
+
+		SYNDICATE_SUCCESS("Audio Manager Terminated...");
+		m_ShutDown = true;
+	}
 }
 
 AudioManager::~AudioManager()
 {
-	m_StopThread = true;
-	this->Clear();
-
-	if (m_AudioThread.joinable())
-	{
-		m_AudioThread.join();
-	}
-
-	SYNDICATE_SUCCESS("Audio Manager Terminated...");
+	this->ShutDown();
 }
 
 void AudioManager::Initialize()
@@ -47,11 +54,11 @@ void AudioManager::Start()
 		this->Update();
 	}
 
-	// Notify waiting threads
-	this->m_ConditionVariable.notify_all();
-
 	// Finished...
 	this->m_Finished = true;
+
+	// Notify waiting threads
+	this->m_ConditionVariable.notify_all();
 }
 
 void AudioManager::Stop()
@@ -69,7 +76,12 @@ void AudioManager::Update()
 
 		// Halt this thread and let it insert
 		std::unique_lock<std::mutex> lock(this->m_Mutex);
-		this->m_ConditionVariable.wait(lock);
+
+		bool &var = (bool&)std::ref(m_InsertingAudio);
+		this->m_ConditionVariable.wait(lock, [&] {
+			return var;
+		});
+
 		lock.unlock();
 	}
 
@@ -142,11 +154,11 @@ void AudioManager::Load(Audio* audio)
 	m_InsertingAudio = true;
 	m_AudioCache.push_back(audio);
 
-	// Resume audio Playing
-	this->m_ConditionVariable.notify_all();
-
 	// Done inserting
 	m_InsertingAudio = false;
+
+	// Resume audio Playing
+	this->m_ConditionVariable.notify_one();
 }
 
 void AudioManager::Delete(Audio* audio)

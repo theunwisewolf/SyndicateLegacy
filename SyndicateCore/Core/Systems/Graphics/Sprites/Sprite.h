@@ -16,6 +16,10 @@ public:
 	Sprite(Maths::Vector3 position, Maths::Vector2 size, Color color);
 	Sprite(Maths::Vector3 position, Maths::Vector2 size, const std::string& texturePath);
 	Sprite(Maths::Vector3 position, Maths::Vector2 size, Texture* texture);
+
+	Sprite(Position position, Maths::Vector2 size, Color color);
+	Sprite(Position position, Maths::Vector2 size, const std::string& texturePath);
+	Sprite(Position position, Maths::Vector2 size, Texture* texture);
 	~Sprite();
 };
 

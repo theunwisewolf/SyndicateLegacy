@@ -63,7 +63,7 @@ unsigned int Shader::load()
 	}
 	catch (Utilities::VException& e)
 	{
-		std::cout << e.what();
+		SYNDICATE_ERROR( e.what() );
 		return -1;
 	}
 
@@ -82,7 +82,8 @@ unsigned int Shader::load()
 		std::vector<char> error(length);
 		GL(glGetShaderInfoLog(vertexShader, length, &length, &error[0]));
 
-		std::cout << "Failed to compile Vertex Shader: " << std::endl << &error[0] << std::endl;
+		SYNDICATE_ERROR("Failed to compile Vertex Shader: ");
+		SYNDICATE_ERROR(std::string(&error[0]));
 
 		GL(glDeleteShader(vertexShader));
 		return -1;
@@ -97,7 +98,8 @@ unsigned int Shader::load()
 		std::vector<char> error(length);
 		glGetShaderInfoLog(fragmentShader, length, &length, &error[0]);
 
-		std::cout << "Failed to compile Fragment Shader: " << std::endl << &error[0] << std::endl;
+		SYNDICATE_ERROR("Failed to compile Fragment Shader: ");
+		SYNDICATE_ERROR(std::string(&error[0]));
 
 		glDeleteShader(fragmentShader);
 		return -1;
@@ -116,7 +118,8 @@ unsigned int Shader::load()
 		std::vector<char> error(length);
 		GL(glGetProgramInfoLog(shaderProgram, length, &length, &error[0]));
 
-		std::cout << "Failed to link shader program: " << std::endl << &error[0] << std::endl;
+		SYNDICATE_ERROR("Failed to link shader program: ");
+		SYNDICATE_ERROR(std::string(&error[0]));
 
 		GL(glDeleteProgram(shaderProgram));
 		return -1;
@@ -183,7 +186,7 @@ void Shader::setUniform4f(const char* name, const Maths::Vector4& vector)
 
 void Shader::setUniformMat4(const char* name, const Maths::Matrix4& matrix)
 {
-	GL(glUniformMatrix4fv(this->getUniformLocation(name), 1, GL_FALSE, matrix.elements));
+	GL(glUniformMatrix4fv(this->getUniformLocation(name), 1, GL_TRUE, matrix.elements));
 }
 
 void Shader::setUniform1fv(const char* name, float* value, int count)

@@ -14,6 +14,7 @@ Engine::Engine(IGame* game, Settings settings) :
 #ifdef SYNDICATE_DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
+
 	// Initilize the Window
 	Window::i()->Initialize();
 
@@ -22,6 +23,9 @@ Engine::Engine(IGame* game, Settings settings) :
 
 	// Initialize the Event Manager
 	EventManager::i()->Initialize();
+
+	// Initialize the Input Manager
+	InputManager::i()->Initialize();
 }
 
 bool Engine::Initialize()
@@ -47,15 +51,16 @@ void Engine::InitializeDebugLayer()
 	// Debug layer parameters
 	m_DebugLayer.SetShader(synnew Shader());
 	m_DebugLayer.SetRenderer(synnew BatchRenderer2D());
-	m_DebugLayer.SetProjectionMatrix(Matrix4::Orthographic(-16.0f, 16.0f, 9.0f, -9.0f, -1.0f, 1.0f));
-
-	// Set font's scaling relative to window
-	Font::setScale(Window::i()->getWidth() / 16.0f, Window::i()->getHeight() / 9.0f);
+	m_DebugLayer.SetProjectionMatrix(Matrix4::Orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
 
 	// Our fonts for debug layer
 	FontManager::loadFont("RalewayLight", "res/Fonts/Raleway/Raleway-Light.ttf");
+	Font font = Font("RalewayLight", 60, Color(0xffffff));
 
-	Label* fps = synnew Label("0 fps", Vector2(0.5f, 0.35f), Font("RalewayLight", 60, Color(0xffffff)));
+	// Set font's scaling relative to window
+	font.setScale(Window::i()->getWidth() / 16.0f, Window::i()->getHeight() / 9.0f);
+
+	Label* fps = synnew Label("0 fps", Vector2(0.5f, 0.35f), font);
 	Group* group = synnew Group(Matrix4::Translation(Vector3(-16.0f, 7.0f, 0.0f)));
 
 	group->Add(synnew Sprite(Vector3(0, 0, 0), Vector2(5, 1.2f), Maths::Vector4(41, 128, 185,255)));
@@ -87,8 +92,14 @@ void Engine::Update()
 			DispatchMessage(&msg);
 		}
 
+		// Poll events
+		InputManager::i()->Update();
+
 		// Clear the window
 		Window::i()->Clear();
+
+		// Update the game
+		m_Game->Update();
 
 		// Render the game
 		m_Game->Render();
@@ -126,6 +137,12 @@ void Engine::UpdateFrameCounter()
 
 Engine::~Engine()
 {
+	// Shutdown the input manager
+	InputManager::i()->ShutDown();
+
+	// Stop the audio thread
+	AudioManager::i()->Stop();
+
 	// Release the game
 	delete m_Game;
 
@@ -135,9 +152,6 @@ Engine::~Engine()
 	// Release all fonts
 	FontManager::Clear();
 
-	// Stop the audio thread
-	AudioManager::i()->Stop();
-
 	// Clear all textures
 	ResourceManager::i()->Shutdown();
 
@@ -146,6 +160,9 @@ Engine::~Engine()
 
 	// Shutdown the the window
 	Window::i()->Close();
+
+	// Shutdown the Audio Manager
+	AudioManager::i()->ShutDown();
 }
 
 }

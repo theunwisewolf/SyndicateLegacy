@@ -192,7 +192,9 @@
     <ClInclude Include="Core\Systems\Event\EventManager.h" />
     <ClInclude Include="Core\Systems\Event\Events.h" />
     <ClInclude Include="Core\Systems\Event\KeyEvent.h" />
-    <ClInclude Include="Core\Systems\Input\Keys.h" />
+    <ClInclude Include="Core\Systems\Event\MouseEvent.h" />
+    <ClInclude Include="Core\Systems\Graphics\Camera2D.h" />
+    <ClInclude Include="Core\Systems\Input\InputMap.h" />
     <ClInclude Include="Core\Systems\Graphics\Color.h" />
     <ClInclude Include="Core\Systems\Graphics\Font.h" />
     <ClInclude Include="Core\Systems\Graphics\Layers\Group.h" />
@@ -254,6 +256,8 @@
     <ClCompile Include="Core\Systems\Engine.cpp" />
     <ClCompile Include="Core\Systems\Event\EventManager.cpp" />
     <ClCompile Include="Core\Systems\Event\KeyEvent.cpp" />
+    <ClCompile Include="Core\Systems\Event\MouseEvent.cpp" />
+    <ClCompile Include="Core\Systems\Graphics\Camera2D.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Color.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Font.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Layers\Group.cpp" />

@@ -12,6 +12,7 @@ public:
 	TileLayer();
 	TileLayer(Shader* shader);
 	void SetProjectionMatrix();
+	void SetProjectionMatrix(const Maths::Matrix4& prMatrix);
 	~TileLayer();
 };
 

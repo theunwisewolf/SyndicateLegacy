@@ -3,8 +3,6 @@
 
 #include <Common.h>
 
-#define MAX_KEYS 1024
-#define MAX_BTNS 32
 #define BYTES_PER_PIXEL 32
 
 #include <glew.h>
@@ -18,13 +16,18 @@
 #include <tuple>
 #include <map>
 
-#include <Systems/Graphics/FontManager.h>
-#include <Systems/Audio/AudioManager.h>
 #include <Utilities/Logger.h>
+
 #include <Interfaces/IWindow.h>
 #include <Interfaces/ISystem.h>
-#include <Systems/Graphics/Color.h>
+
 #include <Systems/Graphics/Font.h>
+#include <Systems/Graphics/Color.h>
+#include <Systems/Audio/AudioManager.h>
+#include <Systems/Graphics/FontManager.h>
+
+#include <Systems/Input/InputManager.h>
+#include <Systems/Event/Events.h>
 
 namespace Syndicate {
 

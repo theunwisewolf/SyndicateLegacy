@@ -32,6 +32,14 @@ void EventManager::DispatchEvent(Events type)
 	}
 }
 
+void EventManager::DispatchEvents(const std::vector<Callback>& callbacks)
+{
+	for (auto callbackHandler : callbacks)
+	{
+		callbackHandler.getCallback()();
+	}
+}
+
 unsigned int EventManager::AddEvent(Events type, std::function<void ()> callback)
 {
 	m_QuickEvents[type].push_back(callback);
@@ -39,12 +47,12 @@ unsigned int EventManager::AddEvent(Events type, std::function<void ()> callback
 	return m_QuickEvents[type].size() - 1;
 }
 
-void EventManager::AddEvent(Events type, Callback callback)
+void EventManager::AddEvent(Events type, const Callback& callback)
 {
 	m_Events[type].push_back(callback);
 }
 
-void EventManager::RemoveEvent(Events type, Callback callback)
+void EventManager::RemoveEvent(Events type, const Callback& callback)
 {
 	auto it = std::find(m_Events[type].begin(), m_Events[type].end(), callback);
 

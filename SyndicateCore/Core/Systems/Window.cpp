@@ -120,7 +120,7 @@ LRESULT CALLBACK Window::handleEvents(HWND hWindow, UINT message, WPARAM wParam,
 		break;
 	} break;
 	case WM_MOUSEMOVE:
-		//std::cout << GET_X_LPARAM(lParam) << ", " << GET_Y_LPARAM(lParam) << std::endl;
+		InputManager::i()->DispatchEvents(Events::MOUSEMOVE, message, wParam, lParam);
 		return 0;
 	case WM_SETFOCUS:
 		//FocusCallback(window, true);
@@ -134,18 +134,25 @@ LRESULT CALLBACK Window::handleEvents(HWND hWindow, UINT message, WPARAM wParam,
 		return 0;
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:
+		InputManager::i()->DispatchEvents(Events::KEYDOWN, message, wParam, lParam);
+		return 0;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
-		//KeyCallback(inputManager, lParam, wParam, message);
+		InputManager::i()->DispatchEvents(Events::KEYUP, message, wParam, lParam);
 		return 0;
-	case WM_LBUTTONDOWN:
 	case WM_LBUTTONUP:
-	case WM_RBUTTONDOWN:
 	case WM_RBUTTONUP:
-	case WM_MBUTTONDOWN:
 	case WM_MBUTTONUP:
-		//MouseButtonCallback(inputManager, message, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-		break;
+		ReleaseCapture();
+		InputManager::i()->DispatchEvents(Events::MOUSEUP, message, wParam, lParam);
+		return 0;
+
+	case WM_LBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+	case WM_MBUTTONDOWN:
+		SetCapture(hWindow);
+		InputManager::i()->DispatchEvents(Events::MOUSEDOWN, message, wParam, lParam);
+		return 0;
 	case WM_SIZE:
 		this->resizeWindow( LOWORD(lParam), HIWORD(lParam) );
 		return 0;
@@ -177,7 +184,7 @@ void Window::Update()
 
 	if (( error = glGetError() ) != GL_NO_ERROR)
 	{
-		std::cout << "OpenGL error[" << error << "]: " << this->errors[error] << std::endl;
+		SYNDICATE_ERROR("OpenGL error[" + std::to_string(error) + "]: " + this->errors[error]);
 		system("PAUSE");
 	}
 

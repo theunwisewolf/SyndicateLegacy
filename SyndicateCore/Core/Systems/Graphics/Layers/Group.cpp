@@ -40,6 +40,8 @@ Renderable2D* Group::GetSprite(int index)
 	{
 		return this->m_Sprites[index];
 	}
+
+	return nullptr;
 }
 
 Renderable2D* Group::GetSprite(std::string name)

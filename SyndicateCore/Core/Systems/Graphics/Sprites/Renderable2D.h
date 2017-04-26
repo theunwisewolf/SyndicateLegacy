@@ -17,6 +17,7 @@
  
 namespace Syndicate { namespace Graphics { 
 
+
 struct VertexData {
 	Maths::Vector3 vertex;
 	unsigned int color;
@@ -33,6 +34,7 @@ private:
 
 protected:
 	Texture* m_Texture;
+	Position e_PositionParameter;
 
 protected:
 	Renderable2D() : m_Color(Color(0xffffffff)) { setDefaultUVs(); }
@@ -43,13 +45,39 @@ public:
 		m_Color{color},
 		m_Size{size}
 	{
+		this->e_PositionParameter = Position::LEFT;
 		setDefaultUVs();
+	}
+
+	Renderable2D(Position position, Maths::Vector2 size, Color color) :
+		m_Color{ color },
+		m_Size{ size }
+	{
+		this->e_PositionParameter = position;
+		setDefaultUVs();
+		ReAlign();
 	}
 
 	virtual ~Renderable2D() {}
 	virtual void Submit(Renderer2D* renderer) const
 	{
 		renderer->Submit(this);
+	}
+
+	virtual void ReAlign()
+	{
+		switch (e_PositionParameter)
+		{
+		case Position::CENTER:
+			m_Position = Maths::Vector3(-(m_Size.x / 2.0f), -(m_Size.y / 2.0f), 0.0f);
+			break;
+		case Position::LEFT:
+			m_Position = Maths::Vector3(0.0f, 0.0f, 0.0f);
+			break;
+		case Position::RIGHT:
+			m_Position = Maths::Vector3(m_Size.x, 0.0f, 0.0f);
+			break;
+		}
 	}
 
 	void setColor(const Color& color)								{ this->m_Color = color; }

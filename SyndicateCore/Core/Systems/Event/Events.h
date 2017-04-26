@@ -6,7 +6,8 @@ enum class Events {
 	KEYUP,
 	KEYPRESS,
 	MOUSEMOVE,
-	TESTEVENT
+	MOUSEDOWN,
+	MOUSEUP
 };
 
 #endif

@@ -7,9 +7,9 @@ Label::Label(std::string text, Maths::Vector2 position, Font font) :
 	m_TextWidth(0.0f),
 	m_Text(text),
 	m_Position(position),
-	m_Font(font),
-	e_PositionParameter(Position::LEFT)
+	m_Font(font)
 {
+	e_PositionParameter = Position::LEFT;
 	Init();
 }
 
@@ -17,19 +17,20 @@ Label::Label(std::string text, Position position, Font font) :
 	m_TextHeight(0.0f),
 	m_TextWidth(0.0f),
 	m_Text(text),
-	m_Font(font),
-	e_PositionParameter(position)
+	m_Font(font)
 {
+	e_PositionParameter = position;
+
 	Init();
-	ReAlignText();
+	ReAlign();
 }
 
-void Label::ReAlignText()
+void Label::ReAlign()
 {
 	switch (e_PositionParameter)
 	{
 		case Position::CENTER:
-			m_Position = Maths::Vector2(-(m_TextWidth / 2.0f), m_TextHeight / 2.0f);
+			m_Position = Maths::Vector2(-(m_TextWidth / 2.0f), -(m_TextHeight / 2.0f));
 		break;
 		case Position::LEFT:
 			m_Position = Maths::Vector2(0.0f, 0.0f);
@@ -38,7 +39,6 @@ void Label::ReAlignText()
 			m_Position = Maths::Vector2(m_TextWidth, 0.0f);
 		break;
 	}
-
 }
 
 void Label::Init()

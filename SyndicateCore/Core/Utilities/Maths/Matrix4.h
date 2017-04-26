@@ -22,8 +22,10 @@ public:
 	static Matrix4 Translation(const Vector3& translation);
 
 	static Matrix4 Identity();
-	static Matrix4 Perspective(float fov, float aspectRatio, float near, float far);
-	static Matrix4 Orthographic(float left, float right, float top, float bottom, float near, float far);
+	static Matrix4 Perspective(float fov, float aspectRatio, float _near, float _far);
+	static Matrix4 Orthographic(float left, float right, float top, float bottom, float _near, float _far);
+
+	static Matrix4 Translate(Matrix4 matrix, const Matrix4& translationMatrix);
 
 	Matrix4& Multiply(const Matrix4& mat4);
 	Matrix4& Invert();
@@ -33,9 +35,11 @@ public:
 	friend Matrix4 operator*(Matrix4 a, const Matrix4& b);
 	friend std::ostream& operator<<(std::ostream& stream, const Matrix4& mat4);
 
+	Vector2 Multiply(const Vector2& vec2) const;
 	Vector3 Multiply(const Vector3& vec3) const;
 	Vector4 Multiply(const Vector4& vec4) const;
 
+	friend Vector2 operator*(const Matrix4& a, const Vector2& b);
 	friend Vector3 operator*(const Matrix4& a, const Vector3& b);
 	friend Vector4 operator*(const Matrix4& a, const Vector4& b);
 

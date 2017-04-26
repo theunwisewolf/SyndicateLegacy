@@ -33,6 +33,8 @@ Renderable2D* Layer::GetSprite(int index)
 	{
 		return this->m_Renderables[index];
 	}
+
+	return nullptr;
 }
 
 Renderable2D* Layer::GetSprite(std::string name)

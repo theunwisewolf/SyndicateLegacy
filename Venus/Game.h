@@ -4,6 +4,7 @@
 #include <Interfaces/IGame.h> 
 #include <Systems/Audio/AudioManager.h>
 #include <Systems/Graphics/Shader.h>
+#include <Systems/Graphics/Camera2D.h>
 #include <Systems/Graphics/Layers/Group.h>
 #include <Systems/Graphics/Layers/Label.h>
 #include <Systems/Graphics/Sprites/Sprite.h>
@@ -22,6 +23,7 @@ using namespace Maths;
 class Game : public IGame
 {
 private:
+	Camera2D m_Camera;
 	Shader* m_Shader;
 	TileLayer m_Layer;
 
@@ -31,6 +33,7 @@ public:
 
 	bool Initialize() override;
 	bool Render() override;
+	bool Update() override;
 	bool Shutdown() override;
 
 };

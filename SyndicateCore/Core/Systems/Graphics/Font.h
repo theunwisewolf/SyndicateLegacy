@@ -13,15 +13,14 @@
 namespace Syndicate { namespace Graphics { 
 
 class SYNDICATE_API Font {
-private:
-	static Maths::Vector2 s_Scale;
-
 public:
-	static const Maths::Vector2& getScale() { return Font::s_Scale; };
-	static void setScale(const Maths::Vector2& scale);
-	static void setScale(float x, float y);
+	inline const Maths::Vector2& getScale() const { return this->m_Scale; };
+	void setScale(const Maths::Vector2& scale);
+	void setScale(float x, float y);
 
 private:  
+	Maths::Vector2 m_Scale;
+
     std::string m_FontName;
     float m_FontSize;
 	Color m_Color;
@@ -31,7 +30,7 @@ private:
 	texture_atlas_t* m_Atlas;
 	 
 public: 
-	Font(const std::string& fontName, const float& size, const Color& color);
+	Font(const std::string& fontName, const float& size, const Color& color, const Maths::Vector2& scale = Maths::Vector2(1.0f, 1.0f));
 	~Font();
 
 	void setColor(Maths::Vector4 color) { m_Color = color; }

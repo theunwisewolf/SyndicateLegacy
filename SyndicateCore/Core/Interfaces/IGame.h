@@ -12,8 +12,9 @@ class SYNDICATE_API IGame
 
 protected:
 	virtual bool Initialize() { return true; };
-	virtual bool Render() { return true; };
-	virtual bool Shutdown() { return true; };
+	virtual bool Update()	  { return true; }
+	virtual bool Render()	  { return true; };
+	virtual bool Shutdown()	  { return true; };
 };
 
 }

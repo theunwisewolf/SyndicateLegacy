@@ -31,12 +31,11 @@ SYNDICATE_TEMPLATE template class SYNDICATE_API std::vector<Audio*>;
 
 class SYNDICATE_API AudioManager 
 {
-private:
-	static AudioManager* instance;
 public:
 	static AudioManager* i()
 	{
-		return instance;
+		static AudioManager instance;
+		return &instance;
 	}
 
 private: 
@@ -54,8 +53,14 @@ private:
 	gau_Manager* m_SoundManager;
 	ga_Mixer* m_Mixer;
 
-public:
+	bool m_ShutDown = false;
+
+private:
 	AudioManager();
+	AudioManager(AudioManager const& copy) = delete;
+	AudioManager& operator=(AudioManager const& copy) = delete;
+
+public:
 	~AudioManager();
 
 	// Initializes the class
@@ -68,6 +73,8 @@ public:
 	void Clear();
 	// Updates Audio
 	void Update();
+
+	void ShutDown();
 
 	// Audio Related Functions
 	// Stops all playing audio files

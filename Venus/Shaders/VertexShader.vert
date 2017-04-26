@@ -19,7 +19,7 @@ out DATA
 
 void main()
 {
-	vs_out.position = ml_matrix * vec4(position, 1.0f);
+	vs_out.position = vec4(position, 1.0f);
 	vs_out.color = color;
 	vs_out.uv = uv;
 	vs_out.tid = tid;

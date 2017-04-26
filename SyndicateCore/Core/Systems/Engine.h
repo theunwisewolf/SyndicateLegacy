@@ -3,6 +3,9 @@
 
 #include <Common.h>
 
+#include <mutex>
+#include <condition_variable>
+
 #include <Windows.h>
 
 #include <Interfaces/IGame.h>
@@ -48,7 +51,6 @@ class SYNDICATE_API Engine
 {
 private:
 	Window window;
-	AudioManager m_AudioManager;
 
 	Settings m_Settings;
 
@@ -74,8 +76,6 @@ public:
 
 	void UpdateFrameCounter();
 	void InitializeDebugLayer();
-
-	inline const AudioManager& getAudioManager() const { return m_AudioManager; }
 };
 
 }

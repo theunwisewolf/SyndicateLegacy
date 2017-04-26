@@ -25,7 +25,8 @@ texture_font_t* FontManager::getFont(std::string fontName, float size)
 
 	if (it != m_FontCache.end())
 	{
-		return it->second;
+		if(it->second->size == size)
+			return it->second;
 	}
 
 	auto fontDataIt = m_FontDataCache.find(fontName);

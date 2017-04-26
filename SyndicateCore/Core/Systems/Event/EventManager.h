@@ -24,8 +24,8 @@ private:
 	std::map<Events, std::vector<Callback>> m_Events;
 
 	EventManager();
-	EventManager(EventManager& copy);
-	EventManager& operator=(const EventManager& copy);
+	EventManager(EventManager& copy) = delete;
+	EventManager& operator=(const EventManager& copy) = delete;
 
 public:
 	static EventManager* i();
@@ -33,11 +33,12 @@ public:
 	void Initialize();
 	void ShutDown();
 	unsigned int AddEvent(Events type, std::function<void ()> callback);
-	void AddEvent(Events type, Callback callback);
+	void AddEvent(Events type, const Callback& callback);
 
 	void RemoveEvent(Events type, int index);
-	void RemoveEvent(Events type, Callback callback);
+	void RemoveEvent(Events type, const Callback& callback);
 	void DispatchEvent(Events type);
+	void DispatchEvents(const std::vector<Callback>& callbacks);
 
 	~EventManager();
 };
