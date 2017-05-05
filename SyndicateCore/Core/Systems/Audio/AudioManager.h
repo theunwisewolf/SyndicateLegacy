@@ -49,7 +49,6 @@ private:
 
 	std::vector<Audio*> m_AudioCache;
 
-	ga_StreamManager* m_StreamManager;
 	gau_Manager* m_SoundManager;
 	ga_Mixer* m_Mixer;
 
@@ -86,7 +85,6 @@ public:
 	void Load(Audio* audio);
 	void Delete(Audio* audio);
 
-	ga_StreamManager* getStreamManager() { return m_StreamManager;  }
 	gau_Manager* getSoundManager() { return m_SoundManager; }
 	ga_Mixer* getMixer() { return m_Mixer; }
 	std::atomic<bool>& getThreadStatus() { return std::ref(m_StopThread); }

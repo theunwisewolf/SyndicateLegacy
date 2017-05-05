@@ -17,7 +17,6 @@
  
 namespace Syndicate { namespace Graphics { 
 
-
 struct VertexData {
 	Maths::Vector3 vertex;
 	unsigned int color;

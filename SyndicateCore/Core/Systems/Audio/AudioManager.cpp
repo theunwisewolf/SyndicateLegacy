@@ -7,7 +7,6 @@ AudioManager::AudioManager() :
 	m_StopThread(false),
 	m_SoundManager(nullptr),
 	m_Mixer(nullptr),
-	m_StreamManager(nullptr),
 	m_InsertingAudio(false),
 	m_Finished(false)
 {
@@ -42,7 +41,6 @@ void AudioManager::Initialize()
 
 	AudioManager::m_SoundManager = gau_manager_create_custom(GA_DEVICE_TYPE_DEFAULT, GAU_THREAD_POLICY_MULTI, 4, 512);
 	AudioManager::m_Mixer = gau_manager_mixer(AudioManager::m_SoundManager);
-	AudioManager::m_StreamManager = gau_manager_streamManager(AudioManager::m_SoundManager);
 
 	m_AudioThread = std::thread(&AudioManager::Start, this);
 }
@@ -133,13 +131,6 @@ void AudioManager::VolumeDown(size_t volume)
 
 void AudioManager::Load(Audio* audio)
 {
-	if (!Utilities::File::Exists(audio->getPath()))
-	{
-		SYNDICATE_WARNING("Audio File " + audio->getName() + " does not exist at " + audio->getPath());
-		delete audio;
-		return;
-	}
-
 	// We will only insert if the audio does not already exist
 	for (auto _audio : m_AudioCache)
 	{

@@ -7,6 +7,11 @@
 #include <string>
 #include <algorithm>
 
+#define SYNDICATE_VERSION 100
+
+#define SYNDICATE_VERSION_MINOR 0
+#define SYNDICATE_VERSION_MAJOR 1
+
 #if defined(DEBUG) | defined(_DEBUG)
 	#define SYNDICATE_DEBUG
 #endif
@@ -18,6 +23,10 @@
 	#define synnew new( _NORMAL_BLOCK , __FILE__ , __LINE__ )
 #else
 	#define synnew new
+#endif
+
+#ifdef WIN32
+#define SYNDICATE_WINDOWS
 #endif
 
 #ifdef SYNDICATE_DYNAMIC
@@ -46,6 +55,16 @@ GLenum SYNDICATE_API glCheckError_(const char* function, const char *file, int l
 #endif
 
 typedef unsigned char BYTE;
+
+typedef unsigned char		U8;
+typedef unsigned short		U16;
+typedef unsigned int		U32;
+typedef unsigned long long  U64;
+
+typedef char				S8;
+typedef short				S16;
+typedef int					S32;
+typedef long long			S64;
 
 enum class Position { LEFT, CENTER, RIGHT };
 

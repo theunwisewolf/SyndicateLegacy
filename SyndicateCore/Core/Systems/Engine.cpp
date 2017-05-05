@@ -24,6 +24,9 @@ Engine::Engine(IGame* game, Settings settings) :
 	// Initialize the Event Manager
 	EventManager::i()->Initialize();
 
+	// Initialize Resource Manager
+	ResourceManager::i()->Initialize();
+
 	// Initialize the Input Manager
 	InputManager::i()->Initialize();
 }

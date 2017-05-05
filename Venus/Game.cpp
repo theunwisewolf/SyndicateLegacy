@@ -10,7 +10,7 @@ Game::Game() :
 
 bool Game::Initialize()
 {
-	AudioManager::i()->Load(synnew Audio("Thor Ragnarok", "res/Sounds/ThorR.ogg"));
+	AudioManager::i()->Load(synnew Audio("Thor Ragnarok", ResourceManager::i()->LoadAudio("res/Sounds/ThorR.ogg")));
 	AudioManager::i()->Get("Thor Ragnarok")->Play();
 
 	KeyEvent::i()->BindKeyPress(Keys::KEY_RETURN, Callback([]() {

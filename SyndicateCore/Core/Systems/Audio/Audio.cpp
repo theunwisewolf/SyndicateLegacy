@@ -2,40 +2,44 @@
 
 namespace Syndicate {
 
-Audio::Audio(const std::string& path) :
-	m_AudioFilePath(path),
+Audio::Audio(const SoundData& data) :
+	m_AudioData(data),
 	m_Playing(false),
 	m_Audio(nullptr),
 	m_AudioHandle(nullptr),
 	m_Volume(100)
 {
-	m_AudioFileFormat = m_AudioFilePath.substr(m_AudioFilePath.size() - 3, 3);
+	m_AudioFileFormat = data.format;
 
 #if !SYNDICATE_USE_BUFFERED_AUDIO
 	m_Audio = gau_load_sound_file(m_AudioFilePath.c_str(), m_AudioFileFormat.c_str());
 #endif
 }
 
-Audio::Audio(const std::string& name, const std::string& path, bool loop) : 
+Audio::Audio(const std::string& name, const SoundData& data, bool loop) : 
 	m_AudioFileName(name),
-	m_AudioFilePath(path),
+	m_AudioData(data),
 	m_Loop(loop),
 	m_Playing(false),
 	m_Audio(nullptr),
 	m_AudioHandle(nullptr),
 	m_Volume(100)
 {
-	m_AudioFileFormat = m_AudioFilePath.substr(m_AudioFilePath.size() - 3, 3);
+	m_AudioFileFormat = std::string(data.format);
 
 #if !SYNDICATE_USE_BUFFERED_AUDIO
 	m_Audio = gau_load_sound_file(m_AudioFilePath.c_str(), m_AudioFileFormat.c_str());
 #endif
+
+	m_Audio = 0;
+	m_Audio = ga_memory_create((void *)data.data.c_str(), data.length);
 }
 
 ga_Handle* Audio::createHandle(void* in_context, gau_SampleSourceLoop** out_loopSrc)
 {
 #if SYNDICATE_USE_BUFFERED_AUDIO
-	m_AudioHandle = gau_create_handle_buffered_file(AudioManager::i()->getMixer(), AudioManager::i()->getStreamManager(), m_AudioFilePath.c_str(), m_AudioFileFormat.c_str(), &AudioManager::setFlagAndDestroyOnFinish, in_context, out_loopSrc);
+	//m_AudioHandle = gau_create_handle_buffered_file(AudioManager::i()->getMixer(), AudioManager::i()->getStreamManager(), m_AudioFilePath.c_str(), m_AudioFileFormat.c_str(), &AudioManager::setFlagAndDestroyOnFinish, in_context, out_loopSrc);
+	m_AudioHandle = gau_create_handle_memory(AudioManager::i()->getMixer(), m_Audio, this->m_AudioFileFormat.c_str(), &AudioManager::i()->setFlagAndDestroyOnFinish, in_context, out_loopSrc);
 #else
 	m_AudioHandle = gau_create_handle_sound(AudioManager::i()->getMixer(), m_Audio, &AudioManager::i()->setFlagAndDestroyOnFinish, in_context, out_loopSrc);
 #endif
@@ -184,7 +188,7 @@ void Audio::VolumeDown(int value)
 Audio::~Audio()
 {
 #if !SYNDICATE_USE_BUFFERED_AUDIO
-	ga_sound_release(m_Audio);
+	//ga_memory_release(m_Audio);
 #endif
 }
 

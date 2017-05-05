@@ -6,9 +6,11 @@
 #include <string>
 
 #include <Systems/Audio/AudioManager.h>
+#include <Utilities/Packaging/Package.h>
 
 #include <gorilla\ga.h>
 #include <gorilla\gau.h>
+#include <gorilla\common\gc_common.h>
 
 namespace Syndicate {
 
@@ -17,8 +19,8 @@ class SYNDICATE_API AudioManager;
 class SYNDICATE_API Audio 
 {
 private: 
+	SoundData m_AudioData;
 	std::string m_AudioFileName;
-	std::string m_AudioFilePath;
 	std::string m_AudioFileFormat;
 
 	bool m_Loop;
@@ -26,8 +28,8 @@ private:
 	bool m_Playing;
 	size_t m_LoopTimes;
 	size_t m_Volume;
-
-	ga_Sound* m_Audio;
+	
+	ga_Memory* m_Audio;
 	ga_Handle* m_AudioHandle;
 
 private:
@@ -35,11 +37,10 @@ private:
 	void destroyHandle();
 
 public:
-	Audio(const std::string& name, const std::string& path, bool loop = false);
-	Audio(const std::string& path);
+	Audio::Audio(const std::string& name, const SoundData& data, bool loop = false);
+	Audio(const SoundData& data);
 
 	const std::string& getName() const { return m_AudioFileName; }
-	const std::string& getPath() const { return m_AudioFilePath; }
 	const std::string& getFormat() const { return m_AudioFileFormat; }
 	const size_t& getVolume() const { return m_Volume; }
 

@@ -12,6 +12,13 @@ ResourceManager* ResourceManager::i()
 	return &instance;
 }
 
+bool ResourceManager::Initialize()
+{
+
+
+	return true;
+}
+
 Texture* ResourceManager::getTexture(const std::string& filename)
 {
 	// We only load the texture if it's not found in the cache
@@ -48,6 +55,16 @@ void ResourceManager::Shutdown()
 	}
 
 	m_TextureCount = 0;
+}
+
+SoundData ResourceManager::LoadAudio(std::string name)
+{
+	Package cpkg;
+	cpkg.Unpack("res/amn");
+
+	SoundData *storedSound = cpkg.GetSound(1);
+
+	return *storedSound;
 }
 
 ResourceManager::~ResourceManager()

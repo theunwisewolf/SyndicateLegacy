@@ -34,7 +34,8 @@ public:
 	File& Read(std::streampos startPos, int mode = std::ios::in);
 	File& Read(std::streampos startPos, std::streampos endPos, int mode = std::ios::in);
 
-	std::string getData() const { return this->data;  };
+	std::string getData() const { return this->data; };
+	std::streamoff getFileSize() const { return this->fileSize;  };
 
 	~File();
 	

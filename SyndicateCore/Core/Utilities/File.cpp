@@ -3,7 +3,9 @@
 namespace Syndicate {
 namespace Utilities {
 
-File::File()
+File::File() :
+	fileSize(0),
+	filePath("")
 {
 
 }
@@ -12,6 +14,7 @@ File::File(std::string path, bool binary)
 {
 	this->filePath = path;
 	this->fileType = (binary == true) ? FILETYPE::BINARY : FILETYPE::TEXT;
+	this->fileSize = 0;
 
 	std::fstream file;
 }
@@ -48,6 +51,7 @@ File& File::Read(int mode)
 		file.seekg(0, std::ios::beg);
 
 		this->readSize = endPos - startPos;
+		this->fileSize = this->readSize;
 		this->data = this->_Read(file);
 
 		return *this;
@@ -84,6 +88,7 @@ File& File::Read(std::streampos startPos, int mode)
 		file.seekg(startPos, std::ios::beg);
 
 		this->readSize = endPos - startPos;
+		this->fileSize = endPos;
 		this->data = this->_Read(file);
 
 		return *this;
@@ -112,6 +117,7 @@ File& File::Read(std::streampos startPos, std::streampos endPos, int mode)
 
 	if (file.is_open())
 	{
+		this->fileSize = endPos;
 		this->readSize = endPos - startPos;
 		this->data = this->_Read(file);
 		return *this;

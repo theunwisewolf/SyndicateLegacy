@@ -111,7 +111,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\FreeImage\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GorillaAudio\lib;$(ProjectDir)Dependencies\GLEW\lib\$(PlatformTarget);$(ProjectDir)Dependencies\Zlib\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;zlibwapi.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;zlib.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
     </Link>
@@ -130,7 +130,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\FreeImage\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GorillaAudio\lib;$(ProjectDir)Dependencies\GLEW\lib\$(PlatformTarget);$(ProjectDir)Dependencies\Zlib\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;zlibwapi.lib;OpenAL64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;zlib.lib;OpenAL64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
     </Link>
@@ -155,7 +155,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\FreeImage\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GorillaAudio\lib;$(ProjectDir)Dependencies\GLEW\lib\$(PlatformTarget);$(ProjectDir)Dependencies\Zlib\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;zlibwapi.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;zlib.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -178,7 +178,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\FreeImage\lib\$(PlatformTarget);$(ProjectDir)Dependencies\GorillaAudio\lib;$(ProjectDir)Dependencies\GLEW\lib\$(PlatformTarget);$(ProjectDir)Dependencies\Zlib\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;zlibwapi.lib;OpenAL64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;FreeImage.lib;GorillaAudio.lib;zlib.lib;OpenAL64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -210,9 +210,11 @@
     <ClInclude Include="Core\Systems\Window.h" />
     <ClInclude Include="Core\Utilities\Callback.h" />
     <ClInclude Include="Core\Utilities\File.h" />
+    <ClInclude Include="Core\Utilities\FileSystem\FileSystem.h" />
     <ClInclude Include="Core\Utilities\Image.h" />
     <ClInclude Include="Core\Utilities\Logger.h" />
-    <ClInclude Include="Core\Utilities\ZLib.h" />
+    <ClInclude Include="Core\Utilities\Packaging\Package.h" />
+    <ClInclude Include="Core\Utilities\Packaging\ZLib.h" />
     <ClInclude Include="Dependencies\FreeImage\include\FreeImage.h" />
     <ClInclude Include="Dependencies\FreeTypeGL\include\freetype-gl.h" />
     <ClInclude Include="Dependencies\FreeTypeGL\include\opengl.h" />
@@ -273,8 +275,10 @@
     <ClCompile Include="Core\Utilities\Callback.cpp" />
     <ClCompile Include="Core\Utilities\File.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Buffers\IndexBuffer.cpp" />
+    <ClCompile Include="Core\Utilities\FileSystem\FileSystem.cpp" />
     <ClCompile Include="Core\Utilities\Image.cpp" />
     <ClCompile Include="Core\Utilities\Logger.cpp" />
+    <ClCompile Include="Core\Utilities\Packaging\Package.cpp" />
     <ClCompile Include="Core\Utilities\VException.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Shader.cpp" />
     <ClCompile Include="Core\Utilities\Maths\Vector4.cpp" />
@@ -288,7 +292,7 @@
     <ClCompile Include="Core\Systems\Graphics\Sprites\StaticSprite.cpp" />
     <ClCompile Include="Core\Utilities\Timer.cpp" />
     <ClCompile Include="Core\Systems\Graphics\Layers\Layer.cpp" />
-    <ClCompile Include="Core\Utilities\ZLib.cpp" />
+    <ClCompile Include="Core\Utilities\Packaging\ZLib.cpp" />
     <ClCompile Include="Dependencies\FreeTypeGL\src\platform.c" />
     <ClCompile Include="Dependencies\FreeTypeGL\src\texture-atlas.c" />
     <ClCompile Include="Dependencies\FreeTypeGL\src\texture-font.c" />
