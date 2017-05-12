@@ -2,7 +2,7 @@
 
 namespace Syndicate { namespace Utilities {
 
-BYTE* loadImage(const char* filename, unsigned int *width, unsigned int* height, int* bits)
+BYTE* loadImage(const char* filename, unsigned int *width, unsigned int* height, unsigned int& size, int* bits)
 {
 	FIBITMAP *dib = nullptr;
 	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
@@ -26,9 +26,50 @@ BYTE* loadImage(const char* filename, unsigned int *width, unsigned int* height,
 
 	BYTE* pixels = FreeImage_GetBits(bitmap);
 	int _bits = FreeImage_GetBPP(bitmap);
+
 	*width = FreeImage_GetWidth(bitmap);
 	*height = FreeImage_GetHeight(bitmap);
-	//byte* pixels = FreeImage_GetBits(bitmap);
+
+	if (FreeImage_GetRedMask(bitmap) == 0xff0000)
+		SwapRedBlue32(bitmap);
+
+	if ((width == 0) || (height == 0))
+		return nullptr;
+
+	size = *width * *height * (_bits / 8);
+	BYTE* result = synnew BYTE[size];
+	memcpy(result, pixels, size);
+	FreeImage_Unload(bitmap);
+
+	return result;
+}
+
+BYTE* loadImageFromMemory(BYTE* buffer, unsigned int bufferSize, unsigned int *width, unsigned int* height)
+{
+	FIBITMAP *dib = nullptr;
+	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
+
+	FIMEMORY* fim = FreeImage_OpenMemory(buffer, bufferSize);
+
+	fif = FreeImage_GetFileTypeFromMemory(fim);//FreeImage_GetFileType(filename, 0);
+
+	if (fif == FIF_UNKNOWN)
+		return nullptr;
+
+	if (FreeImage_FIFSupportsReading(fif))
+		dib = FreeImage_LoadFromMemory(fif, fim);
+
+	if (!dib)
+		return nullptr;
+
+	FIBITMAP* bitmap = FreeImage_ConvertTo32Bits(dib);
+	FreeImage_Unload(dib);
+
+	BYTE* pixels = FreeImage_GetBits(bitmap);
+	int _bits = FreeImage_GetBPP(bitmap);
+
+	*width = FreeImage_GetWidth(bitmap);
+	*height = FreeImage_GetHeight(bitmap);
 
 	if (FreeImage_GetRedMask(bitmap) == 0xff0000)
 		SwapRedBlue32(bitmap);
@@ -39,7 +80,9 @@ BYTE* loadImage(const char* filename, unsigned int *width, unsigned int* height,
 	unsigned int size = *width * *height * (_bits / 8);
 	BYTE* result = synnew BYTE[size];
 	memcpy(result, pixels, size);
+
 	FreeImage_Unload(bitmap);
+	FreeImage_CloseMemory(fim);
 
 	return result;
 }

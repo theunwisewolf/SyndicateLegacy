@@ -62,21 +62,19 @@ bool Window::Initialize()
 	std::string OPENGL_VENDOR(reinterpret_cast<char const*>(glGetString(GL_VENDOR)));
 	std::string OPENGL_RENDERER(reinterpret_cast<char const*>(glGetString(GL_RENDERER)));
 
+	SYNDICATE_SUCCESS_NH("\nGraphics API Info: ");
+
 	SYNDICATE_INFO_NH("OpenGL Version: " + OPENGL_VERSION);
 	SYNDICATE_INFO_NH("Vendor: " + OPENGL_VENDOR);
 	SYNDICATE_INFO_NH("Renderer: " + OPENGL_RENDERER);
 	SYNDICATE_INFO_NH(""); // For a synnew line
-
-	// Initialize AudioManager
-	SYNDICATE_INFO("Initializing Audio Manager...");
-	SYNDICATE_SUCCESS("Successfully Initialized Audio Manager.");
 
 	return true;
 }
 
 void Window::setVSync(bool value)
 {
-#if defined(WIN32) | defined(_WIN32) 
+#ifdef SYNDICATE_WINDOWS
 	wglSwapIntervalEXT(value);
 #endif
 }

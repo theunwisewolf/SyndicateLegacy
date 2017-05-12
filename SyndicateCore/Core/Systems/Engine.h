@@ -19,6 +19,7 @@
 
 #include <Utilities/Timer.h>
 #include <Utilities/Maths/Maths.h>
+#include <Utilities/Packaging/Package.h>
 
 #include <Systems/Graphics/Color.h>
 #include <Systems/Graphics/Shader.h>
@@ -65,8 +66,17 @@ private:
 	// For displaying FPS and what and what not
 	Layer m_DebugLayer;
 
+	// Internal Resources
+	Package m_ResourcePackage;
+
+	// Command line arguments
+	std::vector<std::string> m_CommandLineArgs;
+
+	// Root
+	std::string m_SyndicateRoot;
+
 public:
-	Engine(IGame* game, Settings settings = defaultSettings);
+	Engine(IGame* game, int argc, char* argv[], Settings settings = defaultSettings);
 	~Engine();
 
 	bool Initialize();
@@ -76,6 +86,8 @@ public:
 
 	void UpdateFrameCounter();
 	void InitializeDebugLayer();
+
+	const std::string& RootDirectory() const { return this->m_SyndicateRoot; }
 };
 
 }

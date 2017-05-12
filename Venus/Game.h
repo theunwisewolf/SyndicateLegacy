@@ -31,6 +31,8 @@ public:
 	Game();
 	~Game();
 
+	void LoadPackages();
+
 	bool Initialize() override;
 	bool Render() override;
 	bool Update() override;

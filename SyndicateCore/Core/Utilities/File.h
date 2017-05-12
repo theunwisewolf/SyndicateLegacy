@@ -7,6 +7,8 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <iterator>
+
 #include <Utilities/VException.h>
 #include <Utilities/Logger.h>
 
@@ -19,11 +21,14 @@ enum class MODE { READ, WRITE, READWRITE };
 class SYNDICATE_API File
 {
 private:
-	std::string data;
+	// Char is trivially copyable
+	std::vector<char> data;
 	std::string filePath;
 	std::streamoff fileSize;
 	std::streamoff readSize;
 	FILETYPE fileType;
+
+	bool m_NoRead;
 
 public:
 
@@ -34,7 +39,22 @@ public:
 	File& Read(std::streampos startPos, int mode = std::ios::in);
 	File& Read(std::streampos startPos, std::streampos endPos, int mode = std::ios::in);
 
-	std::string getData() const { return this->data; };
+	std::string getData() { 
+		if (m_NoRead) {
+			SYNDICATE_ERROR("Retrieving data without calling Read()");
+		} else m_NoRead = true;
+
+		return std::string(this->data.begin(), this->data.end()); 
+	};
+
+	std::vector<char> getRawData() { 
+		if (m_NoRead) {
+			SYNDICATE_ERROR("Retrieving data without calling Read()");
+		} else m_NoRead = true;
+		
+		return this->data; 
+	}
+
 	std::streamoff getFileSize() const { return this->fileSize;  };
 
 	~File();
@@ -47,7 +67,7 @@ public:
 	}
 
 private:
-	std::string _Read(std::ifstream& file);
+	std::vector<char> _Read(std::ifstream& file);
 };
 
 

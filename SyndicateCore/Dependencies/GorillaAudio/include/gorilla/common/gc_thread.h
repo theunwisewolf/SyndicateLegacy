@@ -6,6 +6,10 @@
 #ifndef _GORILLA_GC_THREAD_H
 #define _GORILLA_GC_THREAD_H
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #include "gc_types.h"
 
 #ifdef __cplusplus

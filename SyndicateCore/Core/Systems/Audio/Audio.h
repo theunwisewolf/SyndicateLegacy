@@ -5,8 +5,8 @@
 
 #include <string>
 
+#include <Systems/ResourceManager.h>
 #include <Systems/Audio/AudioManager.h>
-#include <Utilities/Packaging/Package.h>
 
 #include <gorilla\ga.h>
 #include <gorilla\gau.h>
@@ -29,20 +29,27 @@ private:
 	size_t m_LoopTimes;
 	size_t m_Volume;
 	
-	ga_Memory* m_Audio;
+	ga_Sound* m_FileAudio;
+	ga_Memory* m_MemoryAudio;
 	ga_Handle* m_AudioHandle;
 
 private:
-	ga_Handle* createHandle(void* in_context, gau_SampleSourceLoop** out_loopSrc);
+	ga_Handle* createHandleFromFile(void* in_context, gau_SampleSourceLoop** out_loopSrc);
+	ga_Handle* createHandleFromPackage(void* in_context, gau_SampleSourceLoop** out_loopSrc);
 	void destroyHandle();
 
 public:
-	Audio::Audio(const std::string& name, const SoundData& data, bool loop = false);
-	Audio(const SoundData& data);
+	Audio();
+	Audio(const std::string& name, bool loop = false);
+
+	void Load(const std::string& filePath);
+	void LoadFromPackage(const std::string& identifier, const std::string& package = "");
 
 	const std::string& getName() const { return m_AudioFileName; }
 	const std::string& getFormat() const { return m_AudioFileFormat; }
 	const size_t& getVolume() const { return m_Volume; }
+
+	void SetData(const SoundData& data) { this->m_AudioData = data; };
 
 	void Update();
 	void Play();

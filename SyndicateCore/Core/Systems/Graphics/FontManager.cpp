@@ -7,6 +7,15 @@ std::map<std::string, std::string> FontManager::m_FontDataCache;
 
 void FontManager::loadFont(const std::string& fontName, const std::string& fontPath)
 {
+	auto it = m_FontDataCache.find(fontName);
+
+	// Already inside cache
+	if (it != m_FontDataCache.end())
+	{
+		SYNDICATE_WARNING("Font " + fontName + " already present in cache.");
+		return;
+	}
+
 	if (!Utilities::File::Exists(fontPath))
 	{
 		SYNDICATE_WARNING( "Font " + fontName + " at path " + fontPath + " does not exist." );
@@ -17,6 +26,23 @@ void FontManager::loadFont(const std::string& fontName, const std::string& fontP
 
 	std::string data = fontData.Read().getData();
 	m_FontDataCache.emplace(fontName, data);
+}
+
+void FontManager::loadFontFromPackage(const std::string& identifier, const std::string& package)
+{
+	auto it = m_FontDataCache.find(identifier);
+
+	// Already inside cache
+	if (it != m_FontDataCache.end())
+	{
+		SYNDICATE_WARNING("Font " + identifier + " already present in cache.");
+		return;
+	}
+
+	FontData* font;
+	font = (package.length()) ? ResourceManager::i()->LoadFont(identifier, package) : ResourceManager::i()->LoadFont(identifier);
+
+	m_FontDataCache.emplace(identifier, font->data);
 }
 
 texture_font_t* FontManager::getFont(std::string fontName, float size)

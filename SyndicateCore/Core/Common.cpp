@@ -1,5 +1,7 @@
 #include "Common.h"
 
+std::string SyndicateRoot = "";
+
 GLenum glCheckError_(const char* function, const char *file, int line)
 {
 	GLenum errorCode;

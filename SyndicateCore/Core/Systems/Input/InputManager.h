@@ -34,7 +34,7 @@ private:
 	InputManager operator=(const InputManager& copy) = delete;
 
 public:
-	void Initialize();
+	bool Initialize();
 
 	void DispatchEvents(Events type, UINT message, WPARAM keycode, LPARAM eventInfo);
 	MouseButtons GetMouseButton(UINT message);

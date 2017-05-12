@@ -5,12 +5,14 @@ namespace Utilities {
 
 File::File() :
 	fileSize(0),
-	filePath("")
+	filePath(""),
+	m_NoRead(true)
 {
 
 }
 
-File::File(std::string path, bool binary)
+File::File(std::string path, bool binary) :
+	m_NoRead(true)
 {
 	this->filePath = path;
 	this->fileType = (binary == true) ? FILETYPE::BINARY : FILETYPE::TEXT;
@@ -129,9 +131,9 @@ File& File::Read(std::streampos startPos, std::streampos endPos, int mode)
 	}
 }
 
-std::string File::_Read(std::ifstream& file)
+std::vector<char> File::_Read(std::ifstream& file)
 {
-	std::string data;
+	std::vector<char> buffer;
 
 	if (this->fileType == FILETYPE::BINARY)
 	{
@@ -140,15 +142,11 @@ std::string File::_Read(std::ifstream& file)
 		if (!file)
 		{
 			SYNDICATE_ERROR("Failed to read from file!");
-			return "";
+			return buffer;
 		}
 
-		std::vector<char> buffer;
 		buffer.resize(this->readSize);
-
 		file.read(&buffer[0], this->readSize);
-
-		data = std::string(buffer.begin(), buffer.end());
 	}
 	else
 	{
@@ -156,12 +154,18 @@ std::string File::_Read(std::ifstream& file)
 
 		while (std::getline(file, line))
 		{
-			data += line + "\n";
+			line += "\n";
+			std::copy(line.begin(), line.end(), std::back_inserter(buffer));
+			line.clear();
 		}
 	}
 
 	file.close();
-	return data;
+
+	// Data was read
+	m_NoRead = false;
+
+	return buffer;
 }
 
 File::~File()

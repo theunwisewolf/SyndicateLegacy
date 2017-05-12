@@ -49,6 +49,7 @@ private:
 
 	std::vector<Audio*> m_AudioCache;
 
+	ga_StreamManager* m_StreamManager;
 	gau_Manager* m_SoundManager;
 	ga_Mixer* m_Mixer;
 
@@ -63,7 +64,7 @@ public:
 	~AudioManager();
 
 	// Initializes the class
-	void Initialize();
+	bool Initialize();
 	// The thread handler
 	void Start();
 	// Stops a thread
@@ -85,8 +86,10 @@ public:
 	void Load(Audio* audio);
 	void Delete(Audio* audio);
 
-	gau_Manager* getSoundManager() { return m_SoundManager; }
 	ga_Mixer* getMixer() { return m_Mixer; }
+	gau_Manager* getSoundManager() { return m_SoundManager; }
+	ga_StreamManager* getStreamManager() { return m_StreamManager; }
+
 	std::atomic<bool>& getThreadStatus() { return std::ref(m_StopThread); }
 	std::atomic<bool>& getStatus() { return std::ref(m_Finished); }
 

@@ -3,13 +3,15 @@
 
 #include <Common.h>
 
+#include <Utilities/File.h>
 #include <Utilities/Logger.h>
+
+#include <Systems/ResourceManager.h>
 
 #include <map>
 #include <string>
 #include <vector>
 #include <freetype-gl.h>
-#include <Utilities/File.h>
 
 #define ATLAS_WIDTH		512
 #define ATLAS_HEIGHT	512
@@ -26,6 +28,7 @@ class SYNDICATE_API FontManager
 
 public:
 	static void loadFont(const std::string& fontName, const std::string& fontPath);
+	static void loadFontFromPackage(const std::string& identifier, const std::string& package = "");
 	static texture_font_t* getFont(std::string fontName, float size);
 	static void deleteFont(std::string fontName);
 	static void Clear();

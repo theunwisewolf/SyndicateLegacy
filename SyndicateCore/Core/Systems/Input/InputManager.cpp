@@ -8,8 +8,9 @@ InputManager::InputManager() :
 
 }
 
-void InputManager::Initialize()
+bool InputManager::Initialize()
 {
+	return true;
 }
 
 void InputManager::DispatchEvents(Events type, UINT message, WPARAM wParam, LPARAM lParam)

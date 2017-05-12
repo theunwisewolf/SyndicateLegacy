@@ -7,8 +7,8 @@ Shader::Shader() :
 	m_ShaderID(-1)
 {
 	// Use default fallback shaders
-	m_vertexShaderPath = "Shaders/VertexShader.vert";
-	m_fragmentShaderPath = "Shaders/FragmentShader.frag";
+	m_vertexShaderIdentifier = "VertexShader.vert";
+	m_fragmentShaderIdentifier = "FragmentShader.frag";
 
 	this->m_ShaderEnabled = false;
 	this->m_ShaderID = this->load();
@@ -18,9 +18,9 @@ Shader::Shader() :
 	this->setUniform1iv("textures", textureSlots, 10);
 }
 
-Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) :
-	m_vertexShaderPath{vertexShaderPath},
-	m_fragmentShaderPath{fragmentShaderPath},
+Shader::Shader(std::string vertexShaderIdentifier, std::string fragmentShaderIdentifier) :
+	m_vertexShaderIdentifier{ vertexShaderIdentifier },
+	m_fragmentShaderIdentifier{ fragmentShaderIdentifier },
 	m_Freed(false),
 	m_ShaderEnabled(false),
 	m_ShaderID(-1)
@@ -49,26 +49,18 @@ unsigned int Shader::load()
 	unsigned int vertexShader   = glCreateShader(GL_VERTEX_SHADER);
 	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	
-	std::string vertShaderData;
-	std::string fragShaderData;
+	ShaderData* vertShaderData;
+	ShaderData* fragShaderData;
 
 	// For logging
 	int success;
 	int length;
 
-	try
-	{
-		vertShaderData = Utilities::File(this->m_vertexShaderPath).Read().getData();
-		fragShaderData = Utilities::File(this->m_fragmentShaderPath).Read().getData();
-	}
-	catch (Utilities::VException& e)
-	{
-		SYNDICATE_ERROR( e.what() );
-		return -1;
-	}
+	vertShaderData = ResourceManager::i()->LoadShader(m_vertexShaderIdentifier);
+	fragShaderData = ResourceManager::i()->LoadShader(m_fragmentShaderIdentifier);
 
-	const char* vData = vertShaderData.c_str();
-	const char* fData = fragShaderData.c_str();
+	const char* vData = vertShaderData->data.c_str();
+	const char* fData = fragShaderData->data.c_str();
 
 	GL(glShaderSource(vertexShader, 1, &vData, NULL));
 	GL(glShaderSource(fragmentShader, 1, &fData, NULL));

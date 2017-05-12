@@ -52,7 +52,7 @@ std::string FileSystem::CreateTempFile()
 	return tempFileName;
 }
 
-bool FileSystem::RemoveFile(std::string filepath)
+bool FileSystem::RemoveFile(const std::string& filepath)
 {
 	if (remove(filepath.c_str()))
 	{
@@ -65,7 +65,7 @@ bool FileSystem::RemoveFile(std::string filepath)
 	return true;
 }
 
-bool FileSystem::RemoveTempFile(std::string filename)
+bool FileSystem::RemoveTempFile(const std::string& filename)
 {
 	std::string fullPath = this->getTempDirectory() + filename;
 
@@ -78,6 +78,38 @@ bool FileSystem::RemoveTempFile(std::string filename)
 	}
 
 	return true;
+}
+
+std::string FileSystem::GetDirectoryName(const std::string& path)
+{
+	std::string pureDir = std::string(path);
+
+	std::string::size_type pos = path.find_last_of("/");
+
+	if (pos == std::string::npos)
+	{
+		pos = path.find_last_of("\\");
+	}
+
+	pureDir.replace(pos, pureDir.length() - pos, "");
+
+	return pureDir;
+}
+
+// TODO: support extensions like .tar.gz
+std::string FileSystem::GetExtension(const std::string& path)
+{
+	std::string::size_type pos = path.find_last_of(".");
+
+	// No extension
+	if (pos == std::string::npos)
+	{
+		return "";
+	}
+
+	std::string extension = path.substr(pos + 1);
+
+	return extension;
 }
 
 FileSystem::~FileSystem()

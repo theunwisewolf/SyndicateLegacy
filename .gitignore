@@ -11,3 +11,4 @@
 *.opendb
 *.suo
 *.db
+*.ipch

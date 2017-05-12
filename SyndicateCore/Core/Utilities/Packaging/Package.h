@@ -18,12 +18,13 @@ struct PackageHeader
 	U32   signature;
 	S8	  version;
 	U64   length;
+	U32   itemCount;
 };
 
 struct Data
 {
 	U32				id;
-	char			format[4]; // file format
+	char			format[4]{}; // file format
 	U32				length;
 	std::string		data;
 
@@ -34,6 +35,13 @@ struct Data
 	{
 		// Default format SYN assumed
 		strcpy(format, "syn");
+	}
+
+	Data(std::string _data, U32 _length) :
+		length(_length),
+		data(_data)
+	{
+
 	}
 
 	void setData(const std::string& data)
@@ -67,7 +75,7 @@ struct Data
 	{
 		stream.write((char*)&data.id, sizeof(id));
 		stream.write((char*)&data.length, sizeof(length));
-		stream.write(&data.format[0], 3);
+		stream.write(&data.format[0], 4);
 		stream.write(&data.data[0], data.length);
 
 		return stream;
@@ -83,6 +91,14 @@ struct ImageData : public Data
 		width(0),
 		height(0),
 		Data()
+	{
+
+	}
+
+	ImageData(std::string data, U32 length, U16 width, U16 height) :
+		width(width),
+		height(height),
+		Data(data, length)
 	{
 
 	}
@@ -134,6 +150,17 @@ struct SoundData : public Data
 	
 	}
 
+	SoundData(std::string data, U32 length, std::string fmt) :
+		Data(data, length)
+	{
+		if (fmt != "ogg" && fmt != "wav")
+		{
+			SYNDICATE_ERROR("Using unknown sound format " + fmt + ". Allowed formats are: ogg, wav");
+		}
+
+		std::strncpy(this->format, fmt.c_str(), 3);
+	}
+
 	void setFormat(const std::string& fmt)
 	{
 		if (fmt != "ogg" && fmt != "wav")
@@ -174,9 +201,84 @@ struct SoundData : public Data
 
 struct ShaderData : public Data
 {
+	ShaderData():
+		Data()
+	{
+	}
 
+	ShaderData(std::string data, U32 length) :
+		Data(data, length)
+	{
+
+	}
+
+	friend std::istream& operator>>(std::istream& stream, ShaderData& data)
+	{
+		std::vector<char> str;
+
+		stream.read((char*)&data.id, sizeof(id));
+		stream.read((char*)&data.length, sizeof(length));
+
+		str.resize(data.length);
+
+		stream.read(&data.format[0], 4);
+		stream.read(&str[0], data.length);
+
+		data.data = std::string(str.begin(), str.end());
+
+		return stream;
+	}
+
+	friend std::ostream& operator<<(std::ostream& stream, const ShaderData& data)
+	{
+		stream.write((char*)&data.id, sizeof(id));
+		stream.write((char*)&data.length, sizeof(length));
+		stream.write(&data.format[0], 4);
+		stream.write(&data.data[0], data.length);
+
+		return stream;
+	}
 };
 
+struct FontData : public Data
+{
+	FontData() :
+		Data()
+	{
+
+	}
+
+	FontData(std::string data, U32 length) :
+		Data(data, length)
+	{
+
+	}
+
+	friend std::istream& operator>>(std::istream& stream, FontData& font)
+	{
+		std::vector<char> str;
+
+		stream.read((char*)&font.id, sizeof(id));
+		stream.read((char*)&font.length, sizeof(length));
+
+		str.resize(font.length);
+
+		stream.read(&str[0], font.length);
+
+		font.data = std::string(str.begin(), str.end());
+
+		return stream;
+	}
+
+	friend std::ostream& operator<<(std::ostream& stream, const FontData& font)
+	{
+		stream.write((char*)&font.id, sizeof(id));
+		stream.write((char*)&font.length, sizeof(length));
+		stream.write(&font.data[0], font.length);
+
+		return stream;
+	}
+};
 
 class SYNDICATE_API Package
 {
@@ -185,29 +287,43 @@ private:
 
 	U32		m_ImageCount;
 	U32		m_SoundCount;
+	U32		m_FontCount;
 	U32		m_ShaderCount;
 	U32		m_DataCount;
 
 	std::vector<ImageData>	m_Images;
 	std::vector<ShaderData> m_Shaders;
 	std::vector<SoundData>	m_Sounds;
+	std::vector<FontData>	m_Fonts;
 	std::vector<Data>		m_Data;
 
 	std::map<std::string, int> m_DataMap;
 
+	// Internal details
+	std::string m_PackageName;
+	std::string m_PackageFullName;
+
 public:
-	Package(std::string signature = "RES");
+	Package(const std::string& signature = "RES");
 	~Package();
 
-	int AddImage(std::string identifier, ImageData image);
-	int AddSound(std::string identifier, SoundData sound);
-	int AddShader(std::string identifier, ShaderData shader);
-	int AddData(std::string identifier, Data data);
+	int AddImage(const std::string& identifier, ImageData image);
+	int AddSound(const std::string& identifier, SoundData sound);
+	int AddFont(const std::string& identifier, FontData font);
+	int AddShader(const std::string& identifier, ShaderData shader);
+	int AddData(const std::string& identifier, Data data);
 
-	ImageData* GetImage(int id);
-	SoundData* GetSound(int id);
-	ShaderData* GetShader(int id);
-	Data* GetData(int id);
+	ImageData*		GetImage(const int& id);
+	SoundData*		GetSound(const int& id);
+	ShaderData*		GetShader(const int& id);
+	FontData*		GetFont(const int& id);
+	Data*			GetData(const int& id);
+
+	ImageData*		GetImage(const std::string& identifier);
+	SoundData*		GetSound(const std::string& identifier);
+	ShaderData*		GetShader(const std::string& identifier);
+	FontData*		GetFont(const std::string& identifier);
+	Data*			GetData(const std::string& identifier);
 
 	std::string getSignature()
 	{

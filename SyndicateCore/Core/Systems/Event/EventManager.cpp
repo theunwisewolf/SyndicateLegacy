@@ -14,9 +14,9 @@ EventManager::EventManager() :
 
 }
 
-void EventManager::Initialize()
+bool EventManager::Initialize()
 {
-
+	return true;
 }
 
 void EventManager::DispatchEvent(Events type)

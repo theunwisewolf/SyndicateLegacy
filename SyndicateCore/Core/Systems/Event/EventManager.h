@@ -30,7 +30,7 @@ private:
 public:
 	static EventManager* i();
 	
-	void Initialize();
+	bool Initialize();
 	void ShutDown();
 	unsigned int AddEvent(Events type, std::function<void ()> callback);
 	void AddEvent(Events type, const Callback& callback);

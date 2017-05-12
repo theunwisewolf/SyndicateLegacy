@@ -30,8 +30,11 @@ public:
 	~FileSystem();
 
 	// Returns path to temp file
-	bool RemoveFile(std::string filepath);
-	bool RemoveTempFile(std::string filename);
+	bool RemoveFile(const std::string& filepath);
+	bool RemoveTempFile(const std::string&filename);
+
+	std::string GetDirectoryName(const std::string& path);
+	std::string GetExtension(const std::string& path);
 
 	std::string CreateTempFile();
 	std::string getTempDirectory() const { return this->m_TempDirectory; }

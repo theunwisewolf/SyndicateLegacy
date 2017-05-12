@@ -2,23 +2,24 @@
 #define TEXTURE_H_
 
 #include <Common.h>
-#include <Utilities/Logger.h>
+
 #include <Utilities/File.h>
+#include <Utilities/Image.h>
+#include <Utilities/Logger.h>
+#include <Utilities/Packaging/Package.h>
 
 #include <string>
 
-#include <Utilities/Image.h>
-
 namespace Syndicate { namespace Graphics { 
 
-enum class TextureFormat {
+enum class SYNDICATE_API TextureFormat {
 	RED = GL_RED,
 	RGB = GL_RGB,
 	BGR = GL_BGR,
 	RGBA = GL_RGBA,
 };
 
-enum class TextureWrap {
+enum class SYNDICATE_API TextureWrap {
 	REPEAT = GL_REPEAT,
 	MIRRORED_REPEAT = GL_MIRRORED_REPEAT,
 
@@ -27,12 +28,12 @@ enum class TextureWrap {
 	CLAMP_TO_BORDER = GL_CLAMP_TO_BORDER,
 };
 
-enum class TextureFilter {
+enum class SYNDICATE_API TextureFilter {
 	LINEAR = GL_LINEAR,
 	NEAREST = GL_NEAREST,
 };
 
-struct TextureParameters {
+struct SYNDICATE_API TextureParameters {
 	TextureFormat format;
 	TextureWrap wrap;
 	TextureFilter filter;
@@ -44,16 +45,16 @@ private:
 	unsigned int m_Width;
 	unsigned int m_Height;
 
-	std::string m_Filename;
+	ImageData* m_TextureData;
 	TextureParameters m_Parameters;
 	
 public:
 	Texture();
-	Texture(const std::string& filename);
+	Texture(ImageData* image);
 	Texture(unsigned int width, unsigned int height);
 
 	Texture(unsigned int width, unsigned int height, TextureParameters params);
-	Texture(const std::string& filename, TextureParameters params);
+	Texture(ImageData* image, TextureParameters params);
 	~Texture();
 
 	void Bind() const;

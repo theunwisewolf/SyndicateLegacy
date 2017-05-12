@@ -5,7 +5,7 @@ namespace Syndicate { namespace Graphics {
 Texture::Texture() :
 	m_Width(0),
 	m_Height(0),
-	m_Filename("")
+	m_TextureData(nullptr)
 {
 	m_Parameters = TextureParameters{ TextureFormat::RGBA, TextureWrap::CLAMP_TO_EDGE, TextureFilter::NEAREST };
 	Texture::LoadTexture();
@@ -14,14 +14,14 @@ Texture::Texture() :
 Texture::Texture(unsigned int width, unsigned int height) :
 	m_Width(width),
 	m_Height(height),
-	m_Filename("")
+	m_TextureData(nullptr)
 {
 	m_Parameters = TextureParameters{ TextureFormat::RGBA, TextureWrap::CLAMP_TO_EDGE, TextureFilter::NEAREST };
 	Texture::LoadTexture();
 }
 
-Texture::Texture(const std::string& filename) :
-	m_Filename(filename)
+Texture::Texture(ImageData* image) :
+	m_TextureData(image)
 {
 	m_Parameters = TextureParameters{ TextureFormat::RGBA, TextureWrap::CLAMP_TO_EDGE, TextureFilter::NEAREST };
 	Texture::LoadTexture();
@@ -32,14 +32,14 @@ Texture::Texture(unsigned int width, unsigned int height, TextureParameters para
 	m_Width(width),
 	m_Height(height),
 	m_Parameters(params),
-	m_Filename("")
+	m_TextureData(nullptr)
 {
 	Texture::LoadTexture();
 }
 
-Texture::Texture(const std::string& filename, TextureParameters params) : 
-	m_Filename(filename),
-	m_Parameters(params)
+Texture::Texture(ImageData* image, TextureParameters params) : 
+	m_Parameters(params),
+	m_TextureData(image)
 {
 	Texture::LoadTexture();
 }
@@ -53,21 +53,22 @@ void Texture::SetData(const void* data)
 
 void Texture::LoadTexture()
 {	
-	FIBITMAP* dataInBits = nullptr;
 	BYTE* pixels = nullptr;
 
-	if (this->m_Filename.length())
+	// We have a texture
+	if (this->m_TextureData != nullptr)
 	{
 		// Make sure the texture file exists, otherwise send a warning
-		if (!Utilities::File::Exists(this->m_Filename))
+		/*if (!Utilities::File::Exists(this->m_Filename))
 		{
 			SYNDICATE_WARNING("Texture file " + this->m_Filename + " does not exist.");
 			return;
-		}
+		}*/
 
-		//dataInBits = Utilities::loadImage(this->m_Filename.c_str(), &this->m_Width, &this->m_Height);
-		pixels = Utilities::loadImage(this->m_Filename.c_str(), &this->m_Width, &this->m_Height);
-		//pixels = FreeImage_GetBits(dataInBits);
+		this->m_Width = m_TextureData->width;
+		this->m_Height = m_TextureData->height;
+
+		pixels = Utilities::loadImageFromMemory((unsigned char*)&m_TextureData->data[0], m_TextureData->length, &this->m_Width, &this->m_Height);
 	}
 
 	// Generate 1 texture

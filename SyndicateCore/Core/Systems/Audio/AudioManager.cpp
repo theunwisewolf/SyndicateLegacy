@@ -8,7 +8,8 @@ AudioManager::AudioManager() :
 	m_SoundManager(nullptr),
 	m_Mixer(nullptr),
 	m_InsertingAudio(false),
-	m_Finished(false)
+	m_Finished(false),
+	m_StreamManager(nullptr)
 {
 }
 
@@ -35,14 +36,17 @@ AudioManager::~AudioManager()
 	this->ShutDown();
 }
 
-void AudioManager::Initialize()
+bool AudioManager::Initialize()
 {
 	gc_initialize(0);
 
 	AudioManager::m_SoundManager = gau_manager_create_custom(GA_DEVICE_TYPE_DEFAULT, GAU_THREAD_POLICY_MULTI, 4, 512);
 	AudioManager::m_Mixer = gau_manager_mixer(AudioManager::m_SoundManager);
+	AudioManager::m_StreamManager = gau_manager_streamManager(AudioManager::m_SoundManager);
 
 	m_AudioThread = std::thread(&AudioManager::Start, this);
+
+	return true;
 }
 
 void AudioManager::Start()

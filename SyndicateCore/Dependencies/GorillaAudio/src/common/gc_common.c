@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define PRINT_ALLOCS(x) #x
+
 /* System Functions */
 gc_SystemOps* gcX_ops = 0;
 
@@ -11,14 +13,17 @@ static void* gcX_defaultAllocFunc(gc_uint32 in_size)
 {
   return malloc(in_size);
 }
+
 static void* gcX_defaultReallocFunc(void* in_ptr, gc_uint32 in_size)
 {
   return realloc(in_ptr, in_size);
 }
+
 static void gcX_defaultFreeFunc(void* in_ptr)
 {
   free(in_ptr);
 }
+
 static gc_SystemOps s_defaultCallbacks;
 gc_result gc_initialize(gc_SystemOps* in_callbacks)
 {

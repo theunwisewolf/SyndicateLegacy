@@ -8,6 +8,10 @@
 #ifndef _GORILLA_GC_TYPES_H
 #define _GORILLA_GC_TYPES_H
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #ifdef __cplusplus
 extern "C"
 {

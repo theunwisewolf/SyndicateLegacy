@@ -2,49 +2,82 @@
 
 namespace Syndicate {
 
-Audio::Audio(const SoundData& data) :
-	m_AudioData(data),
+Audio::Audio() :
 	m_Playing(false),
-	m_Audio(nullptr),
+	m_FileAudio(nullptr),
+	m_MemoryAudio(nullptr),
 	m_AudioHandle(nullptr),
 	m_Volume(100)
 {
-	m_AudioFileFormat = data.format;
-
 #if !SYNDICATE_USE_BUFFERED_AUDIO
-	m_Audio = gau_load_sound_file(m_AudioFilePath.c_str(), m_AudioFileFormat.c_str());
+	m_FileAudio = gau_load_sound_file(m_AudioFilePath.c_str(), m_AudioFileFormat.c_str());
 #endif
 }
 
-Audio::Audio(const std::string& name, const SoundData& data, bool loop) : 
+// Default mode is load from package
+Audio::Audio(const std::string& name, bool loop) : 
 	m_AudioFileName(name),
-	m_AudioData(data),
 	m_Loop(loop),
 	m_Playing(false),
-	m_Audio(nullptr),
+	m_FileAudio(nullptr),
+	m_MemoryAudio(nullptr),
 	m_AudioHandle(nullptr),
 	m_Volume(100)
 {
-	m_AudioFileFormat = std::string(data.format);
+	m_AudioData = *ResourceManager::i()->LoadAudio(name);
+	m_AudioFileFormat = std::string(m_AudioData.format);
 
 #if !SYNDICATE_USE_BUFFERED_AUDIO
-	m_Audio = gau_load_sound_file(m_AudioFilePath.c_str(), m_AudioFileFormat.c_str());
+	m_FileAudio = gau_load_sound_file(m_AudioFileName.c_str(), m_AudioFileFormat.c_str());
 #endif
 
-	m_Audio = 0;
-	m_Audio = ga_memory_create((void *)data.data.c_str(), data.length);
+	m_MemoryAudio = ga_memory_create((void *)m_AudioData.data.c_str(), m_AudioData.length);
 }
 
-ga_Handle* Audio::createHandle(void* in_context, gau_SampleSourceLoop** out_loopSrc)
+ga_Handle* Audio::createHandleFromFile(void* in_context, gau_SampleSourceLoop** out_loopSrc)
 {
 #if SYNDICATE_USE_BUFFERED_AUDIO
-	//m_AudioHandle = gau_create_handle_buffered_file(AudioManager::i()->getMixer(), AudioManager::i()->getStreamManager(), m_AudioFilePath.c_str(), m_AudioFileFormat.c_str(), &AudioManager::setFlagAndDestroyOnFinish, in_context, out_loopSrc);
-	m_AudioHandle = gau_create_handle_memory(AudioManager::i()->getMixer(), m_Audio, this->m_AudioFileFormat.c_str(), &AudioManager::i()->setFlagAndDestroyOnFinish, in_context, out_loopSrc);
+	m_AudioHandle = gau_create_handle_buffered_file(AudioManager::i()->getMixer(), AudioManager::i()->getStreamManager(), m_AudioFileName.c_str(), m_AudioFileFormat.c_str(), &AudioManager::setFlagAndDestroyOnFinish, in_context, out_loopSrc);
 #else
-	m_AudioHandle = gau_create_handle_sound(AudioManager::i()->getMixer(), m_Audio, &AudioManager::i()->setFlagAndDestroyOnFinish, in_context, out_loopSrc);
+	m_AudioHandle = gau_create_handle_sound(AudioManager::i()->getMixer(), m_FileAudio, &AudioManager::i()->setFlagAndDestroyOnFinish, in_context, out_loopSrc);
 #endif
 
 	return m_AudioHandle;
+}
+
+ga_Handle* Audio::createHandleFromPackage(void* in_context, gau_SampleSourceLoop** out_loopSrc)
+{
+#if SYNDICATE_USE_BUFFERED_AUDIO
+	m_AudioHandle = gau_create_handle_memory(AudioManager::i()->getMixer(), m_MemoryAudio, this->m_AudioFileFormat.c_str(), &AudioManager::i()->setFlagAndDestroyOnFinish, in_context, out_loopSrc);
+#else
+	m_AudioHandle = gau_create_handle_sound(AudioManager::i()->getMixer(), m_FileAudio, &AudioManager::i()->setFlagAndDestroyOnFinish, in_context, out_loopSrc);
+#endif
+
+	return m_AudioHandle;
+}
+
+
+void Audio::Load(const std::string& file)
+{
+	m_AudioFileName = file;
+
+	if (!Utilities::File::Exists(file))
+	{
+		SYNDICATE_ERROR( "Audio file " + file + " does not exist!" );
+		return;
+	}
+
+	m_AudioFileFormat = m_AudioFileName.substr(m_AudioFileName.size() - 3, 3);
+}
+
+void Audio::LoadFromPackage(const std::string& identifier, const std::string& package)
+{
+	m_AudioData = (package.length()) ? *ResourceManager::i()->LoadAudio(identifier, package) : *ResourceManager::i()->LoadAudio(identifier);
+
+	m_AudioFileName = "synaudio_" + std::to_string(m_AudioData.id);
+	m_AudioFileFormat = std::string(m_AudioData.format);
+
+	m_MemoryAudio = ga_memory_create((void *)m_AudioData.data.c_str(), m_AudioData.length);
 }
 
 void Audio::destroyHandle()
@@ -61,7 +94,10 @@ void Audio::Play()
 	if (m_AudioHandle == nullptr)
 	{
 		// NULL means no looping
-		this->createHandle(&m_Over, NULL);
+		if(this->m_MemoryAudio != nullptr)
+			this->createHandleFromPackage(&m_Over, NULL);
+		else
+			this->createHandleFromFile(&m_Over, NULL);
 	}
 
 	ga_handle_play(m_AudioHandle);
@@ -93,7 +129,10 @@ void Audio::Loop()
 	// Only create the handle if it does not exist
 	if (m_AudioHandle == nullptr)
 	{
-		this->createHandle(&m_Over, pLoopSrc);
+		if (this->m_MemoryAudio != nullptr)
+			this->createHandleFromPackage(&m_Over, NULL);
+		else
+			this->createHandleFromFile(&m_Over, NULL);
 	}
 
 	ga_handle_play(m_AudioHandle);
@@ -109,7 +148,10 @@ void Audio::Loop(unsigned int times)
 	// Only create the handle if it does not exist
 	if (m_AudioHandle == nullptr)
 	{
-		this->createHandle(&m_Over, NULL);
+		if (this->m_MemoryAudio != nullptr)
+			this->createHandleFromPackage(&m_Over, NULL);
+		else
+			this->createHandleFromFile(&m_Over, NULL);
 	}
 
 	ga_handle_play(m_AudioHandle);
@@ -136,7 +178,10 @@ void Audio::Update()
 			m_LoopTimes--;
 
 			this->destroyHandle();
-			this->createHandle(&m_Over, NULL);
+			if (this->m_MemoryAudio != nullptr)
+				this->createHandleFromPackage(&m_Over, NULL);
+			else
+				this->createHandleFromFile(&m_Over, NULL);
 			ga_handle_play(m_AudioHandle);
 		}
 	}
@@ -187,8 +232,24 @@ void Audio::VolumeDown(int value)
 
 Audio::~Audio()
 {
+	if (m_FileAudio)
+	{
+		ga_sound_release(m_FileAudio);
+		free(m_FileAudio);
+	}
+
+	if (m_MemoryAudio)
+	{
+		ga_memory_release(m_MemoryAudio);
+		free(m_MemoryAudio);
+	}
+
 #if !SYNDICATE_USE_BUFFERED_AUDIO
-	//ga_memory_release(m_Audio);
+	if(m_FileAudio)
+		ga_sound_release(m_FileAudio);
+
+	if(m_MemoryAudio)
+		ga_memory_release(m_MemoryAudio);
 #endif
 }
 

@@ -68,4 +68,6 @@ typedef long long			S64;
 
 enum class Position { LEFT, CENTER, RIGHT };
 
+extern std::string SyndicateRoot;
+
 #endif

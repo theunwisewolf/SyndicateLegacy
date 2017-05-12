@@ -2,7 +2,7 @@
 
 namespace Syndicate {
 
-Engine::Engine(IGame* game, Settings settings) : 
+Engine::Engine(IGame* game, int argc, char *argv[], Settings settings) : 
 	window(settings.gameTitle, settings.width, settings.height, settings.color, settings.VSync),
 	m_Frames(0),
 	m_Updates(0),
@@ -15,24 +15,51 @@ Engine::Engine(IGame* game, Settings settings) :
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
+	this->m_CommandLineArgs.reserve(argc);
+	for (int i = 0; i < argc; ++i)
+	{
+		this->m_CommandLineArgs.push_back(std::string( argv[i] ));
+	}
+
+	SyndicateRoot = this->m_SyndicateRoot = FileSystem::i()->GetDirectoryName(this->m_CommandLineArgs[0]);
+
 	// Initilize the Window
 	Window::i()->Initialize();
 
 	// Initialize Audio Manager
-	AudioManager::i()->Initialize();
+	SYNDICATE_INFO("Initializing Audio Manager...");
+	if (AudioManager::i()->Initialize())
+	{
+		SYNDICATE_SUCCESS("Successfully Initialized Audio Manager.");
+	}
 
 	// Initialize the Event Manager
-	EventManager::i()->Initialize();
+	SYNDICATE_INFO("Initializing Event Manager...");
+	if (EventManager::i()->Initialize())
+	{
+		SYNDICATE_SUCCESS("Successfully Initialized Event Manager.");
+	}
 
 	// Initialize Resource Manager
-	ResourceManager::i()->Initialize();
+	SYNDICATE_INFO("Initializing Resource Manager...");
+	if (ResourceManager::i()->Initialize())
+	{
+		SYNDICATE_SUCCESS("Successfully Initialized Resource Manager.");
+	}
 
 	// Initialize the Input Manager
-	InputManager::i()->Initialize();
+	SYNDICATE_INFO("Initializing Input Manager...");
+	if (InputManager::i()->Initialize())
+	{
+		SYNDICATE_SUCCESS("Successfully Initialized Input Manager.");
+	}
 }
 
 bool Engine::Initialize()
 {
+	// Load resources
+	ResourceManager::i()->LoadPackage("packages/syndicate.spkg");
+
 	// We store it, for the engine timer
 	m_LastTime = m_EngineTimer.getElapsedTime();
 	
@@ -57,7 +84,7 @@ void Engine::InitializeDebugLayer()
 	m_DebugLayer.SetProjectionMatrix(Matrix4::Orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
 
 	// Our fonts for debug layer
-	FontManager::loadFont("RalewayLight", "res/Fonts/Raleway/Raleway-Light.ttf");
+	FontManager::loadFontFromPackage("RalewayLight");
 	Font font = Font("RalewayLight", 60, Color(0xffffff));
 
 	// Set font's scaling relative to window

@@ -8,10 +8,10 @@ Sprite::Sprite(Maths::Vector3 position, Maths::Vector2 size, Color color)
 	this->m_Texture = nullptr;
 }
 
-Sprite::Sprite(Maths::Vector3 position, Maths::Vector2 size, const std::string& texturePath)
+Sprite::Sprite(Maths::Vector3 position, Maths::Vector2 size, const std::string& identifier)
 	: Renderable2D(position, size, Color(0xffffffff))
 {
-	this->m_Texture = ResourceManager::i()->getTexture(texturePath);
+	this->m_Texture = ResourceManager::i()->getTexture(identifier);
 }
 
 Sprite::Sprite(Maths::Vector3 position, Maths::Vector2 size, Texture* texture)
@@ -27,10 +27,10 @@ Sprite::Sprite(Position position, Maths::Vector2 size, Color color)
 	this->m_Texture = nullptr;
 }
 
-Sprite::Sprite(Position position, Maths::Vector2 size, const std::string& texturePath)
+Sprite::Sprite(Position position, Maths::Vector2 size, const std::string& identifier)
 	: Renderable2D(position, size, Color(0xffffffff))
 {
-	this->m_Texture = ResourceManager::i()->getTexture(texturePath);
+	this->m_Texture = ResourceManager::i()->getTexture(identifier);
 }
 
 Sprite::Sprite(Position position, Maths::Vector2 size, Texture* texture)

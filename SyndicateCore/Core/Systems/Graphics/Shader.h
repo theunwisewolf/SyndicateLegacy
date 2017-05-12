@@ -7,7 +7,8 @@
 #include <string>
 #include <iostream>
 
-#include <Utilities\Maths\Maths.h>
+#include <Systems/ResourceManager.h>
+#include <Utilities/Maths/Maths.h>
 #include <Utilities/File.h>
 #include <Utilities/VException.h>
 
@@ -20,12 +21,12 @@ private:
 	bool m_ShaderEnabled = false;
 	bool m_Freed;
 
-	std::string m_vertexShaderPath;
-	std::string m_fragmentShaderPath;
+	std::string m_vertexShaderIdentifier;
+	std::string m_fragmentShaderIdentifier;
 
 public:
 	Shader();
-	Shader(std::string vertexShaderPath, std::string fragmentShaderPath);
+	Shader(std::string vertexShader, std::string fragmentShader);
 	~Shader();
 
 	void Free();
