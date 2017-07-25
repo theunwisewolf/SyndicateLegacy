@@ -2,7 +2,7 @@
 
 namespace Syndicate { namespace Graphics { 
 
-Label::Label(std::string text, Maths::Vector2 position, Font font) :
+Label::Label(std::string text, glm::vec2 position, Font font) :
 	m_TextHeight(0.0f),
 	m_TextWidth(0.0f),
 	m_Text(text),
@@ -30,13 +30,13 @@ void Label::ReAlign()
 	switch (e_PositionParameter)
 	{
 		case Position::CENTER:
-			m_Position = Maths::Vector2(-(m_TextWidth / 2.0f), -(m_TextHeight / 2.0f));
+			m_Position = glm::vec2(-(m_TextWidth / 2.0f), -(m_TextHeight / 2.0f));
 		break;
 		case Position::LEFT:
-			m_Position = Maths::Vector2(0.0f, 0.0f);
+			m_Position = glm::vec2(0.0f, 0.0f);
 		break;
 		case Position::RIGHT:
-			m_Position = Maths::Vector2(m_TextWidth, 0.0f);
+			m_Position = glm::vec2(m_TextWidth, 0.0f);
 		break;
 	}
 }

@@ -7,10 +7,12 @@
 #include <algorithm>
 #include <Systems/Graphics/Renderers/Renderer2D.h>
 #include <Systems/Graphics/Sprites/Renderable2D.h>
-#include <Utilities/Maths/Maths.h>
+
 #include <freetype-gl.h>
 #include <Systems/Graphics/Font.h>
 #include <Systems/Graphics/FontManager.h>
+
+#include <GLM/vec2.hpp>
 
 namespace Syndicate { namespace Graphics { 
 
@@ -18,7 +20,7 @@ class SYNDICATE_API Label : public Renderable2D
 {
 private:
 	std::string m_Text;
-	Maths::Vector2 m_Position;
+	glm::vec2 m_Position;
 
 	Font m_Font;
 
@@ -29,7 +31,7 @@ private:
 	float m_TextHeight;
 
 public:
-    Label(std::string text, Maths::Vector2 position, Font font);
+    Label(std::string text, glm::vec2 position, Font font);
 	Label(std::string text, Position position, Font font);
 	~Label();
 

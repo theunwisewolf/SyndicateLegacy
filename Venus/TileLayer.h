@@ -3,6 +3,8 @@
 
 #include <Systems/Graphics/Layers/Layer.h>
 #include <Systems/Graphics/Renderers/BatchRenderer2D.h>
+#include <GLM/mat4x4.hpp>
+#include <GLM/gtc/matrix_transform.hpp>
 
 namespace Syndicate { namespace Graphics {
 
@@ -12,7 +14,7 @@ public:
 	TileLayer();
 	TileLayer(Shader* shader);
 	void SetProjectionMatrix();
-	void SetProjectionMatrix(const Maths::Matrix4& prMatrix);
+	void SetProjectionMatrix(const glm::mat4& prMatrix);
 	~TileLayer();
 };
 

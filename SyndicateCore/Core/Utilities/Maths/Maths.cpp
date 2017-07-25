@@ -7,6 +7,11 @@ float Math::toRadians(float degrees)
 	return (float)(degrees * (M_PI / 180.0f));
 }
 
+float Math::toDegrees(float radians)
+{
+	return (float)(radians * (180 / M_PI));
+}
+
 float Math::Tan(float radians)
 {
 	return tan(radians);

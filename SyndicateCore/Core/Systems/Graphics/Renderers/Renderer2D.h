@@ -5,7 +5,8 @@
 
 #include <vector>
 #include <string>
-#include <Utilities/Maths/Maths.h>
+#include <GLM/vec2.hpp>
+#include <GLM/mat4x4.hpp>
 #include <freetype-gl.h>
 #include <Systems/Graphics/Font.h>
 #include <Systems/Graphics/Color.h>
@@ -17,19 +18,19 @@ class SYNDICATE_API Renderable2D;
 class SYNDICATE_API Renderer2D
 {
 protected:
-	std::vector<Maths::Matrix4> m_TransformationStack;
-	const Maths::Matrix4* m_TransformationBack;
+	std::vector<glm::mat4> m_TransformationStack;
+	const glm::mat4* m_TransformationBack;
 
 	Renderer2D()
 	{
-		this->m_TransformationStack.push_back(Maths::Matrix4::Identity());
+		this->m_TransformationStack.push_back(glm::mat4(1.0f));
 		this->m_TransformationBack = &this->m_TransformationStack.back();
 	}
 
 public:
 	virtual ~Renderer2D() {};
 
-	void push(const Maths::Matrix4& matrix, bool override = false)
+	void push(const glm::mat4& matrix, bool override = false)
 	{
 		if (override)
 			this->m_TransformationStack.push_back(matrix);
@@ -48,7 +49,7 @@ public:
 
 	virtual void Start() {}
 	virtual void Submit(const Renderable2D* renderable) = 0;
-	virtual void DrawString(const std::string& text, Maths::Vector2 position, const Font& font) = 0;
+	virtual void DrawString(const std::string& text, glm::vec2 position, const Font& font) = 0;
 	virtual void End() {}
 	virtual void Render() = 0;
 };

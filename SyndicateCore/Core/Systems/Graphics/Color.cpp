@@ -14,32 +14,32 @@ Color::Color(const unsigned int& color, bool autoSetAlpha)
 	if (!a && autoSetAlpha)
 		a = 255;
 
-	m_ColorComponents = Maths::Vector4(r, g, b, a);
+	m_ColorComponents = glm::vec4(r, g, b, a);
 }
 
 Color::Color(float r, float g, float b, float a)
 {
 	m_IsNormalized = true;
-	m_ColorComponents = Maths::Vector4(r, g, b, a);
+	m_ColorComponents = glm::vec4(r, g, b, a);
 }
 
 Color::Color(unsigned int r, unsigned int g, unsigned int b, unsigned int a)
 {
 	m_IsNormalized = false;
-	m_ColorComponents = Maths::Vector4((float)r, (float)g, (float)b, (float)a);
+	m_ColorComponents = glm::vec4((float)r, (float)g, (float)b, (float)a);
 }
 
-Color::Color(const Maths::Vector4& color)
+Color::Color(const glm::vec4& color)
 {
 	m_ColorComponents = color;
 }
 
-Maths::Vector4 Color::Normalize() const
+glm::vec4 Color::Normalize() const
 {
 	if (m_IsNormalized)
 		return m_ColorComponents;
 
-	return Maths::Vector4(m_ColorComponents.x / 255.0f, m_ColorComponents.y / 255.0f, m_ColorComponents.z / 255.0f, m_ColorComponents.w / 255.0f);
+	return glm::vec4(m_ColorComponents.x / 255.0f, m_ColorComponents.y / 255.0f, m_ColorComponents.z / 255.0f, m_ColorComponents.w / 255.0f);
 }
 
 unsigned int Color::Pack(const std::string& format) const

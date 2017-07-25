@@ -2,6 +2,8 @@
 
 namespace Syndicate {
 
+Engine* Engine::instance = nullptr;
+
 Engine::Engine(IGame* game, int argc, char *argv[], Settings settings) : 
 	window(settings.gameTitle, settings.width, settings.height, settings.color, settings.VSync),
 	m_Frames(0),
@@ -9,8 +11,11 @@ Engine::Engine(IGame* game, int argc, char *argv[], Settings settings) :
 	m_Settings(settings),
 	m_LastTime(0),
 	m_Game(game),
-	m_DebugLayer()
+	m_DebugLayer(),
+	m_Rendering(true)
 {
+	instance = this;
+
 #ifdef SYNDICATE_DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
@@ -81,7 +86,7 @@ void Engine::InitializeDebugLayer()
 	// Debug layer parameters
 	m_DebugLayer.SetShader(synnew Shader());
 	m_DebugLayer.SetRenderer(synnew BatchRenderer2D());
-	m_DebugLayer.SetProjectionMatrix(Matrix4::Orthographic(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+	m_DebugLayer.SetProjectionMatrix(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f));
 
 	// Our fonts for debug layer
 	FontManager::loadFontFromPackage("RalewayLight");
@@ -90,10 +95,10 @@ void Engine::InitializeDebugLayer()
 	// Set font's scaling relative to window
 	font.setScale(Window::i()->getWidth() / 16.0f, Window::i()->getHeight() / 9.0f);
 
-	Label* fps = synnew Label("0 fps", Vector2(0.5f, 0.35f), font);
-	Group* group = synnew Group(Matrix4::Translation(Vector3(-16.0f, 7.0f, 0.0f)));
+	Label* fps = synnew Label("0 fps", glm::vec2(1.f, 0.3f), font);
+	Group* group = synnew Group(glm::translate(glm::mat4(1.0f), glm::vec3(-16.0f, 7.0f, 0.0f)));
 
-	group->Add(synnew Sprite(Vector3(0, 0, 0), Vector2(5, 1.2f), Maths::Vector4(41, 128, 185,255)));
+	group->Add(synnew Sprite(glm::vec3(0, 0, 0), glm::vec2(5, 1.2f), Color(41, 128, 185, 255U)));
 
 	group->Add("FPSGroup", fps);
 	m_DebugLayer.Add("FPS", group);
@@ -112,6 +117,9 @@ void Engine::Update()
 
 	while (msg.message != WM_QUIT)
 	{
+		// Calculate delta time
+		m_DeltaTime = m_EngineTimer.getElapsedTime() - m_LastTime;
+
 		// Update frames
 		m_Frames++;
 
@@ -129,10 +137,11 @@ void Engine::Update()
 		Window::i()->Clear();
 
 		// Update the game
-		m_Game->Update();
+		m_Game->Update(m_DeltaTime);
 
 		// Render the game
-		m_Game->Render();
+		m_Game->Render(this->m_Rendering);
+
 		m_DebugLayer.Render();
 
 		// Update Events
@@ -151,7 +160,7 @@ bool Engine::Shutdown()
 
 void Engine::UpdateFrameCounter()
 {
-	if (m_EngineTimer.getElapsedTime() - m_LastTime >= 1.0f)
+	if (m_DeltaTime >= 1.0f)
 	{
 		// Should we display the framerate?
 		if (m_Settings.debugMode == true)
@@ -163,6 +172,21 @@ void Engine::UpdateFrameCounter()
 		m_LastTime = m_EngineTimer.getElapsedTime();
 		m_Frames = 0;
 	}
+}
+
+void Engine::PauseRendering()
+{
+	this->m_Rendering = false;
+}
+
+void Engine::StartRendering()
+{
+	this->m_Rendering = true;
+}
+
+void Engine::ToggleRendering()
+{
+	this->m_Rendering = !this->m_Rendering;
 }
 
 Engine::~Engine()

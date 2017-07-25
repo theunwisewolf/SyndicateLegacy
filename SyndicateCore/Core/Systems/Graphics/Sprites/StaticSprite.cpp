@@ -2,7 +2,7 @@
 
 namespace Syndicate { namespace Graphics { 
 
-StaticSprite::StaticSprite(Maths::Vector3 position, Maths::Vector2 size, Maths::Vector4 color, Shader shader)
+StaticSprite::StaticSprite(glm::vec3 position, glm::vec2 size, Color color, Shader shader)
 	: Renderable2D(position, size, color), m_Shader{shader}
 {
 	this->m_Texture = nullptr;
@@ -15,10 +15,10 @@ StaticSprite::StaticSprite(Maths::Vector3 position, Maths::Vector2 size, Maths::
 	};
 
 	GLfloat colors[] = {
-		color.x, color.y, color.z, color.w,
-		color.x, color.y, color.z, color.w,
-		color.x, color.y, color.z, color.w,
-		color.x, color.y, color.z, color.w,
+		color.Red(), color.Blue(), color.Green(), color.Alpha(),
+		color.Red(), color.Blue(), color.Green(), color.Alpha(),
+		color.Red(), color.Blue(), color.Green(), color.Alpha(),
+		color.Red(), color.Blue(), color.Green(), color.Alpha(),
 	};
 
 	GLushort indices[] = {
@@ -44,8 +44,8 @@ StaticSprite::StaticSprite(Maths::Vector3 position, Maths::Vector2 size, Maths::
 	this->m_VertexArray->addBuffer(synnew Buffer(&tid, 1, 1), 3);
 }
 
-StaticSprite::StaticSprite(Maths::Vector3 position, Maths::Vector2 size, Texture* texture, Shader shader)
-	: Renderable2D(position, size, Maths::Vector4(1,0,0,1)), m_Shader{ shader }
+StaticSprite::StaticSprite(glm::vec3 position, glm::vec2 size, Texture* texture, Shader shader)
+	: Renderable2D(position, size, glm::vec4(1,0,0,1)), m_Shader{ shader }
 {
 	this->m_Texture = texture;
 

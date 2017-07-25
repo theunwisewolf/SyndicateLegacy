@@ -25,6 +25,7 @@ private:
 
 	bool m_Loop;
 	bool m_Over;
+	bool m_Loaded;
 	bool m_Playing;
 	size_t m_LoopTimes;
 	size_t m_Volume;

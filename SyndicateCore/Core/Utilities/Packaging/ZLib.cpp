@@ -65,7 +65,9 @@ bool ZLib::Compress(std::string source, std::string destination, int compression
 
 	if (!destinationFile)
 	{
-		SYNDICATE_ERROR( "Failed to open " + destination + " for writing." );
+		std::vector<char> error(strlen(strerror(errno)));
+		sprintf(&error[0], "%s", strerror(errno));
+		SYNDICATE_ERROR( "Failed to open " + destination + " for writing. fopen() returned: " + std::string(error.begin(), error.end()) );
 		return false;
 	}
 

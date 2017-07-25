@@ -8,13 +8,13 @@ void Font::setScale(float x, float y)
 	m_Scale.y = y;
 }
 
-void Font::setScale(const Maths::Vector2& scale)
+void Font::setScale(const glm::vec2& scale)
 {
 	m_Scale.x = scale.x;
 	m_Scale.y = scale.y;
 }
 
-Font::Font(const std::string& fontName, const float& size, const Color& color, const Maths::Vector2& scale) :
+Font::Font(const std::string& fontName, const float& size, const Color& color, const glm::vec2& scale) :
 	m_FontName(fontName),
 	m_FontSize(size),
 	m_Color(color),

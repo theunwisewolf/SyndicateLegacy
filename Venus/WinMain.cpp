@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "TileLayer.h"
 
-#include <Systems/Engine.h>
+//#include <Systems/Engine.h>
 
 #include <Utilities\Packaging\ZLib.h>
 #include <Utilities\Packaging\Package.h>
@@ -16,9 +16,11 @@ using namespace Syndicate;
 int main(int argc, char* argv[])
 {
 #ifdef PACK
+	SYNDICATE_INFO( "Creating Package..." );
 	std::map<std::string, std::string> packageData;
 	packageData.emplace("The Trail", "res/Sounds/01.ogg");
 	packageData.emplace("Thor Ragnarok", "res/Sounds/ThorR.ogg");
+	packageData.emplace("The Beast of Beauclair", "res/Sounds/21.ogg");
 
 	Package package("AmN");
 
@@ -35,6 +37,11 @@ int main(int argc, char* argv[])
 
 	packageData.emplace("texture_a.png", "res/Textures/a.png");
 	packageData.emplace("texture_b.png", "res/Textures/texture_b.png");
+	
+	for (int i = 0; i < 15; i++)
+	{
+		packageData.emplace("res_" + std::to_string(i+1), "res/Textures/active" + std::to_string(i+1) + ".png");
+	}
 
 	for (auto pair : packageData)
 	{
@@ -71,6 +78,7 @@ int main(int argc, char* argv[])
 	packageData.clear();
 
 	package.Pack("packages/amn");
+	SYNDICATE_INFO("Package created: packages/amn.spkg");
 
 	Package enginePackage("SYN");
 
@@ -106,16 +114,6 @@ int main(int argc, char* argv[])
 	packageData.clear();
 
 	enginePackage.Pack("packages/syndicate");
-
-	Package package;
-	package.Unpack("packages/amn.spkg");
-
-	File file = Utilities::File("res/Sounds/21.ogg", true);
-	std::string data = file.Read().getData();
-	SoundData sound(data, data.length(), "ogg");
-
-	package.AddSound("The Beast of Beauclair", sound);
-	package.Pack("packages/amn.spkg");
 #endif
 
 	Engine engine(synnew Game(), argc, argv);

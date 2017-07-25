@@ -3,6 +3,7 @@
 
 #include <Common.h>
 
+#include <GLM/mat4x4.hpp>
 #include <Systems/Graphics/Sprites/Renderable2D.h>
 #include <vector>
 
@@ -16,10 +17,10 @@ private:
 private:
 	std::vector<Renderable2D*> m_Sprites;
 	std::map<std::string, int> m_ChildrenMap;
-	Maths::Matrix4 m_TransformationMatrix;
+	glm::mat4 m_TransformationMatrix;
 
 public:
-	Group(const Maths::Matrix4& transform);
+	Group(const glm::mat4& transform);
 	void Submit(Renderer2D* renderer) const override;
 	unsigned int Add(Renderable2D* sprite);
 	void Add(std::string name, Renderable2D* sprite);

@@ -7,7 +7,7 @@
 #include <map>
 #include <string>
 
-#include <Utilities/Maths/Maths.h>
+#include <GLM/mat4x4.hpp>
 #include <Systems/Graphics/Renderers/Renderer2D.h>
 #include <Systems/Graphics/Sprites/Renderable2D.h>
 
@@ -22,17 +22,17 @@ private:
 protected:
 	Shader* m_Shader;
 	Renderer2D* m_Renderer;
-	Maths::Matrix4 m_ProjectionMatrix;
+	glm::mat4 m_ProjectionMatrix;
 	std::vector<Renderable2D*> m_Renderables;
 	std::map<std::string, int> m_ChildrenMap;
 
 public:
 	Layer();
-	Layer(Renderer2D* renderer, Shader* shader, Maths::Matrix4 projectionMatrix);
+	Layer(Renderer2D* renderer, Shader* shader, glm::mat4 projectionMatrix);
 
 	void SetShader(Shader* shader) { this->m_Shader = shader; }
 	void SetRenderer(Renderer2D* renderer) { this->m_Renderer = renderer; }
-	void SetProjectionMatrix(Maths::Matrix4 pr_matrix);
+	void SetProjectionMatrix(glm::mat4 pr_matrix);
 
 	virtual ~Layer();
 

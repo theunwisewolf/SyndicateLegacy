@@ -9,6 +9,12 @@
 
 #include <Systems/ResourceManager.h>
 #include <Utilities/Maths/Maths.h>
+
+#include <GLM/vec2.hpp>
+#include <GLM/vec3.hpp>
+#include <GLM/vec4.hpp>
+#include <GLM/mat4x4.hpp>
+
 #include <Utilities/File.h>
 #include <Utilities/VException.h>
 
@@ -41,10 +47,10 @@ public:
 	void setUniform1iv(const char* name, int* value, int count);
 	void setUniform1f(const char* name, float value);
 	void setUniform1fv(const char* name, float* value, int count);
-	void setUniform2f(const char* name, const Maths::Vector2& vector);
-	void setUniform3f(const char* name, const Maths::Vector3& vector);
-	void setUniform4f(const char* name, const Maths::Vector4& vector);
-	void setUniformMat4(const char* name, const Maths::Matrix4& matrix);
+	void setUniform2f(const char* name, const glm::vec2& vector);
+	void setUniform3f(const char* name, const glm::vec3& vector);
+	void setUniform4f(const char* name, const glm::vec4& vector);
+	void setUniformMat4(const char* name, const glm::mat4& matrix);
 
 	int getShaderID() const { return this->m_ShaderID; }
 

@@ -8,17 +8,17 @@ TileLayer::TileLayer()
 }
 
 TileLayer::TileLayer(Shader* shader)
-	: Layer(synnew BatchRenderer2D(), shader, Maths::Matrix4::Orthographic(-16.0f, 16.0f, 9.0f, -9.0f,-1.0f, 1.0f))
+	: Layer(synnew BatchRenderer2D(), shader, glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f))
 {
 
 }
 
 void TileLayer::SetProjectionMatrix()
 {
-	Layer::SetProjectionMatrix(Maths::Matrix4::Orthographic(-16.0f, 16.0f, 9.0f, -9.0f, -1.0f, 1.0f));
+	Layer::SetProjectionMatrix(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f));
 }
 
-void TileLayer::SetProjectionMatrix(const Maths::Matrix4& prMatrix)
+void TileLayer::SetProjectionMatrix(const glm::mat4& prMatrix)
 {
 	Layer::SetProjectionMatrix(prMatrix);
 }

@@ -1,6 +1,7 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
+#include <Box2D/Box2D.h>
 #include <glew.h>
 #include <iostream>
 #include <vector>

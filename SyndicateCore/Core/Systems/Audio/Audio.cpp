@@ -7,7 +7,8 @@ Audio::Audio() :
 	m_FileAudio(nullptr),
 	m_MemoryAudio(nullptr),
 	m_AudioHandle(nullptr),
-	m_Volume(100)
+	m_Volume(100),
+	m_Loaded(false)
 {
 #if !SYNDICATE_USE_BUFFERED_AUDIO
 	m_FileAudio = gau_load_sound_file(m_AudioFilePath.c_str(), m_AudioFileFormat.c_str());
@@ -22,7 +23,8 @@ Audio::Audio(const std::string& name, bool loop) :
 	m_FileAudio(nullptr),
 	m_MemoryAudio(nullptr),
 	m_AudioHandle(nullptr),
-	m_Volume(100)
+	m_Volume(100),
+	m_Loaded(false)
 {
 	m_AudioData = *ResourceManager::i()->LoadAudio(name);
 	m_AudioFileFormat = std::string(m_AudioData.format);
@@ -56,7 +58,6 @@ ga_Handle* Audio::createHandleFromPackage(void* in_context, gau_SampleSourceLoop
 	return m_AudioHandle;
 }
 
-
 void Audio::Load(const std::string& file)
 {
 	m_AudioFileName = file;
@@ -89,6 +90,9 @@ void Audio::Play()
 {
 	m_Over = false;
 	m_Playing = true;
+
+	// We will keep note that we loaded this audio file and must free it
+	m_Loaded = true; 
 
 	// Only create the handle if it does not exist
 	if (m_AudioHandle == nullptr)
@@ -241,7 +245,10 @@ Audio::~Audio()
 	if (m_MemoryAudio)
 	{
 		ga_memory_release(m_MemoryAudio);
-		free(m_MemoryAudio);
+
+		// Only call free if this audio file was actually loaded in the memory.
+		if(m_Loaded)
+			free(m_MemoryAudio);
 	}
 
 #if !SYNDICATE_USE_BUFFERED_AUDIO

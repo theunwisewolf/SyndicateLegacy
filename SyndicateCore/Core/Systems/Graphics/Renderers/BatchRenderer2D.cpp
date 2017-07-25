@@ -49,13 +49,34 @@ void BatchRenderer2D::Submit(const Renderable2D* renderable)
 		this->Start();
 	}
 
-	const Maths::Vector2& size = renderable->getSize();
-	const Maths::Vector3& position = renderable->getPosition();
+	glm::vec2 halfDimensions(renderable->getSize().x / 2.0f, renderable->getSize().y / 2.0f);
+
+	const glm::vec2& size = renderable->getSize();
+	const glm::vec3& _scale = renderable->getScale();
+
+	glm::vec4 position( renderable->getPosition().x, renderable->getPosition().y, renderable->getPosition().z, 1.0f );
+
 	const Color& color = renderable->getColor();
-	const std::vector<Maths::Vector2>& uv = renderable->getUVs();
+	const std::vector<glm::vec2>& uv = renderable->getUVs();
 	const Texture* texture = renderable->getTexture();
 	unsigned int c = 0;
-	
+
+	//position.x = position.x - halfDimensions.x;
+	//position.y = position.y - halfDimensions.y;
+
+	// Move to origin
+	glm::vec2 topLeft(-halfDimensions.x, halfDimensions.y);
+	glm::vec2 bottomLeft(-halfDimensions.x, -halfDimensions.y);
+	glm::vec2 bottomRight(halfDimensions.x, -halfDimensions.y);
+	glm::vec2 topRight(halfDimensions.x, halfDimensions.y);
+
+	// Rotate & move back to original position
+	// Rotations are always Counter-Clock wise
+	topLeft			= renderable->rotatePoint(topLeft, renderable->getAngle())			+ halfDimensions;
+	bottomLeft		= renderable->rotatePoint(bottomLeft, renderable->getAngle())		+ halfDimensions;
+	bottomRight		= renderable->rotatePoint(bottomRight, renderable->getAngle())		+ halfDimensions;
+	topRight		= renderable->rotatePoint(topRight, renderable->getAngle())			+ halfDimensions;
+
 	float textureSlot = 0.0f;
 	if (texture)
 	{
@@ -67,25 +88,26 @@ void BatchRenderer2D::Submit(const Renderable2D* renderable)
 		c = color.Pack();
 	}
 
-	this->m_Buffer->vertex = *this->m_TransformationBack * position;
+	// The w coordinate has to be 1 for transformations to work
+	this->m_Buffer->vertex = *this->m_TransformationBack * glm::vec4(position.x + topLeft.x, position.y + topLeft.y, 0, 1);
 	this->m_Buffer->color  = c;
 	this->m_Buffer->uv = uv[0];
 	this->m_Buffer->tid = textureSlot;
 	this->m_Buffer++;
 
-	this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(position.x, position.y + size.y, 0);
+	this->m_Buffer->vertex = *this->m_TransformationBack * glm::vec4(position.x + bottomLeft.x, position.y + bottomLeft.y, 0, 1);
 	this->m_Buffer->color = c;
 	this->m_Buffer->uv = uv[1];
 	this->m_Buffer->tid = textureSlot;
 	this->m_Buffer++;
 
-	this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(position.x + size.x, position.y + size.y, 0);
+	this->m_Buffer->vertex = *this->m_TransformationBack * glm::vec4(position.x + bottomRight.x, position.y + bottomRight.y, 0, 1);
 	this->m_Buffer->color = c;
 	this->m_Buffer->uv = uv[2];
 	this->m_Buffer->tid = textureSlot;
 	this->m_Buffer++;
 	
-	this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(position.x + size.x, position.y, 0);
+	this->m_Buffer->vertex = *this->m_TransformationBack * glm::vec4(position.x + topRight.x, position.y + topRight.y, 0, 1);
 	this->m_Buffer->color = c;
 	this->m_Buffer->uv = uv[3];
 	this->m_Buffer->tid = textureSlot;
@@ -94,7 +116,7 @@ void BatchRenderer2D::Submit(const Renderable2D* renderable)
 	this->m_IndexCount += 6;
 }
 
-void BatchRenderer2D::DrawString(const std::string& text, Maths::Vector2 position, const Font& font)
+void BatchRenderer2D::DrawString(const std::string& text, glm::vec2 position, const Font& font)
 {
 	if (this->m_RendererStarted == false)
 	{
@@ -140,27 +162,27 @@ void BatchRenderer2D::DrawString(const std::string& text, Maths::Vector2 positio
 			float u1 = glyph->s1;
 			float v1 = glyph->t1;
 
-			this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(x0, y0, 0);
+			this->m_Buffer->vertex = *this->m_TransformationBack * glm::vec4(x0, y0, 0, 1);
 			this->m_Buffer->color = c;
-			this->m_Buffer->uv = Maths::Vector2(u0, v0);
+			this->m_Buffer->uv = glm::vec2(u0, v0);
 			this->m_Buffer->tid = textureSlot;
 			this->m_Buffer++;
 
-			this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(x0, y1, 0);
+			this->m_Buffer->vertex = *this->m_TransformationBack * glm::vec4(x0, y1, 0, 1);
 			this->m_Buffer->color = c;
-			this->m_Buffer->uv = Maths::Vector2(u0, v1);
+			this->m_Buffer->uv = glm::vec2(u0, v1);
 			this->m_Buffer->tid = textureSlot;
 			this->m_Buffer++;
 
-			this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(x1, y1, 0);
+			this->m_Buffer->vertex = *this->m_TransformationBack * glm::vec4(x1, y1, 0, 1);
 			this->m_Buffer->color = c;
-			this->m_Buffer->uv = Maths::Vector2(u1, v1);
+			this->m_Buffer->uv = glm::vec2(u1, v1);
 			this->m_Buffer->tid = textureSlot;
 			this->m_Buffer++;
 
-			this->m_Buffer->vertex = *this->m_TransformationBack * Maths::Vector3(x1, y0, 0);
+			this->m_Buffer->vertex = *this->m_TransformationBack * glm::vec4(x1, y0, 0, 1);
 			this->m_Buffer->color = c;
-			this->m_Buffer->uv = Maths::Vector2(u1, v0);
+			this->m_Buffer->uv = glm::vec2(u1, v0);
 			this->m_Buffer->tid = textureSlot;
 			this->m_Buffer++;
 

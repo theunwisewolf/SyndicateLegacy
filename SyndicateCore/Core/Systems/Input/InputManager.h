@@ -12,7 +12,7 @@
 #include <Systems/Event/MouseEvent.h>
 #include <Systems/Event/EventManager.h>
 
-#include <Utilities/Maths/Maths.h>
+#include <GLM/vec2.hpp>
 
 namespace Syndicate {
 
@@ -27,7 +27,7 @@ public:
 
 private:
 	bool m_KeysDown[MAX_KEYS];
-	Maths::Vector2 m_MouseCoordinates;
+	glm::vec2 m_MouseCoordinates;
 
 	InputManager();
 	InputManager(const InputManager& copy) = delete;
@@ -38,7 +38,7 @@ public:
 
 	void DispatchEvents(Events type, UINT message, WPARAM keycode, LPARAM eventInfo);
 	MouseButtons GetMouseButton(UINT message);
-	Maths::Vector2 getMouseCoordinates() const { return this->m_MouseCoordinates; }
+	glm::vec2 getMouseCoordinates() const { return this->m_MouseCoordinates; }
 
 	void Update();
 

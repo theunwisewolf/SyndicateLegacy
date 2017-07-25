@@ -19,6 +19,13 @@
 
 #include <Utilities/Timer.h>
 #include <Utilities/Maths/Maths.h>
+
+#include <GLM/vec2.hpp>
+#include <GLM/vec3.hpp>
+#include <GLM/vec4.hpp>
+#include <GLM/mat4x4.hpp>
+#include <GLM/gtc/matrix_transform.hpp>
+
 #include <Utilities/Packaging/Package.h>
 
 #include <Systems/Graphics/Color.h>
@@ -35,7 +42,7 @@ using namespace Graphics;
 using namespace Utilities;
 using namespace Maths;
 
-struct SYNDICATE_API Settings {
+static struct SYNDICATE_API Settings {
 	std::string gameTitle = "Syndicate";
 
 	// Window Params
@@ -51,6 +58,14 @@ struct SYNDICATE_API Settings {
 class SYNDICATE_API Engine 
 {
 private:
+	static Engine* instance;
+public:
+	static Engine* i()
+	{
+		return instance;
+	}
+
+private:
 	Window window;
 
 	Settings m_Settings;
@@ -60,6 +75,7 @@ private:
 	Timer m_EngineTimer;
 
 	double m_LastTime;
+	double m_DeltaTime;
 
 	IGame* m_Game;
 
@@ -75,6 +91,9 @@ private:
 	// Root
 	std::string m_SyndicateRoot;
 
+	// Rendering state
+	bool m_Rendering;
+
 public:
 	Engine(IGame* game, int argc, char* argv[], Settings settings = defaultSettings);
 	~Engine();
@@ -86,6 +105,10 @@ public:
 
 	void UpdateFrameCounter();
 	void InitializeDebugLayer();
+
+	void ToggleRendering();
+	void PauseRendering();
+	void StartRendering();
 
 	const std::string& RootDirectory() const { return this->m_SyndicateRoot; }
 };

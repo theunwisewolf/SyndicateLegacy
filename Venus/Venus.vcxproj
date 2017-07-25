@@ -89,14 +89,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\SyndicateCore\Core;$(SolutionDir)\SyndicateCore\Dependencies\FreeType\include;$(SolutionDir)\SyndicateCore\Dependencies\FreeTypeGL\include;$(SolutionDir)\SyndicateCore\Dependencies\GorillaAudio\include;$(SolutionDir)\SyndicateCore\Dependencies\GLFW\include;$(SolutionDir)\SyndicateCore\Dependencies\GLEW\include;$(SolutionDir)\SyndicateCore\Dependencies\FreeImage\include;$(SolutionDir)\SyndicateCore\Dependencies\ZLib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SyndicateCore\Core;$(SolutionDir)SyndicateCore\Dependencies;$(SolutionDir)SyndicateCore\Dependencies\FreeType\include;$(SolutionDir)SyndicateCore\Dependencies\FreeTypeGL\include;$(SolutionDir)SyndicateCore\Dependencies\GorillaAudio\include;$(SolutionDir)SyndicateCore\Dependencies\GLFW\include;$(SolutionDir)SyndicateCore\Dependencies\GLEW\include;$(SolutionDir)SyndicateCore\Dependencies\FreeImage\include;$(SolutionDir)SyndicateCore\Dependencies\ZLib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRTDBG_MAP_ALLOC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <ImportLibrary>
       </ImportLibrary>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Box2D.lib;Syndicate$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SyndicateCore\Dependencies\Box2D\lib\$(PlatformTarget)\$(Configuration);$(SolutionDir)bin\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>(if not exist "$(OutDir)packages" mkdir "$(OutDir)packages") &amp; xcopy "$(ProjectDir)packages\*.spkg"  $(OutDir)packages /y</Command>
@@ -107,14 +107,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\SyndicateCore\Core;$(SolutionDir)\SyndicateCore\Dependencies\FreeType\include;$(SolutionDir)\SyndicateCore\Dependencies\FreeTypeGL\include;$(SolutionDir)\SyndicateCore\Dependencies\GorillaAudio\include;$(SolutionDir)\SyndicateCore\Dependencies\GLFW\include;$(SolutionDir)\SyndicateCore\Dependencies\GLEW\include;$(SolutionDir)\SyndicateCore\Dependencies\FreeImage\include;$(SolutionDir)\SyndicateCore\Dependencies\ZLib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SyndicateCore\Core;$(SolutionDir)SyndicateCore\Dependencies;$(SolutionDir)SyndicateCore\Dependencies\FreeType\include;$(SolutionDir)SyndicateCore\Dependencies\FreeTypeGL\include;$(SolutionDir)SyndicateCore\Dependencies\GorillaAudio\include;$(SolutionDir)SyndicateCore\Dependencies\GLFW\include;$(SolutionDir)SyndicateCore\Dependencies\GLEW\include;$(SolutionDir)SyndicateCore\Dependencies\FreeImage\include;$(SolutionDir)SyndicateCore\Dependencies\ZLib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRTDBG_MAP_ALLOC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <ImportLibrary>
       </ImportLibrary>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Box2D.lib;Syndicate$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SyndicateCore\Dependencies\Box2D\lib\$(PlatformTarget)\$(Configuration);$(SolutionDir)bin\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>(if not exist "$(OutDir)packages" mkdir "$(OutDir)packages") &amp; xcopy "$(ProjectDir)packages\*.spkg"  $(OutDir)packages /y</Command>
@@ -127,7 +127,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\SyndicateCore\Core;$(SolutionDir)\SyndicateCore\Dependencies\FreeType\include;$(SolutionDir)\SyndicateCore\Dependencies\FreeTypeGL\include;$(SolutionDir)\SyndicateCore\Dependencies\GorillaAudio\include;$(SolutionDir)\SyndicateCore\Dependencies\GLFW\include;$(SolutionDir)\SyndicateCore\Dependencies\GLEW\include;$(SolutionDir)\SyndicateCore\Dependencies\FreeImage\include;$(SolutionDir)\SyndicateCore\Dependencies\ZLib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SyndicateCore\Core;$(SolutionDir)SyndicateCore\Dependencies;$(SolutionDir)SyndicateCore\Dependencies\FreeType\include;$(SolutionDir)SyndicateCore\Dependencies\FreeTypeGL\include;$(SolutionDir)SyndicateCore\Dependencies\GorillaAudio\include;$(SolutionDir)SyndicateCore\Dependencies\GLFW\include;$(SolutionDir)SyndicateCore\Dependencies\GLEW\include;$(SolutionDir)SyndicateCore\Dependencies\FreeImage\include;$(SolutionDir)SyndicateCore\Dependencies\ZLib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRTDBG_MAP_ALLOC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -135,8 +135,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <ImportLibrary>
       </ImportLibrary>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Box2D.lib;Syndicate$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SyndicateCore\Dependencies\Box2D\lib\$(PlatformTarget)\$(Configuration);$(SolutionDir)bin\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>(if not exist "$(OutDir)packages" mkdir "$(OutDir)packages") &amp; xcopy "$(ProjectDir)packages\*.spkg"  $(OutDir)packages /y</Command>
@@ -149,7 +149,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\SyndicateCore\Core;$(SolutionDir)\SyndicateCore\Dependencies\FreeType\include;$(SolutionDir)\SyndicateCore\Dependencies\FreeTypeGL\include;$(SolutionDir)\SyndicateCore\Dependencies\GorillaAudio\include;$(SolutionDir)\SyndicateCore\Dependencies\GLFW\include;$(SolutionDir)\SyndicateCore\Dependencies\GLEW\include;$(SolutionDir)\SyndicateCore\Dependencies\FreeImage\include;$(SolutionDir)\SyndicateCore\Dependencies\ZLib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SyndicateCore\Core;$(SolutionDir)SyndicateCore\Dependencies;$(SolutionDir)SyndicateCore\Dependencies\FreeType\include;$(SolutionDir)SyndicateCore\Dependencies\FreeTypeGL\include;$(SolutionDir)SyndicateCore\Dependencies\GorillaAudio\include;$(SolutionDir)SyndicateCore\Dependencies\GLFW\include;$(SolutionDir)SyndicateCore\Dependencies\GLEW\include;$(SolutionDir)SyndicateCore\Dependencies\FreeImage\include;$(SolutionDir)SyndicateCore\Dependencies\ZLib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRTDBG_MAP_ALLOC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -157,19 +157,21 @@
       <OptimizeReferences>true</OptimizeReferences>
       <ImportLibrary>
       </ImportLibrary>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Box2D.lib;Syndicate$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SyndicateCore\Dependencies\Box2D\lib\$(PlatformTarget)\$(Configuration);$(SolutionDir)bin\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>(if not exist "$(OutDir)packages" mkdir "$(OutDir)packages") &amp; xcopy "$(ProjectDir)packages\*.spkg"  $(OutDir)packages /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Box.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="TileLayer.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Box.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="TileLayer.h" />
     <ClInclude Include="WinMain.h" />

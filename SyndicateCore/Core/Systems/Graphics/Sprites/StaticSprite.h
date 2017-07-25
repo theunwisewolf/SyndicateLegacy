@@ -5,7 +5,10 @@
 
 #include <Systems/Graphics/Sprites/Renderable2D.h>
 #include <Systems/Graphics/Texture.h>
-#include <Utilities/Maths/Maths.h>
+
+#include <GLM/vec2.hpp>
+#include <GLM/vec3.hpp>
+#include <GLM/vec4.hpp>
 
 namespace Syndicate { namespace Graphics {
 
@@ -17,8 +20,8 @@ private:
 	IndexBuffer* m_IndexBuffer;
 
 public:
-	StaticSprite(Maths::Vector3 position, Maths::Vector2 size, Maths::Vector4 color, Shader shader);
-	StaticSprite(Maths::Vector3 position, Maths::Vector2 size, Texture* texture, Shader shader);
+	StaticSprite(glm::vec3 position, glm::vec2 size, Color color, Shader shader);
+	StaticSprite(glm::vec3 position, glm::vec2 size, Texture* texture, Shader shader);
 	~StaticSprite();
 
 	inline Shader& getShader() const { return this->m_Shader; }

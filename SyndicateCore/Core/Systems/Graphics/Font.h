@@ -2,11 +2,15 @@
 #define FONT_H_
 
 #include <string>
-#include <Utilities/Maths/Maths.h>
+
 #include <Systems/Graphics/Texture.h>
 #include <Systems/Graphics/FontManager.h>
 #include <Systems/Graphics/Color.h>
 #include <freetype-gl.h>
+
+#include <GLM/vec2.hpp>
+#include <GLM/vec3.hpp>
+#include <GLM/vec4.hpp>
 
 #include <Common.h>
 
@@ -14,12 +18,12 @@ namespace Syndicate { namespace Graphics {
 
 class SYNDICATE_API Font {
 public:
-	inline const Maths::Vector2& getScale() const { return this->m_Scale; };
-	void setScale(const Maths::Vector2& scale);
+	inline const glm::vec2& getScale() const { return this->m_Scale; };
+	void setScale(const glm::vec2& scale);
 	void setScale(float x, float y);
 
 private:  
-	Maths::Vector2 m_Scale;
+	glm::vec2 m_Scale;
 
     std::string m_FontName;
     float m_FontSize;
@@ -30,10 +34,10 @@ private:
 	texture_atlas_t* m_Atlas;
 	 
 public: 
-	Font(const std::string& fontName, const float& size, const Color& color, const Maths::Vector2& scale = Maths::Vector2(1.0f, 1.0f));
+	Font(const std::string& fontName, const float& size, const Color& color, const glm::vec2& scale = glm::vec2(1.0f, 1.0f));
 	~Font();
 
-	void setColor(Maths::Vector4 color) { m_Color = color; }
+	void setColor(glm::vec4 color) { m_Color = color; }
 	void setSize(float size) { m_FontSize = size; }
 	void setFont(std::string fontName) { m_FontName = fontName; }
 

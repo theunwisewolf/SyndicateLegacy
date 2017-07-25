@@ -9,7 +9,7 @@ Layer::Layer() :
 
 }
 
-Layer::Layer(Renderer2D* renderer, Shader* shader, Maths::Matrix4 projectionMatrix) : 
+Layer::Layer(Renderer2D* renderer, Shader* shader, glm::mat4 projectionMatrix) :
 	m_Renderer(renderer),
 	m_Shader(shader),
 	m_ProjectionMatrix(projectionMatrix),
@@ -51,7 +51,7 @@ Renderable2D* Layer::GetSprite(std::string name)
 	return this->m_Renderables[it->second];
 }
 
-void Layer::SetProjectionMatrix(Maths::Matrix4 pr_matrix)
+void Layer::SetProjectionMatrix(glm::mat4 pr_matrix)
 {
 	this->m_ProjectionMatrix = pr_matrix;
 

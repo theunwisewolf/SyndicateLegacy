@@ -13,6 +13,10 @@
 #include <string>
 #include <freetype-gl.h>
 
+#include <GLM/vec2.hpp>
+#include <GLM/vec3.hpp>
+#include <GLM/gtc/matrix_transform.hpp>
+
 #define SHADER_VERTEX_POSITION_LOCATION 0
 #define SHADER_VERTEX_COLOR_LOCATION    1
 #define SHADER_VERTEX_UV_LOCATION		2
@@ -48,7 +52,7 @@ public:
 
 	void Start() override;
 	void Submit(const Renderable2D* renderable) override;
-	void DrawString(const std::string& text, Maths::Vector2 position, const Font& font) override;
+	void DrawString(const std::string& text, glm::vec2 position, const Font& font) override;
 	void End() override;
 	void Render() override;
 

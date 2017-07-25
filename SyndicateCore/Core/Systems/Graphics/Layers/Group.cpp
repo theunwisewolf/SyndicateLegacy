@@ -2,7 +2,7 @@
 
 namespace Syndicate { namespace Graphics { 
 
-Group::Group(const Maths::Matrix4& transform) :
+Group::Group(const glm::mat4& transform) :
 	m_ChildrenCount(0)
 {
 	this->m_TransformationMatrix = transform;

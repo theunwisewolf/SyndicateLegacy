@@ -107,7 +107,7 @@ void Package::Pack(std::string package)
 	}
 
 #ifndef SYNDICATE_DEBUG
-	package = SyndicateRoot + "/" + package;
+	package = SyndicateRoot + package;
 #endif
 
 	// Create a temp file

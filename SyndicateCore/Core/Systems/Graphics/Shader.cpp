@@ -161,24 +161,24 @@ void Shader::setUniform1f(const char* name, float value)
 	GL(glUniform1f(this->getUniformLocation(name), value));
 }
 
-void Shader::setUniform2f(const char* name, const Maths::Vector2& vector)
+void Shader::setUniform2f(const char* name, const glm::vec2& vector)
 {
 	GL(glUniform2f(this->getUniformLocation(name), vector.x, vector.y));
 }
 
-void Shader::setUniform3f(const char* name, const Maths::Vector3& vector)
+void Shader::setUniform3f(const char* name, const glm::vec3& vector)
 {
 	GL(glUniform3f(this->getUniformLocation(name), vector.x, vector.y, vector.z));
 }
 
-void Shader::setUniform4f(const char* name, const Maths::Vector4& vector)
+void Shader::setUniform4f(const char* name, const glm::vec4& vector)
 {
 	GL(glUniform4f(this->getUniformLocation(name), vector.x, vector.y, vector.z, vector.w));
 }
 
-void Shader::setUniformMat4(const char* name, const Maths::Matrix4& matrix)
+void Shader::setUniformMat4(const char* name, const glm::mat4& matrix)
 {
-	GL(glUniformMatrix4fv(this->getUniformLocation(name), 1, GL_TRUE, matrix.elements));
+	GL(glUniformMatrix4fv(this->getUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
 }
 
 void Shader::setUniform1fv(const char* name, float* value, int count)
